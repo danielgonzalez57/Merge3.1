@@ -7,10 +7,7 @@ import Nav from '../components/Nav.vue'
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
-import DataTable from 'datatables.net-vue3';
-import DataTablesCore from 'datatables.net';
- 
-DataTable.use(DataTablesCore);
+
  
 // VARIABLES
 const route = useRoute()
