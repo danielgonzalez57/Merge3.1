@@ -4,9 +4,7 @@ import { createApp } from 'vue'
 
 import { createPinia } from 'pinia'
 import { plugin, defaultConfig } from '@formkit/vue'
-import DataTable from 'datatables.net-vue3';
-import DataTablesCore from 'datatables.net';
-import 'datatables.net-responsive';
+
 
 import App from './App.vue'
 import router from './router'
@@ -23,7 +21,7 @@ import * as directives from 'vuetify/directives'
 
 
 window.axios = axios;
-DataTable.use(DataTablesCore);
+
 
 const pinia = createPinia() 
 
