@@ -3,6 +3,7 @@ import Nav from '../components/Nav.vue';
 
 import axios from 'axios';
 //import { ref } from 'vue';
+import Swal from 'sweetalert2'
 
 import {  useRoute, useRouter } from 'vue-router'
 const router = useRouter()
@@ -43,24 +44,59 @@ onMounted(async () => {
     await getUser();
 });
 
-const handleSubmit = async () => {
-    // // Usando promesas
-    axios.post('http://149.50.131.95:3001/api/v1/update/user', data.value)
-        .then(response => {
-            let rtaFromMysqlDb = Object.keys(response.data)
-            let error = rtaFromMysqlDb.includes("errors");
-            if(error){
-                // EL DATO HA FALLADO AL CREARSE
-                alert(response.data.errors[0].message);
-            }else {
-                // REGISTRO CREADO EXITOSAMENTE
-                Swal.fire({
+// axios.put(`http://localhost:3001/api/v1/update/user/${id.value}`, data.value )
+// const handleSubmit = async () => {
+//     // // Usando promesas
+//         .then(response => {
+//             let rtaFromMysqlDb = Object.keys(response.data)
+//             let error = rtaFromMysqlDb.includes("errors");
+//             if(error){
+//                 // EL DATO HA FALLADO AL CREARSE
+//                 alert(response.data.errors[0].message);
+//             }else {
+//                 // REGISTRO CREADO EXITOSAMENTE
+//                 Swal.fire({
+//                 icon: 'question',
+//                 title: 'Alerta!',
+//                 text: '¿Deseas guardar los datos?',
+//                 background: '#3A3B3C',  
+//                 color: '#fff',
+//                 confirmButtonText: 'Guardar',
+//             }).then((result) => {
+//                 if (result.isConfirmed) {
+
+//                 // REDIRECCIONA AL TABLE PRINCIPAL
+//                 router.push('/usuario');
+
+//                 }
+//             })
+
+//             }
+        
+//         })
+//         .catch(error => {
+//             // Hacer algo con el error
+//             //console.log(error);
+//             alert('Error no controlado.')
+//         });
+// }
+
+async function UpdateTUser(jsonTA, id){
+    
+    try{
+        const response = await axios.put(`http://149.50.131.95:3001/api/v1/update/user/${id.value}`, data.value)
+        
+        if(response.data.status === 'ok'){
+
+            Swal.fire({
+
                 icon: 'question',
                 title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
+                text: '¿Deseas editar los datos?',
                 background: '#3A3B3C',  
                 color: '#fff',
-                confirmButtonText: 'Guardar',
+                confirmButtonText: 'Editar',
+
             }).then((result) => {
                 if (result.isConfirmed) {
 
@@ -72,17 +108,29 @@ const handleSubmit = async () => {
 
             }
         
-        })
-        .catch(error => {
-            // Hacer algo con el error
-            //console.log(error);
-            alert('Error no controlado.')
-        });
+
+    } catch(error){
+        console.log(error)
+
+    }
 }
 
 const handleIconClick = (node, e) => {
     node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
     node.props.type = node.props.type === 'password' ? 'text' : 'password'
+}
+
+function UpdateData(){
+
+const jsonTA = {
+    id:data.nombre, 
+    email:data.email,
+    password:data.password, 
+    rol:data.rol 
+}
+
+UpdateTUser(jsonTA, id)
+
 }
 </script>
 
@@ -97,7 +145,7 @@ const handleIconClick = (node, e) => {
 
             <div class="search-box">
                 <i class="ri-search-2-line"></i>
-                <input type="text" id="searchField" placeholder="Buscar (Ctrl + k)">
+                <input type="text" id="searchField" placeholder="Buscar (Ctrl + k)" disabled>
             </div>
 
             <img src="../assets/profile3.png" alt="imagen de perfil">
@@ -123,7 +171,7 @@ const handleIconClick = (node, e) => {
             <div class="activity">
                 <section class="container_form1">
                     <div class="container_form">
-                        <FormKit type="form" #default="{ value }" @submit="handleSubmit" :value="data"
+                        <FormKit type="form" #default="{ value }" @submit="UpdateData" :value="data"
                             submit-label="Registrar" method="post" action="/ta_relacion_laboral">
 
                             <FormKit v-model="data.nombre" type="text" label="Nombre" prefix-icon="text"
