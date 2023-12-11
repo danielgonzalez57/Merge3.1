@@ -6,6 +6,7 @@ import Nav from '../components/Nav.vue'
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 // VARIABLES
 const route = useRoute()
@@ -40,11 +41,54 @@ async function getArticulo(){
     loadingInfo.value = false
 }
 
+async function eliminarArticulo(id){
+          
+          try{
+              await axios.delete(`http://149.50.131.95:3001/api/v1/articuloDelete/${id}`);
+      
+          } catch(error){
+              console.log(error)
+          }
+      
+      }
+      
+
 onMounted( async () => {
 
    await getArticulo();
 
 });
+
+function eliminardata(id){
+    Swal.fire({
+        title: "¿Desea eliminar este dato?",
+        text: "No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Eliminar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eliminarArticulo(id)
+            Swal.fire({
+            title: "Eliminado!",
+            text: "Data eliminada con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    location.reload();
+                }
+            });
+    
+        }
+    });
+}
 
 </script>
 
@@ -140,11 +184,9 @@ onMounted( async () => {
                         </template>
 
                         <template v-slot:item.eliminar="{ item }">
-                          <router-link :to="{path:'articuloDelete/'+item.id}"> 
-                            <v-icon size="x-large"  color="red-darken-3">
+                            <v-icon size="x-large"  color="red-darken-3" @click="eliminardata(item.id)">
                               mdi-delete
                             </v-icon>
-                          </router-link>
                         </template>
 
                     </v-data-table>

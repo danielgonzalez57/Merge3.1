@@ -166,8 +166,6 @@ function eliminardata(id){
                   <v-text-field
                     readonly
                     v-model="idInvest"
-                    :rules="nameRules"
-                    
                     variant="outlined"
                     :counter="10"
                     placeholder="placeholder"
@@ -182,7 +180,6 @@ function eliminardata(id){
                   <v-text-field
                     readonly
                     v-model="fecha"
-                    :rules="nameRules"
                     :counter="10"
                     hide-details
                     variant="outlined"
@@ -197,7 +194,6 @@ function eliminardata(id){
                     readonly
                     v-model="id_tienda"
                     variant="outlined"
-                    :rules="emailRules"
                     hide-details
                     required
                   ></v-text-field>
@@ -208,7 +204,6 @@ function eliminardata(id){
                   <v-text-field
                     readonly
                     v-model="motivo"
-                    :rules="nameRules"
                     variant="outlined"
                     :counter="10"
                     required
@@ -222,8 +217,6 @@ function eliminardata(id){
                   <v-text-field
                     readonly
                     v-model="investigador"
-                    :rules="nameRules"
-                    
                     :counter="10"
                     hide-details
                     variant="outlined"

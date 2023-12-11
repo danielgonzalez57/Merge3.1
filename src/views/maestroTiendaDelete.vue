@@ -24,7 +24,6 @@ const fecha_crea = ref('')
 // URL
 const id = ref('')
 id.value = route.params.key 
-console.log(id.value)
 
 
 

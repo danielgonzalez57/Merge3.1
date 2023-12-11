@@ -40,7 +40,7 @@ usuario.value = localStorage.usuario;
 async function getInvestProd(){
     loadingInfo.value = true
     try{
-      const response = await axios.get(`http://localhost:3001/api/v1/dataInvProdFilterDos/${idDos.value}`);
+      const response = await axios.get(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos/${idDos.value}`);
       info.value =  response.data[0]
     
     } catch(error){

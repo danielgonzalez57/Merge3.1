@@ -11,8 +11,8 @@ const valor = ref(false)
 const investigacionDelele = ref([]);
 
 
-const id_tiendaInves = ref('')
-const motivoInves = ref('')
+const id_tiendaInves = ref('')   
+const motivoInves = ref('')  
 const investigadorInves = ref('')
 const user_creaInves = ref('')
 const user_modInves = ref('')

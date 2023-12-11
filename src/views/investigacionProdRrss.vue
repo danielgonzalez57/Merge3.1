@@ -257,14 +257,29 @@ async function crearInvestPro(dataJson){
             }else {
                 // REGISTRO CREADO EXITOSAMENTE
                 Swal.fire({
-                    title: "Guardado!",
-                    text: "Data guardada con exito!!!",
-                    icon: "success",
+                    title: "Alerta",
+                    text: "¿Desea guardar estos datos?",
+                    icon: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    cancelButtonText: "Cancelar",
+                    confirmButtonText: "Si, Guardar!",
                     background: '#3A3B3C',
                     color: '#fff'
                     }).then((result) => {
                     if (result.isConfirmed) {
-                            router.push(`/medicion/${id.value}/${idDos.value}`);
+                            Swal.fire({
+                            title: "Creado!",
+                            text: "Data creada con exito!!!",
+                            icon: "success",
+                            background: '#3A3B3C',
+                            color: '#fff'
+                            }).then((result) => {
+                            if (result.isConfirmed) {
+                                router.push(`/medicion/${id.value}/${idDos.value}`); 
+                                }
+                            });
                         }
                     });
                 

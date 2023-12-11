@@ -67,8 +67,19 @@ async function investigacionCreated(jsonInves){
                 if (result.isConfirmed) {
 
                 // REDIRECCIONA AL TABLE PRINCIPAL
+                Swal.fire({
+                    title: "Creado!",
+                    text: "Data creada con exito!!!",
+                    icon: "success",
+                    background: '#3A3B3C',
+                    color: '#fff'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            router.push('/invesAccion');
+                            }
+                        });
                 
-                router.push('/invesAccion');
+                
 
                 }
             })
