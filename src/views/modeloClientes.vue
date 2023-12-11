@@ -37,9 +37,13 @@ user_crea: `${usuario}`,
 });
 
 async function modeloCreated(dataJson){
-    
-    try{
-        console.log(jsonMod.value)
+
+    const res = await axios.post(`http://149.50.131.95:3001/api/v1/modeloFilterBuscador`, {model: dataJson.nombre})
+    if(res.data.status === 'ok'){
+        Swal.fire("Ese modelo ya existe!");
+        
+    }else if(res.data.status === 'Error'){
+
         const response = await axios.post(`http://149.50.131.95:3001/api/v1/modeloCreated`, dataJson)
         
         if(response.data.status === 'ok'){
@@ -61,10 +65,12 @@ async function modeloCreated(dataJson){
             })
 
             }
-    } catch(error){
-        console.log(error)
-
+    }else{
+        alert('error')
+       
+        
     }
+    
 }
 
 async function getTipoArt(){
@@ -144,8 +150,10 @@ function crearDataModel(){
         nombre:nombre.value ,
         user_crea:user_crea.value
     }
+
     // FUNCTION PARA CREAR
-    modeloCreated(dataJson)
+    const modelo = nombre.value
+    modeloCreated(dataJson, modelo)
 }
 onMounted( async () => {
 

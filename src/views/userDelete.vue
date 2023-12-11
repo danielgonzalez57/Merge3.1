@@ -37,7 +37,6 @@ async function getFilterInvesDelete() {
 
 async function eliminarInvestigacion() {
     try {
-        //alert(id.value);
         await axios.delete(`http://149.50.131.95:3001/api/v1/delete/user/${id.value}`);
     } catch (error) {
         console.log(error)

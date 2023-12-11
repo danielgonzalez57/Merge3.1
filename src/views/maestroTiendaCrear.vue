@@ -11,6 +11,7 @@ const valor = ref(false)
 const usuario = localStorage.usuario;
 const ciudades = ref([]);
 
+
 // URL
 const id = ref('')
 id.value = route.params.key 

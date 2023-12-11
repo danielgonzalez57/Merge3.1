@@ -48,7 +48,7 @@ async function eliminarMedicion(key){
         console.log(error)
     }
 
-      }
+}
 
 onMounted( async () => {
    await getFilterMedicionDelete();

@@ -26,7 +26,6 @@ const id = ref('')
 id.value = route.params.key 
 
 
-
 async function getFilterMaestroTiendaDelete(){
     
     try{
