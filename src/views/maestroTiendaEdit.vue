@@ -44,30 +44,8 @@ async function getFilterMaestroTienda(){
 async function updateMaestroTienda(jsonMaestroTienda, id){
     
     try{
-        const response = await axios.put(`http://149.50.131.95:3001/api/v1/maestroTiendaUpdate/${id.value}`, jsonMaestroTienda)
+        await axios.put(`http://149.50.131.95:3001/api/v1/maestroTiendaUpdate/${id.value}`, jsonMaestroTienda)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas editar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Editar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/maestroTiendas');
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
 
@@ -120,7 +98,37 @@ function UpdateDataMaestroT(){
         user_mod: user_mod.value
     }
 
-    updateMaestroTienda(jsonMaestroTienda, id);
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea editar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateMaestroTienda(jsonMaestroTienda, id);
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos editados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push('/maestroTiendas');
+                }
+            });
+
+        }
+    });
+
+
+    
 
 }
 
@@ -200,9 +208,9 @@ function UpdateDataMaestroT(){
                             <FormKit
                                 type="text"
                                 label="Sucursal"
-                                name="latitud"
-                                placeholder="Latitud"
-                                v-model="latitud"
+                                name="sucursal"
+                                placeholder="sucursal"
+                                v-model="longitud"
                                 validation="required"
                                 :validation-messages="{
                                     required: 'Debes colocar la sucursal.'
@@ -212,10 +220,10 @@ function UpdateDataMaestroT(){
                             <FormKit
                                 type="text"
                                 label="Latitud y longitud"
-                                name="longitud"
-                                placeholder="Longitud"
+                                name="latitud"
+                                placeholder="latitud"
                                 validation="required"
-                                v-model="longitud"
+                                v-model="latitud"
                                 :validation-messages="{
                                     required: 'Debes colocar la latitud y longitud.'
                                 }"

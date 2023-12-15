@@ -15,42 +15,15 @@ const lineas = ref([]);
 const id = ref('')
 id.value = route.params.key 
 
+const nombre = ref('')
+const id_linea = ref('')
+const user_crea = ref(usuario)
 
-const jsonArticulo = ref({
 
-nombre:'', 
-id_linea:'',
-user_crea:`${usuario}`
-
-});
-
-async function articuloCreated(){
+async function articuloCreated(jsonArt){
     
     try{
-        const response = await axios.post(`http://149.50.131.95:3001/api/v1/articuloCreated`, jsonArticulo.value)
-        
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                
-                router.push('/articulo');
-
-                }
-            })
-
-            }
+        await axios.post(`http://149.50.131.95:3001/api/v1/articuloCreated`, jsonArt)
         
 
     } catch(error){
@@ -79,6 +52,46 @@ onMounted( async () => {
     await getLineas();
   
 });
+
+function addDataC(){
+
+    const jsonArt = {
+        nombre:nombre.value,
+        id_linea:id_linea.value, 
+        user_crea:user_crea.value,
+    }
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            articuloCreated(jsonArt)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                router.push('/articulo');
+                }
+            });
+
+        }
+    });
+
+}
+
 
 </script>
 
@@ -124,7 +137,7 @@ onMounted( async () => {
                     <div class="container">
                         <FormKit
                             type="form"
-                            @submit="articuloCreated"
+                            @submit="addDataC"
                             submit-label="Registrar"
                         >
 
@@ -133,7 +146,7 @@ onMounted( async () => {
                                 label="Nombre del Articulo"
                                 validation="required"
                                 placeholder="Nombre del Articulo"
-                                v-model="jsonArticulo.nombre"
+                                v-model="nombre"
                                 :validation-messages="{  
                                     required: 'debe colocar un nombre.'
                                     }"
@@ -144,7 +157,7 @@ onMounted( async () => {
                                 label="Linea Asociada"
                                 name="id_tienda"
                                 class="formKitt"
-                                v-model="jsonArticulo.id_linea"
+                                v-model="id_linea"
                                 placeholder="Escoge una Linea"
                                 :options="lineas"
                                 validation="required"
@@ -159,15 +172,12 @@ onMounted( async () => {
                                 label="Creado Por"
                                 name="CreadoPor"
                                 placeholder="Creado Por"
-                                v-model="jsonArticulo.user_crea"
+                                v-model="user_crea"
                                 validation="required"
                                 :validation-messages="{
                                     required: 'Debes colocar un usuario.'
                                 }"
                             />
-                           
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     

@@ -16,18 +16,16 @@ const ciudades = ref([]);
 const id = ref('')
 id.value = route.params.key 
 
+const nombre = ref('')
+const id_ciudad = ref('')
+const latitud = ref('')
+const longitud = ref('')
+const direccion = ref('')
+const user_crea = ref(usuario)
+const user_mod = ref('')
+const tipo_tienda = ref('')
 
-const jsonMaestroT = ref({
 
-nombre:'', 
-id_ciudad:'',
-latitud:'',
-longitud:'',
-tipo_tienda:'',
-direccion:'',
-user_crea: `${usuario}`
-
-});
 
 // FUNCTION PARA LLENAR TABLE
 async function getCiudades(){
@@ -45,33 +43,10 @@ async function getCiudades(){
 }
 
 
-async function maestroTiendaCreated(){
+async function maestroTiendaCreated(jsonTiendas){
     
     try{
-        const response = await axios.post(`http://149.50.131.95:3001/api/v1/maestroTiendaCreated`, jsonMaestroT.value)
-        
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                
-                router.push('/maestroTiendas');
-
-                }
-            })
-
-            }
+        await axios.post(`http://149.50.131.95:3001/api/v1/maestroTiendaCreated`, jsonTiendas)
     } catch(error){
         console.log(error)
 
@@ -82,6 +57,49 @@ onMounted( async () => {
    
   await getCiudades();
 });
+
+function addDataC(){
+
+    const jsonTiendas = {
+        nombre: nombre.value, 
+        id_ciudad: id_ciudad.value,
+        latitud: latitud.value,
+        longitud: longitud.value,
+        tipo_tienda: tipo_tienda.value,
+        direccion: direccion.value,
+        user_crea: user_crea.value,
+    }
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            maestroTiendaCreated(jsonTiendas)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push('/maestroTiendas');
+                }
+            });
+
+        }
+    });
+
+}
 
 </script>
 
@@ -127,7 +145,7 @@ onMounted( async () => {
                     <div class="container">
                         <FormKit
                             type="form"
-                            @submit="maestroTiendaCreated"
+                            @submit="addDataC"
                             submit-label="Registrar Maestro"
                         >
 
@@ -136,7 +154,7 @@ onMounted( async () => {
                                 label="Nombre de la Tienda"
                                 placeholder="Nombre de la tienda"
                                 validation="required"
-                                v-model="jsonMaestroT.nombre"
+                                v-model="nombre"
                                 :validation-messages="{  
                                     required: 'Debe colocar el nombre de la tienda.'
                                     }"
@@ -147,7 +165,7 @@ onMounted( async () => {
                                 label="Ciudad"
                                 name="id_tienda"
                                 class="formKitt"
-                                v-model="jsonMaestroT.id_ciudad"
+                                v-model="id_ciudad"
                                 placeholder="Escoge una ciudad"
                                 :options="ciudades"
                                 validation="required"
@@ -161,7 +179,7 @@ onMounted( async () => {
                                 label="Sucursal"
                                 name="Sucursal"
                                 placeholder="Sucursal"
-                                v-model="jsonMaestroT.latitud"
+                                v-model="longitud"
                                 validation="required"
                                 :validation-messages="{
                                     required: 'Debes colocar la sucursal.'
@@ -174,7 +192,7 @@ onMounted( async () => {
                                 name="longitud"
                                 placeholder="Latitud y Longitud"
                                 validation="required"
-                                v-model="jsonMaestroT.longitud"
+                                v-model="latitud"
                                 :validation-messages="{
                                     required: 'Debes colocar la longitud.'
                                 }"
@@ -184,7 +202,7 @@ onMounted( async () => {
                                 label="Tipo de Tienda"
                                 name="tipo_tienda"
                                 class="formKitt"
-                                v-model="jsonMaestroT.tipo_tienda"
+                                v-model="tipo_tienda"
                                 placeholder="Escoge el tipo"
                                 :options="['C', 'P']"
                                 validation="required"
@@ -198,11 +216,12 @@ onMounted( async () => {
                                 name="direccion"
                                 placeholder="Direccion"
                                 validation="required"
-                                v-model="jsonMaestroT.direccion"
+                                v-model="direccion"
                                 :validation-messages="{
                                     required: 'Debes colocar la dirección.'
                                 }"
                             />
+
                             <FormKit
                                 type="text"
                                 label="Creado por"
@@ -210,13 +229,12 @@ onMounted( async () => {
                                 placeholder="creado por"
                                 validation="required"
                                 disabled
-                                v-model="jsonMaestroT.user_crea"
+                                v-model="user_crea"
                                 :validation-messages="{
                                     required: 'Debes colocar el user crea.'
                                 }"
                             />
 
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     

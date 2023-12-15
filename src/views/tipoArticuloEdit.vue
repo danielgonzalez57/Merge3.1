@@ -50,31 +50,8 @@ async function getFilterTipoArticulo(){
 async function UpdateTipoArticulo(jsonTA, id){
     
     try{
-        const response = await axios.put(`http://149.50.131.95:3001/api/v1/tipoArticuloUpdate/${id.value}`, jsonTA)
+        await axios.put(`http://149.50.131.95:3001/api/v1/tipoArticuloUpdate/${id.value}`, jsonTA)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas editar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Editar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/tipoArticulo');
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
 
@@ -119,8 +96,37 @@ function UpdateData(){
         user_mod:user_mod.value,
         user_crea:user_crea.value
     }
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea editar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Editar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            UpdateTipoArticulo(jsonTA, id)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos editado con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push('/tipoArticulo')
+                }
+            });
+
+        }
+    });
     
-    UpdateTipoArticulo(jsonTA, id)
+    
 
 }
 

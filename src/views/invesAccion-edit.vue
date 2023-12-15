@@ -27,9 +27,9 @@ id.value = route.params.key
 
 async function getTienda(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAll`);
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
         
-         info.value = response.data.map(maestro => ({
+         info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
             value: maestro.id,
         }));
@@ -51,33 +51,10 @@ async function getFilterInvestigacion(){
 }
 
 async function postInvestigacion(jsonInves, id){
-    
+
     try{
-        const response = await axios.put(`http://149.50.131.95:3001/api/v1/investigacionUpdate/${id.value}`, jsonInves)
+        await axios.put(`http://149.50.131.95:3001/api/v1/investigacionUpdate/${id.value}`, jsonInves)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas editar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Editar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/invesAccion');
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
 
@@ -107,7 +84,36 @@ function UpdateData(){
         user_crea:user_crea.value ,
         user_mod:user_mod.value
     }
-   postInvestigacion(jsonInves, id)
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea Editar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Editar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            postInvestigacion(jsonInves, id)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos editados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push('/invesAccion');
+                }
+            });
+    
+        }
+    });
+   
 
 }
 
@@ -191,18 +197,6 @@ function UpdateData(){
                                     required: 'Debes colocar el motivo de la investigacion.',
                                 }"
                             />
-
-                            <FormKit
-                                type="text"
-                                label="Investigador"
-                                name="investigador"
-                                placeholder="Nombre del investigador"
-                                validation="required"
-                                v-model="investigador"
-                                :validation-messages="{
-                                    required: 'Debes colocar el nombre del investigador.'
-                                }"
-                            />
                             <FormKit
                                 type="text"
                                 label="Creado por"
@@ -227,8 +221,6 @@ function UpdateData(){
                                     required: 'Debes colocar el nombre del user.'
                                 }"
                             />
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
 

@@ -37,28 +37,8 @@ user_crea: `${usuario}`,
 async function modeloCreated(dataJson){
     
     try{
-        console.log(jsonMod.value)
-        const response = await axios.post(`http://149.50.131.95:3001/api/v1/modeloCreated`, dataJson)
+        await axios.post(`http://149.50.131.95:3001/api/v1/modeloCreated`, dataJson)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/modelo');
-
-                }
-            })
-
-            }
     } catch(error){
         console.log(error)
 
@@ -132,19 +112,47 @@ async function getMarca(){
 }
 
 
-
-
-
 function crearDataModel(){
+
     const dataJson = {
         id_tam_cap:id_tam_cap.value ,
         id_marca :id_marca .value ,
         nombre:nombre.value ,
         user_crea:user_crea.value
     }
+
     // FUNCTION PARA CREAR
-    modeloCreated(dataJson)
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            modeloCreated(dataJson)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push('/modelo');
+                }
+            });
+
+        }
+    });
+
 }
+
 onMounted( async () => {
 
 await getTipoArt();
@@ -183,7 +191,14 @@ await getMarca();
                     <span class="text">Crea un modelo</span>
                 </div>
 
+                <router-link to="/modelo">
+                    <v-btn prepend-icon="mdi-arrow-left" color="green-accent-4">
+                        Volver
+                    </v-btn>
+                </router-link>
+                
             </div>
+            <br>
 
             <div class="activity">
                 <section class="container_form1">

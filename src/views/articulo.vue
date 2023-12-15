@@ -32,8 +32,8 @@ const headers = [
 async function getArticulo(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloAll`);
-        info.value =  response.data
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloAllJoin`);
+        info.value =  response.data[0]
 
     } catch(error){
         console.log(error)

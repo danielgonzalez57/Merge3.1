@@ -1,10 +1,8 @@
 <script setup> 
 import Nav from '../components/Nav.vue'
-import { MedicionCrud } from '../stores/mediciones.js';
-
-
 import { ref, onMounted} from 'vue';
 import {  useRoute, useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,7 +11,6 @@ const medicionEdit = ref([]);
 const info = ref([]);
 const usuario = localStorage.usuario;
 
-const mediciones = MedicionCrud();
 
 const id_invest = ref('')
 const hora = ref('')
@@ -26,13 +23,13 @@ const nro_facturas = ref('')
 const id = ref('')
 id.value = route.params.key 
 
-
-
+const idDos = ref('')
+idDos.value = route.params.keyDos 
 
 async function getFilterMedicion(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionFilter/${id.value}`)
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionFilter/${idDos.value}`)
         medicionEdit.value =  response.data
     } catch(error){
         console.log(error)
@@ -51,12 +48,22 @@ async function getInvestigacion(){
     }
 }
 
+async function medicionEditar(jsonMedicion){
+    
+    try{
+        await axios.put(`http://149.50.131.95:3001/api/v1/medicionUpdate/${idDos.value}`, jsonMedicion);
+    
+    } catch(error){
+        console.log(error)
+
+    }
+}
+
 onMounted( async () => {
 
    await getFilterMedicion();
    await getInvestigacion();
-   
-   
+
    id_invest.value = medicionEdit.value.id_invest
    hora.value = medicionEdit.value.hora
    user_crea.value = medicionEdit.value.user_crea
@@ -69,15 +76,43 @@ onMounted( async () => {
 
 function addData(){
 
-const jsonE = {
-    id_invest:id_invest.value, 
-    hora:hora.value,
-    user_crea:user_crea.value,
-    user_mod:user_mod.value ,
-    nro_visitantes:nro_visitantes.value
+    const jsonMedicion = {
+        id_invest:id_invest.value, 
+        hora:hora.value,
+        user_crea:user_crea.value,
+        user_mod:user_mod.value ,
+        nro_visitantes:nro_visitantes.value,
+        nro_facturas:nro_facturas.value
     }
 
-    mediciones.medicionEditar(id, jsonE)
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            medicionEditar(jsonMedicion, idDos)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push(`/investigacion/${id.value}`);
+                }
+            });
+    
+        }
+    });
 
 }
 
@@ -112,7 +147,7 @@ const jsonE = {
                     <span class="text">Editar Mediciones</span>
                 </div>
 
-                <router-link :to="{path:'/prueba/'+id_invest}" > 
+                <router-link :to="{path:`/investigacion/${id}`}" >
                     <v-btn prepend-icon="mdi-arrow-left" color="green-accent-4">
                         Volver
                     </v-btn>
@@ -158,6 +193,32 @@ const jsonE = {
                             />
 
                             <FormKit
+                                type="number"
+                                label="Numero de visitantes"
+                                name="nro_visitantes"
+                                placeholder="Numero de visitantes"
+                                validation="required|between:0,1000000000000000000000000"
+                                v-model="nro_visitantes"
+                                :validation-messages="{
+                                    required: 'Debes colocar el numero de visitantes.',
+                                    between: 'No se pueden colocar numeros negativos.'
+                                }"
+                            />
+
+                            <FormKit
+                                type="number"
+                                label="Numero de facturas"
+                                name="nro_facturas"
+                                placeholder="Numero de facturas"
+                                validation="required|between:0,1000000000000000000000000"
+                                v-model="nro_facturas"
+                                :validation-messages="{
+                                    required: 'Debes colocar el numero de factura.',
+                                    between: 'No se pueden colocar numeros negativos.'
+                                }"
+                            />
+
+                            <FormKit
                                 type="text"
                                 label="Creado por"
                                 name="user_crea"
@@ -182,31 +243,6 @@ const jsonE = {
                                     required: 'Debes colocar el user_mod'
                                 }"
                             />
-
-                            <FormKit
-                                type="text"
-                                label="Numero de visitantes"
-                                name="nro_visitantes"
-                                placeholder="nro_visitantes"
-                                validation="required"
-                                v-model="nro_visitantes"
-                                :validation-messages="{
-                                    required: 'Debes colocar el nro_visitantes.'
-                                }"
-                            />
-                            <FormKit
-                                type="text"
-                                label="Numero de facturas"
-                                name="nro_facturas"
-                                placeholder="Nombre del nro_facturas"
-                                validation="required"
-                                v-model="nro_facturas"
-                                :validation-messages="{
-                                    required: 'Debes colocar el nro_facturas.'
-                                }"
-                            />
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                 </div>
 

@@ -15,39 +15,24 @@ const articulos = ref([]);
 const id = ref('')
 id.value = route.params.key 
 
+const id_articulo = ref('')
+const nombre = ref('')
+const user_crea = ref(usuario)
 
-const jsonTipoArt = ref({
 
-id_articulo:'',
-nombre:'', 
-user_crea: `${usuario}`,
+// const jsonTipoArt = ref({
 
-});
+// id_articulo:'',
+// nombre:'', 
+// user_crea: `${usuario}`,
 
-async function tipoArticuloCreated(){
+// });
+
+async function tipoArticuloCreated(jsonTA){
     
     try{
-        const response = await axios.post(`http://149.50.131.95:3001/api/v1/tipoArticuloCreated`, jsonTipoArt.value)
+        await axios.post(`http://149.50.131.95:3001/api/v1/tipoArticuloCreated`, jsonTA)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/tipoArticulo');
-
-                }
-            })
-
-            }
     } catch(error){
         console.log(error)
 
@@ -72,6 +57,44 @@ async function getArticulo(){
 onMounted( async () => {
    await getArticulo();
 });
+
+function createData(){
+
+    const jsonTA = {
+        id_articulo:id_articulo.value, 
+        nombre:nombre.value,
+        user_crea:user_crea.value
+    }
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            tipoArticuloCreated(jsonTA)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) { 
+                    router.push('/tipoArticulo');
+                }
+            });
+
+        }
+    });
+}
 
 </script>
 
@@ -116,7 +139,7 @@ onMounted( async () => {
                     <div class="container">
                         <FormKit
                             type="form"
-                            @submit="tipoArticuloCreated"
+                            @submit="createData"
                             submit-label="Registrar Maestro"
                         >
 
@@ -125,7 +148,7 @@ onMounted( async () => {
                                 label="Tipo de Articulo"
                                 placeholder="Tipo de Articulo"
                                 validation="required"
-                                v-model="jsonTipoArt.nombre"
+                                v-model="nombre"
                                 :validation-messages="{  
                                     required: 'Debe colocar el nombre de la tienda.'
                                 }"
@@ -136,7 +159,7 @@ onMounted( async () => {
                                 label="Id Articulo"
                                 name="id_articulo"
                                 class="formKitt"
-                                v-model="jsonTipoArt.id_articulo"
+                                v-model="id_articulo"
                                 placeholder="Escoge un articulo"
                                 :options="articulos"
                                 validation="required"
@@ -149,7 +172,7 @@ onMounted( async () => {
                                 type="text"
                                 label="Creado por"
                                 name="user_crea"
-                                v-model="jsonTipoArt.user_crea"
+                                v-model="user_crea"
                                 validation="required"
                                 disabled
                                 :validation-messages="{

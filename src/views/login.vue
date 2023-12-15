@@ -39,7 +39,7 @@ const json = ref({usuario:'', password:''});
             </form>
             <div class="social-message">
                 <div class="line"></div>
-                <p class="message">copyright &copy; Merge 2.1 </p>
+                <p class="message">copyright &copy; Merge 3.0 </p>
                 <div class="line"></div>
             </div>
         </div>

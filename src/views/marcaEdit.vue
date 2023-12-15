@@ -48,31 +48,8 @@ async function getFilterMarca(){
 async function postMarca(jsonL, id){
     
     try{
-        const response = await axios.put(`http://149.50.131.95:3001/api/v1/marcaUpdate/${id.value}`, jsonL)
+        await axios.put(`http://149.50.131.95:3001/api/v1/marcaUpdate/${id.value}`, jsonL)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas editar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Editar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/marcas');
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
 
@@ -86,22 +63,49 @@ await getFilterMarca();
     nombre.value = marcaEdit.value.nombre
     origen.value = marcaEdit.value.origen
     user_crea.value = marcaEdit.value.user_crea
-   user_mod.value = usuario
+    user_mod.value = usuario
 });
 
 function UpdateData(){
 
-const jsonL = {
+    const jsonL = {
+        nombre:nombre.value,
+        origen:origen.value, 
+        user_crea:user_crea.value ,
+        user_mod:user_mod.value
 
+    }
 
-    nombre:nombre.value,
-    origen:origen.value, 
-    user_crea:user_crea.value ,
-    user_mod:user_mod.value
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea editar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Editar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            postMarca(jsonL, id)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos editados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) { 
+                    router.push('/marcas');
+                }
+            });
 
-}
+        }
+    });
 
-    postMarca(jsonL, id)
+    
 
 }
 

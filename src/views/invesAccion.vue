@@ -30,7 +30,7 @@ const headers = [
   {title: 'Fecha', align: 'start', sortable: false, key: 'fecha',},
   {title: 'Tienda', align: 'start', sortable: false, key: 'id_tienda',},
   { title: 'Motivo', key: 'motivo' },
-  { title: 'Investigador', key: 'investigador' },
+  { title: 'Investigador', key: 'user_crea' },
   { title: 'Ver', key: 'ver', sortable: false },
   { title: 'Editar', key: 'editar', sortable: false },
   { title: 'Eliminar', key: 'eliminar', sortable: false },

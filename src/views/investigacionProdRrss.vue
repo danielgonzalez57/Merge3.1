@@ -15,7 +15,6 @@ const tipoartget = ref()
 const tamanoget = ref()
 const modeloget = ref()
 const marcaget = ref()
-
 const route = useRoute()
 const param = ref()
 
@@ -24,9 +23,6 @@ id.value = route.params.key
 
 const idDos = ref('')
 idDos.value = route.params.keyDos
-
-
-
 
 // INPUT QUE SE MULTIPLICAN
 const cant = ref(1)
@@ -50,7 +46,7 @@ const sub_total = ref(multiplicationResult)
 const user_crea = ref(localStorage.usuario)
 
 
-
+// BUSCADOR
 async function searchModel() {
     await axios.post('http://149.50.131.95:3001/api/v1/searchModelInvestProduct', {model: data.value.searchModelInput})
         .then(function (response) {
@@ -90,11 +86,6 @@ async function searchModel() {
         });
 }
 
-
-
-
-
-
 const data = ref({
 
     id_medicion: "",
@@ -125,6 +116,7 @@ async function getMediciones(){
         console.log(error)
     }
 }
+
 async function getArticulo(){
 
 
@@ -195,7 +187,6 @@ async function getTamano(){
 
 async function getModelo(){
 
-
     // const valorSeleccionado = id_tam_cap.value?.value
     let RUTA = ''
 
@@ -218,6 +209,7 @@ async function getModelo(){
         console.log(error)
     }
 }
+
 async function getMarca(){
     const valorSeleccionado = id_modelo.value?.id_marca
     console.log(valorSeleccionado)
@@ -242,54 +234,18 @@ async function getMarca(){
         console.log(error)
     }
 }
+
 // CREAR INVESTIGACION PROD
 async function crearInvestPro(dataJson){
 
-    // Usando promesas
-    axios.post('http://149.50.131.95:3001/api/v1/invesProductCreated', dataJson)
-        .then(response => {
-            let rtaFromMysqlDb = Object.keys(response.data)
-            let error = rtaFromMysqlDb.includes("errors");
-            if(error){
-                // EL DATO HA FALLADO AL CREARSE
-                alert(response.data.errors[0].message);
-
-            }else {
-                // REGISTRO CREADO EXITOSAMENTE
-                Swal.fire({
-                    title: "Alerta",
-                    text: "¿Desea guardar estos datos?",
-                    icon: "question",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    cancelButtonText: "Cancelar",
-                    confirmButtonText: "Si, Guardar!",
-                    background: '#3A3B3C',
-                    color: '#fff'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                            Swal.fire({
-                            title: "Creado!",
-                            text: "Data creada con exito!!!",
-                            icon: "success",
-                            background: '#3A3B3C',
-                            color: '#fff'
-                            }).then((result) => {
-                            if (result.isConfirmed) {
-                                router.push(`/medicion/${id.value}/${idDos.value}`); 
-                                }
-                            });
-                        }
-                    });
-                
-            }
-
-        })
-        .catch(error => {
-            // Hacer algo con el error
-            alert('Error no controlado.')
-        });
+    try{
+        await axios.post('http://149.50.131.95:3001/api/v1/invesProductCreated', dataJson)
+        
+    } catch(error){
+        console.log(error)
+    }          
+        
+        
 }
 
 onMounted( async () => {
@@ -321,13 +277,36 @@ function crearDataInvest(){
         user_crea:user_crea.value
     }
     // FUNCTION PARA CREAR
-    crearInvestPro(dataJson)
-}
+    
 
-function alerta(){
-    alert('hola')
+    Swal.fire({
+        title: "Alerta",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+        }).then((result) => {
+        if (result.isConfirmed) {
+                crearInvestPro(dataJson)
+                Swal.fire({
+                title: "Creado!",
+                text: "Data creada con exito!!!",
+                icon: "success",
+                background: '#3A3B3C',
+                color: '#fff'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    router.push(`/medicion/${id.value}/${idDos.value}`); 
+                    }
+                });
+            }
+        });
 }
-
 
 </script>
 <template >

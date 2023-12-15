@@ -24,7 +24,7 @@ const id = ref('')
 id.value = route.params.key 
 
 
-const id_invest = ref(id.value)
+const id_invest = ref(info)
 const hora = ref('')
 const user_crea = ref(usuario)
 const user_mod = ref('')
@@ -32,38 +32,50 @@ const nro_visitantes = ref('')
 const nro_facturas = ref('')
 
 
+
+
 async function getInvestigacion(){
+    
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/investigacionAll`);
+        const response = await axios.post(`http://149.50.131.95:3001/api/v1/investigacionFilterTrue`, {valorDos: usuario});
         info.value = response.data.map(invest => ({
             title: invest.id,
-            value: invest.id,
+            value: invest.id
         }));
+
     } catch(error){
         console.log(error)
     }
+    
+    
 }
+
+
 
 async function medicionCreate(dataJson){
     
     try{
         await axios.post(`http://149.50.131.95:3001/api/v1/medicionDiaria`, dataJson)
-
+        
     } catch(error){
         console.log(error)
-
+        
     }
 }
 
+
 onMounted( async () => {
-await getInvestigacion();
+    await getInvestigacion();
 });
+
+
+
 
 
 function addDataC(){
 
     const jsonE = {
-        id_invest:id_invest.value, 
+        id_invest:id_invest.value[0].value, 
         hora:hora.value,
         user_crea:user_crea.value,
         user_mod:user_mod.value ,
@@ -84,7 +96,7 @@ function addDataC(){
         color: '#fff'
     }).then((result) => {
         if (result.isConfirmed) {
-            medicionCreate(jsonE, id.value)
+            medicionCreate(jsonE)
             Swal.fire({
             title: "Guardado!",
             text: "Datos guardados con exito!!!",
@@ -93,7 +105,7 @@ function addDataC(){
             color: '#fff'
             }).then((result) => {
             if (result.isConfirmed) {
-                    router.push(`/investigacion/${id.value}`);
+                    router.push(`/investigacion/${info.value[0].value}`);
                 }
             });
     
@@ -126,10 +138,10 @@ function addDataC(){
                 <!-- NAVBAR -->
                 <div class="title">
                     <i class="ri-pie-chart-box-line icono-dash"></i>
-                    <span class="text">Crear Mediciones</span>
+                    <span class="text">Crear Mediciones Rrrss</span>
                 </div>
 
-                <router-link :to="{path:'/investigacion/'+id}" > 
+                <router-link :to="{path:'invesAccion'}" > 
                     <v-btn prepend-icon="mdi-arrow-left" color="green-accent-4">
                         Volver
                     </v-btn>

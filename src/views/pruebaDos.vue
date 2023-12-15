@@ -88,7 +88,7 @@ const headers = [
   {title: 'Marca', key: 'id_marca'},
   {title: 'Modelo', key: 'id_modelo', sortable: false},
   {title: 'Descri.', key: 'descrip', sortable: false},
-  {title: 'Precio.', key: 'precio', sortable: false},
+  {title: 'Precio', key: 'precio', sortable: false},
   {title: 'Sub total.', key: 'sub_total', sortable: false},
   {title: 'Editar', key: 'editar', sortable: false},
   {title: 'Eliminar', key: 'eliminar', sortable: false},

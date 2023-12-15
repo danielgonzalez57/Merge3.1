@@ -6,6 +6,7 @@ import Nav from '../components/Nav.vue'
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 // VARIABLES
 const route = useRoute()
 const router = useRouter()
@@ -13,7 +14,6 @@ const valor = ref(false);
 const info = ref([]);
 const loadingInfo = ref(false);
 const search = ref('')
-import Swal from 'sweetalert2'
 
 // URL
 const id = ref('')
@@ -24,6 +24,7 @@ const headers = [
   {title: 'Id', align: 'start', sortable: false, key: 'id',},
   {title: 'Modelo', align: 'start', sortable: false, key: 'nombre',},
   {title: 'Tamaño capacidad', key: 'id_tam_cap'},
+  {title: 'Marca', key: 'id_marca'},
   {title: 'Editar', key: 'editar', sortable: false},
   {title: 'Eliminar', key: 'eliminar', sortable: false},
 ]
@@ -32,8 +33,8 @@ const headers = [
 async function getmodelo(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/modeloAll`);
-        info.value =  response.data
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/modeloAllJoins`);
+        info.value =  response.data[0]
 
     } catch(error){
         console.log(error)

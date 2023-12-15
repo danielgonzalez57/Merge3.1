@@ -1,7 +1,5 @@
 <script setup> 
 import Nav from '../components/Nav.vue'
-
-
 import { ref, onMounted, computed} from 'vue';
 import {  useRoute, useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
@@ -15,7 +13,6 @@ const id = ref('')
 id.value = route.params.key 
 
 const info = ref();
-
 const fecha = ref('')
 const id_tienda = ref([])
 const motivo = ref('')
@@ -24,12 +21,11 @@ const user_crea = ref(usuario)
 const user_mod = ref('')
 
 
-
-
 async function getTienda(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAll`);
-        info.value = response.data.map(maestro => ({
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
+        console.log(response)
+        info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
             value: maestro.id,
         }));
@@ -39,47 +35,10 @@ async function getTienda(){
 }
 
 async function investigacionCreated(jsonInves){
-    
     try{
         const response = await axios.post(`http://149.50.131.95:3001/api/v1/investigacionCreated`, jsonInves)
-        
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                
-                Swal.fire({
-                    title: "Creado!",
-                    text: "Data creada con exito!!!",
-                    icon: "success",
-                    background: '#3A3B3C',
-                    color: '#fff'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            router.push('/invesAccion');
-                            }
-                        });
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
-
     }
 }
 
@@ -89,17 +48,46 @@ await getTienda();
 
 function crearData(){
 
-const jsonInves = {
+    const jsonInves = {
+        fecha:fecha.value, 
+        id_tienda:id_tienda.value, 
+        motivo:motivo.value,
+        investigador:investigador.value,
+        user_crea:user_crea.value ,
+        user_mod:user_mod.value
+    }
 
-    fecha:fecha.value, 
-    id_tienda:id_tienda.value, 
-    motivo:motivo.value,
-    investigador:investigador.value,
-    user_crea:user_crea.value ,
-    user_mod:user_mod.value
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            investigacionCreated(jsonInves)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push('/medicionesCreateDos');
+                    // router.push('/invesAccion');
+                }
+            });
+    
+        }
+    });
 
-}
-investigacionCreated(jsonInves)
+    
 
 }
 
@@ -189,7 +177,7 @@ investigacionCreated(jsonInves)
                                 }"
                             />
                             
-                            <FormKit
+                            <!-- <FormKit
                                 type="text"
                                 label="Investigador"
                                 name="investigador"
@@ -199,7 +187,8 @@ investigacionCreated(jsonInves)
                                 :validation-messages="{
                                     required: 'Debes colocar el nombre del investigador.'
                                 }"
-                            />
+                            /> -->
+                            
                             <FormKit
                                 type="text"
                                 label="Creado por"

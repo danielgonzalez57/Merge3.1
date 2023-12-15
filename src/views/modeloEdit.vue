@@ -10,11 +10,13 @@ const router = useRouter()
 const valor = ref(false)
 const usuario = localStorage.usuario;
 const modeloEdit = ref([]);
+const marca = ref([])
 const tamCap = ref([])
 
 
 const id_tam_cap = ref('')
 const nombre = ref('')
+const id_marca = ref()
 const user_mod = ref('')
 const user_crea = ref('')
 
@@ -49,31 +51,8 @@ async function getFiltermodelo(){
 async function Updatemodelo(jsonM, id){
     
     try{
-        const response = await axios.put(`http://149.50.131.95:3001/api/v1/modeloUpdate/${id.value}`, jsonM)
+        await axios.put(`http://149.50.131.95:3001/api/v1/modeloUpdate/${id.value}`, jsonM)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas editar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Editar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/modelo');
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
 
@@ -84,9 +63,23 @@ async function Updatemodelo(jsonM, id){
 async function getTamCap(){
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAll`);
-        tamCap.value = response.data.map(linea => ({
-            label: linea.nombre,
-            value: linea.id
+        tamCap.value = response.data.map(tamCap => ({
+        title: tamCap.nombre,
+        value: tamCap.id,
+    }));
+
+    } catch(error){
+
+        console.log(error)
+    }
+}
+
+async function getMarca(){
+    try{
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/marcasAll`);
+        marca.value = response.data.map(marca => ({
+            title: marca.nombre,
+            value: marca.id
         }));
 
     } catch(error){
@@ -99,10 +92,11 @@ onMounted( async () => {
     
     await getFiltermodelo();
     await getTamCap();
-    
+    await getMarca();
 
     id_tam_cap.value = modeloEdit.value.id_tam_cap
     nombre.value = modeloEdit.value.nombre
+    id_marca.value = modeloEdit.value.id_marca
     user_crea.value = modeloEdit.value.user_crea
     user_mod.value = usuario
 
@@ -113,11 +107,39 @@ function UpdateData(){
     const jsonM = {
         id_tam_cap:id_tam_cap.value, 
         nombre:nombre.value,
+        id_marca:id_marca.value,
         user_mod:user_mod.value,
         user_crea:user_crea.value
     }
-    
-    Updatemodelo(jsonM, id)
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea editar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Editar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Updatemodelo(jsonM, id)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos editados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push('/modelo');
+                }
+            });
+
+        }
+    });
 
 }
 
@@ -181,19 +203,33 @@ function UpdateData(){
                                 }"
                             />
 
-                            <FormKit
-                                type="select"
-                                label="Tamaño Capacidad"
-                                name="id_tam_cap"
-                                class="formKitt"
+                            <label class="label_filter" for="">Tamaño Capacidad</label>
+                            <v-combobox
+                                clearable
+                                required
+                                chips
                                 v-model="id_tam_cap"
-                                placeholder="Escoge un articulo"
-                                :options="tamCap"
-                                validation="required"
-                                :validation-messages="{
-                                    required: 'Debes Escoger un tamaño.',
-                                }"
-                            />
+                                name="id_invest"
+                                placeholder="Selecciona el tamaño capacidad"
+                                :items="tamCap"
+                                variant="outlined"
+                                style="width: 50%;"
+                                :return-object="false"
+                            ></v-combobox>
+
+                            <label class="label_filter" for="">Marca</label>
+                            <v-combobox
+                                clearable
+                                required
+                                chips
+                                v-model="id_marca"
+                                name="id_marca"
+                                placeholder="Selecciona la marca"
+                                :items="marca"
+                                variant="outlined"
+                                style="width: 50%;"
+                                :return-object="false"
+                            ></v-combobox>
 
                             <FormKit
                                 type="text"

@@ -155,6 +155,7 @@ function crearDataModel(){
     const modelo = nombre.value
     modeloCreated(dataJson, modelo)
 }
+
 onMounted( async () => {
 
 await getTipoArt();

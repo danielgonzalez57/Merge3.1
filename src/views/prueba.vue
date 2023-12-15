@@ -15,12 +15,13 @@ const info = ref([]);
 const loadingInfo = ref(false);
 const search = ref('')
 const investigacionEdit = ref([]);
+const rol = localStorage.rol;
 
 const idInvest = ref('')
 const fecha = ref('')
 const id_tienda = ref('')
 const motivo = ref('')
-const investigador = ref('')
+const user_crea = ref('')
 
 // URL
 const id = ref('')
@@ -73,9 +74,7 @@ await getMedicion();
     fecha.value = investigacionEdit.value.fecha
     id_tienda.value = investigacionEdit.value.id_tienda
     motivo.value = investigacionEdit.value.motivo
-    investigador.value = investigacionEdit.value.investigador
-    // user_crea.value = investigacionEdit.value.user_crea
-    // user_mod.value = usuario
+    user_crea.value = investigacionEdit.value.user_crea
 });
 
 // NOMBRE DE COLUMNAS DE LA TABLAS
@@ -216,7 +215,7 @@ function eliminardata(id){
                   <label class="label_filter" for="">Investigador</label>
                   <v-text-field
                     readonly
-                    v-model="investigador"
+                    v-model="user_crea"
                     :counter="10"
                     hide-details
                     variant="outlined"
@@ -236,10 +235,32 @@ function eliminardata(id){
               <div class="header-tools">
                     <div class="tools">
                         <ul> 
-                            <li>
+                            <li v-if="rol == 'inves'">
                                 <router-link :to="{path:'medicionesCreate/'+id}"> 
                                     <button class="topi">
                                         Crear
+                                    </button>
+                                </router-link>
+                            </li>
+                            <li v-if="rol == 'admin'">
+                                <router-link :to="{path:'medicionesCreate/'+id}"> 
+                                    <button class="topi">
+                                        Crear
+                                    </button>
+                                </router-link>
+                            </li>
+                            <li v-if="rol == 'admaster'">
+                                <router-link :to="{path:'medicionesCreate/'+id}"> 
+                                    <button class="topi">
+                                        Crear
+                                    </button>
+                                </router-link>
+                            </li>
+
+                            <li  v-if="rol == 'rrss'">
+                                <router-link :to="{path:'medicionesCreateRrss/'+id}"> 
+                                    <button class="topi">
+                                        Crear RRSS
                                     </button>
                                 </router-link>
                             </li>
@@ -290,7 +311,7 @@ function eliminardata(id){
 
                               <!-- BOTONES ELIMINAR Y EDITAR -->
                               <template v-slot:item.editar="{ item }">
-                                <router-link :to="{path:'/medicionesEdit/'+item.id}"> 
+                                <router-link :to="{path:`/medicionesEdit/${id}/`+item.id}"> 
                                   <v-icon size="x-large" class="me-4" color="amber">
                                   mdi-pencil
                                 </v-icon>

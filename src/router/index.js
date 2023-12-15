@@ -9,8 +9,10 @@ import InvesAccionEdit from '../views/invesAccion-edit.vue'
 import InvesAccionDelete from '../views/invesAccion-delete.vue'
 import Mediciones from '../views/mediciones.vue'
 import MedicionesCreate from '../views/medicionesCrear.vue'
+import MedicionesCreateDos from '../views/medicionesCrearDos.vue'
+import MedicionesCreateDosRrss from '../views/medicionesCrearDosRrss.vue'
+import MedicionesCreateRrss from '../views/medicionesCrearRrss.vue'
 import MedicionesEdit from '../views/medicionesEdit.vue'
-import MedicionesDelete from '../views/medicionesDelete.vue'
 import MaestroTienda from '../views/maestroTienda.vue'
 import MaestroTiendaCreated from '../views/maestroTiendaCrear.vue'
 import MaestroTiendaEdit from '../views/maestroTiendaEdit.vue'
@@ -116,14 +118,24 @@ const router = createRouter({
       component: MedicionesCreate
     },
     {
-      path: '/medicionesEdit/:key',
-      name: 'MedicionesEdit',
-      component: MedicionesEdit
+      path: '/medicionesCreateDos',
+      name: 'MedicionesCreateDos',
+      component: MedicionesCreateDos
     },
     {
-      path: '/medicionesDelete/:key',
-      name: 'MedicionesDelete',
-      component: MedicionesDelete
+      path: '/medicionesCreateDosRrss',
+      name: 'MedicionesCreateDosRrss',
+      component: MedicionesCreateDosRrss
+    },
+    {
+      path: '/investigacion/medicionesCreateRrss/:key',
+      name: 'MedicionesCreateRrss',
+      component: MedicionesCreateRrss
+    },
+    {
+      path: '/medicionesEdit/:key/:keyDos',
+      name: 'MedicionesEdit',
+      component: MedicionesEdit
     },
     {
       path: '/maestroTiendas',

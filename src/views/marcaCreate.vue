@@ -14,54 +14,59 @@ const usuario = localStorage.usuario
 const id = ref('')
 id.value = route.params.key 
 
+const nombre = ref('')
+const origen = ref('')
+const user_crea = ref(usuario)
 
-const jsonMarca = ref({
-
-nombre:'', 
-origen:'',
-user_crea:`${usuario}`
-
-});
-
-async function marcasCreated(){
+async function marcasCreated(jsonM){
     
     try{
-        const response = await axios.post(`http://149.50.131.95:3001/api/v1/marcasCreated`, jsonMarca.value)
+        await axios.post(`http://149.50.131.95:3001/api/v1/marcasCreated`, jsonM)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                
-                router.push('/marcas');
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
 
     }
 }
 
-onMounted( async () => {
-   
-  
-});
+function createData(){
+
+    const jsonM = {
+        nombre:nombre.value,
+        origen:origen.value, 
+        user_crea:user_crea.value
+    }
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            marcasCreated(jsonM)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) { 
+                    router.push('/marcas');
+                }
+            });
+
+        }
+    });
+}
+
 
 </script>
 
@@ -107,7 +112,7 @@ onMounted( async () => {
                     <div class="container">
                         <FormKit
                             type="form"
-                            @submit="marcasCreated"
+                            @submit="createData" 
                             submit-label="Registrar"
                         >
 
@@ -116,7 +121,7 @@ onMounted( async () => {
                                 label="Nombre del Articulo"
                                 placeholder="Nombre del Articulo"
                                 validation="required"
-                                v-model="jsonMarca.nombre"
+                                v-model="nombre"
                                 :validation-messages="{  
                                     required: 'debe colocar un nombre.'
                                     }"
@@ -126,7 +131,7 @@ onMounted( async () => {
                                label="Origen del Articulo"
                                 name="origen"
                                 class="formKitt"
-                                v-model="jsonMarca.origen"
+                                v-model="origen"
                                 placeholder="Escoge el Origen"
                                 :options="['NACIONAL', 'IMPORTADO']"
                                 validation="required"
@@ -142,7 +147,7 @@ onMounted( async () => {
                                 label="Creado Por"
                                 name="CreadoPor"
                                 placeholder="Creado Por"
-                                v-model="jsonMarca.user_crea"
+                                v-model="user_crea"
                                 validation="required"
                                 :validation-messages="{
                                     required: 'Debes colocar un usuario.'

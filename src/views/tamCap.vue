@@ -32,8 +32,8 @@ const headers = [
 async function getTamCap(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAll`);
-        info.value =  response.data
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAllJoins`);
+        info.value =  response.data[0]
 
     } catch(error){
         console.log(error)

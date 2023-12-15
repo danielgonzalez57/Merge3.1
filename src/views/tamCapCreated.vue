@@ -15,6 +15,9 @@ const usuario = localStorage.usuario;
 const id = ref('')
 id.value = route.params.key 
 
+const id_tipo = ref('')
+const nombre = ref('')
+const user_crea = ref(usuario)
 
 const jsonTamCap = ref({
 
@@ -24,30 +27,11 @@ user_crea: `${usuario}`,
 
 });
 
-async function tamCapCreated(){
+async function tamCapCreated(jsonTC){
     
     try{
-        const response = await axios.post(`http://149.50.131.95:3001/api/v1/tamCapCreated`, jsonTamCap.value)
+        await axios.post(`http://149.50.131.95:3001/api/v1/tamCapCreated`, jsonTC)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/tamCap');
-
-                }
-            })
-
-            }
     } catch(error){
         console.log(error)
 
@@ -72,6 +56,44 @@ async function getTipo(){
 onMounted( async () => {
    await getTipo();
 });
+
+function createData(){
+
+    const jsonTC = {
+        id_tipo:id_tipo.value, 
+        nombre:nombre.value,
+        user_crea:user_crea.value
+    }
+
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            tamCapCreated(jsonTC)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) { 
+                    router.push('/tamCap');
+                }
+            });
+
+        }
+    });
+}
 
 
 
@@ -119,7 +141,7 @@ onMounted( async () => {
                     <div class="container">
                         <FormKit
                             type="form"
-                            @submit="tamCapCreated"
+                            @submit="createData"
                             submit-label="Registrar Maestro"
                         >
 
@@ -128,7 +150,7 @@ onMounted( async () => {
                                 label="Tamaño"
                                 placeholder="Tamaño"
                                 validation="required"
-                                v-model="jsonTamCap.nombre"
+                                v-model="nombre"
                                 :validation-messages="{  
                                     required: 'Debe colocar el Tamaño.'
                                 }"
@@ -140,7 +162,7 @@ onMounted( async () => {
                                 label="Tipo Articulo"
                                 name="id_tipo"
                                 class="formKitt"
-                                v-model="jsonTamCap.id_tipo"
+                                v-model="id_tipo"
                                 placeholder="Escoge un tipo articulo"
                                 :options="tamCap"
                                 validation="required"
@@ -153,16 +175,14 @@ onMounted( async () => {
                                 type="text"
                                 label="Creado por"
                                 name="user_crea"
-                                v-model="jsonTamCap.user_crea"
+                                v-model="user_crea"
                                 validation="required"
+                                placeholder="creado por"
                                 disabled
                                 :validation-messages="{
                                     required: 'Debes colocar el creador.'
                                 }"
                             />
-                            
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     

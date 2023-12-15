@@ -11,7 +11,6 @@ const valor = ref(false)
 const lineaEdit = ref([]);
 const usuario = localStorage.usuario
 
-
 const nombre = ref('')
 const cod_sap = ref('')
 const user_crea = ref('')
@@ -20,25 +19,13 @@ const user_mod = ref('')
 // URL
 const id = ref('')
 id.value = route.params.key 
-console.log(id.value)
-
-const jsonlineaEdit = ref({
-
-nombre:'', 
-cod_sap:'',
-user_crea:`${usuario}`//,
-//user_mod:''
-
-});
 
 async function getFilterLinea(){
     
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/lineasFilter/${id.value}`)
-        console.log(response)
-
         lineaEdit.value =  response.data
-        // console.log(lineaEdit.value)
+
     } catch(error){
         console.log(error)
 
@@ -48,31 +35,8 @@ async function getFilterLinea(){
 async function postLinea(jsonM, id){
     
     try{
-        const response = await axios.put(`http://149.50.131.95:3001/api/v1/lineasUpdate/${id.value}`, jsonM)
+        await axios.put(`http://149.50.131.95:3001/api/v1/lineasUpdate/${id.value}`, jsonM)
         
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas editar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Editar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push('/lineas');
-
-                }
-            })
-
-            }
-        
-
     } catch(error){
         console.log(error)
 
@@ -86,29 +50,48 @@ await getFilterLinea();
     nombre.value = lineaEdit.value.nombre
     cod_sap.value = lineaEdit.value.cod_sap
     user_crea.value = lineaEdit.value.user_crea
-   // user_mod.value = usuario
+    user_mod.value = usuario
 });
 
 function UpdateData(){
 
-const jsonM = {
+    const jsonM = {
+        nombre:nombre.value,
+        cod_sap:cod_sap.value, 
+        user_crea:user_crea.value ,
+        user_mod:user_mod.value
+    }
 
+    // FUNCTION PARA CREAR
+    Swal.fire({
+            title: "Alerta!",
+            text: "¿Desea editar estos datos?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Si, Editar!",
+            background: '#3A3B3C',
+            color: '#fff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                postLinea(jsonM, id)
+                Swal.fire({
+                title: "Guardado!",
+                text: "Datos editados con exito!!!",
+                icon: "success",
+                background: '#3A3B3C',
+                color: '#fff'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                        router.push('/lineas');
+                    }
+                });
 
-    nombre:nombre.value,
-    cod_sap:cod_sap.value, 
-    user_crea:user_crea.value ,
-    //user_mod:user_mod.value
-
+            }
+        });
 }
-
-    postLinea(jsonM, id)
-
-}
-
-
-
-
-
 
 </script>
 
@@ -181,6 +164,19 @@ const jsonM = {
                                 name="CreadoPor"
                                 placeholder="Creado Por"
                                 v-model="user_crea"
+                                validation="required"
+                                :validation-messages="{
+                                    required: 'Debes colocar un usuario.'
+                                }"
+                            />
+
+                            <FormKit
+                                disabled 
+                                type="text"
+                                label="Modificado Por"
+                                name="modificadoPor"
+                                placeholder="Creado Por"
+                                v-model="user_mod"
                                 validation="required"
                                 :validation-messages="{
                                     required: 'Debes colocar un usuario.'

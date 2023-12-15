@@ -28,8 +28,8 @@ const id_invest = ref(id.value)
 const hora = ref('')
 const user_crea = ref(usuario)
 const user_mod = ref('')
-const nro_visitantes = ref('')
-const nro_facturas = ref('')
+const nro_visitantes = ref(0)
+const nro_facturas = ref(0)
 
 
 async function getInvestigacion(){
@@ -126,7 +126,7 @@ function addDataC(){
                 <!-- NAVBAR -->
                 <div class="title">
                     <i class="ri-pie-chart-box-line icono-dash"></i>
-                    <span class="text">Crear Mediciones</span>
+                    <span class="text">Crear Mediciones Rrss</span>
                 </div>
 
                 <router-link :to="{path:'/investigacion/'+id}" > 
@@ -174,7 +174,7 @@ function addDataC(){
                                 }"
                             />
 
-                            <FormKit
+                            <!-- <FormKit
                                 type="number"
                                 label="Numero de visitantes"
                                 name="nro_visitantes"
@@ -187,7 +187,7 @@ function addDataC(){
                                 }"
                             />
                             <FormKit
-                                type="number"
+                                type="hidden"
                                 label="Numero de facturas"
                                 name="nro_facturas"
                                 placeholder="Numero de facturas"
@@ -197,7 +197,7 @@ function addDataC(){
                                     required: 'Debes colocar el numero de facturas.',
                                     between: 'No se pueden colocar numeros negativos.'
                                 }"
-                            />
+                            /> -->
 
                             <FormKit
                                 type="text"

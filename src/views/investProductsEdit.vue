@@ -1,15 +1,11 @@
 <script setup>
 import Nav from '../components/Nav.vue';
-
 import axios from 'axios';
 import Swal from 'sweetalert2'
-
 import { ref, onMounted, computed, watch  } from 'vue';
-
-
 import {  useRoute, useRouter } from 'vue-router'
-const usuario = localStorage.usuario;
 
+const usuario = localStorage.usuario;
 const medicionget = ref()
 const articuloget = ref()
 const tipoartget = ref()
@@ -66,116 +62,98 @@ async function getFilterInvestigacionPro(){
 async function postInvestigacionProductpro(jsonInvesPro, id){
     
     try{
-        const response = await axios.put(`http://149.50.131.95:3001/api/v1/investProductUpdate/${idTres.value}`, jsonInvesPro)
-        
-        if(response.data.status === 'ok'){
-
-            Swal.fire({
-
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas editar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Editar',
-
-            }).then((result) => {
-                if (result.isConfirmed) {
-
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push(`/pruebaDos/${id.value}/${idDos.value}`);
-
-                }
-            })
-
-            }
-        
+        await axios.put(`http://149.50.131.95:3001/api/v1/investProductUpdate/${idTres.value}`, jsonInvesPro)
 
     } catch(error){
         console.log(error)
-
+        
     }
 }
 // SELCCIONAR DATOS -------------------------------------------------------------------------- //
 async function getMediciones(){
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionAll`);
-
+        
         medicionget.value =  response.data.map(medi => ({
             title: medi.id,
             value: medi.id,
         }));
         
-
+        
     } catch(error){
         console.log(error)
     }
 }
+
 async function getArticulo(){
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloAll`);
-
+        
         articuloget.value =  response.data.map(art => ({
             title: art.nombre,
             value: art.id,
         }));
-  
+        
     } catch(error){
         console.log(error)
     }
 }
+
 async function getTipoArt(){
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/tipoArticuloAll`);
-
+        
         tipoartget.value =  response.data.map(tipoArt => ({
             title: tipoArt.nombre,
             value: tipoArt.id,
         }));
- 
-
+        
+        
     } catch(error){
         console.log(error)
     }
 }
+
 async function getTamano(){
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAll`);
-
+        
         tamanoget.value =  response.data.map(tamCap => ({
             title: tamCap.nombre,
             value: tamCap.id,
         }));
-     
-
+        
+        
     } catch(error){
         console.log(error)
     }
 }
+
 async function getModelo(){ 
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/modeloAll`);
-
+        
         modeloget.value =  response.data.map(modelo => ({
             title: modelo.nombre,
             value: modelo.id,
         }));
         
-
+        
     } catch(error){
         console.log(error)
     }
 }
+
 async function getMarca(){ 
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/marcasAll`);
-
+        
         marcaget.value =  response.data.map(marca => ({
             title: marca.nombre,
             value: marca.id,
         }));
         
-
+        
     } catch(error){
         console.log(error)
     }
@@ -203,11 +181,11 @@ onMounted( async () => {
     sub_total.value = investigacionProEdit.value.sub_total
     user_crea.value = investigacionProEdit.value.user_crea
     user_mod.value = usuario
-
+    
 });
 
 function UpdateData(){
-
+    
     const jsonInvesPro = {
         id_medicion:id_medicion.value, 
         id_art:id_art.value,
@@ -221,10 +199,42 @@ function UpdateData(){
         sub_total:sub_total.value ,
         user_crea:user_crea.value ,
         user_mod:user_mod.value, 
-
+        
     }
-    postInvestigacionProductpro(jsonInvesPro, id)
 
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea editar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            postInvestigacionProductpro(jsonInvesPro, id)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos editados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push(`/medicion/${id.value}/${idDos.value}`);
+                }
+            });
+    
+        }
+    });
+    
+    
+    
+    
+    
 }
 </script>
 <template>
@@ -353,7 +363,7 @@ function UpdateData(){
                                     required: 'Escriba una descripción',
                                 }" help="" />
 
-                            <FormKit v-model="cant" type="number" label="Cantidad" value="cant" prefix-icon="number"
+                            <FormKit v-model="cant" type="number" label="Cantidad" value="cant" 
                                  validation="required" :validation-messages="{
                                     required: 'Ingrese la cantidad',
                                 }" help="" />

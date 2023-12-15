@@ -230,52 +230,14 @@ async function getMarca(){
 }
 // CREAR INVESTIGACION PROD
 async function crearInvestPro(dataJson){
+    try{
+        await axios.post('http://149.50.131.95:3001/api/v1/invesProductCreated', dataJson)
+        
+    } catch(error){
+        console.log(error)
+        
+    }   
 
-    // Usando promesas
-    axios.post('http://149.50.131.95:3001/api/v1/invesProductCreated', dataJson)
-        .then(response => {
-            let rtaFromMysqlDb = Object.keys(response.data)
-            let error = rtaFromMysqlDb.includes("errors");
-            if(error){
-                // EL DATO HA FALLADO AL CREARSE
-                alert(response.data.errors[0].message);
-
-            }else {
-                // REGISTRO CREADO EXITOSAMENTE
-                Swal.fire({
-                    title: "Alerta",
-                    text: "¿Desea guardar estos datos?",
-                    icon: "question",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    cancelButtonText: "Cancelar",
-                    confirmButtonText: "Si, Guardar!",
-                    background: '#3A3B3C',
-                    color: '#fff'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                            Swal.fire({
-                            title: "Creado!",
-                            text: "Data creada con exito!!!",
-                            icon: "success",
-                            background: '#3A3B3C',
-                            color: '#fff'
-                            }).then((result) => {
-                            if (result.isConfirmed) {
-                                router.push(`/medicion/${id.value}/${idDos.value}`); 
-                                }
-                            });
-                        }
-                    });
-                
-            }
-
-        })
-        .catch(error => {
-            // Hacer algo con el error
-            alert('Error no controlado.')
-        });
 }
 
 onMounted( async () => {
@@ -306,8 +268,38 @@ function crearDataInvest(){
         user_crea:user_crea.value
     }
     // FUNCTION PARA CREAR
-    crearInvestPro(dataJson)
-}
+    Swal.fire({
+        title: "Alerta!",
+        text: "¿Desea guardar estos datos?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Guardar!",
+        background: '#3A3B3C',
+        color: '#fff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            crearInvestPro(dataJson)
+            Swal.fire({
+            title: "Guardado!",
+            text: "Datos guardados con exito!!!",
+            icon: "success",
+            background: '#3A3B3C',
+            color: '#fff'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                    router.push(`/medicion/${id.value}/${idDos.value}`); 
+                }
+            });
+    
+        }
+    });
+    
+        
+        
+    }
 
 
 </script>
