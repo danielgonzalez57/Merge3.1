@@ -48,21 +48,44 @@ async function modeloCreated(dataJson){
         
         if(response.data.status === 'ok'){
 
-            Swal.fire({
-                icon: 'question',
-                title: 'Alerta!',
-                text: '¿Deseas guardar los datos?',
-                background: '#3A3B3C',  
-                color: '#fff',
-                confirmButtonText: 'Guardar',
-            }).then((result) => {
-                if (result.isConfirmed) {
+            // Swal.fire({
+            //     icon: 'question',
+            //     title: 'Alerta!',
+            //     text: '¿Deseas guardar los datos?',
+            //     background: '#3A3B3C',  
+            //     color: '#fff',
+            //     confirmButtonText: 'Guardar',
+            //     showCancelButton: true,
+            //     confirmButtonColor: "#3085d6",
+            //     cancelButtonColor: "#d33",
+            //     cancelButtonText: "Cancelar"
+            // }).then((result) => {
+            //     if (result.isConfirmed) {
 
-                // REDIRECCIONA AL TABLE PRINCIPAL
-                router.push(`/investProductsCreate/${id.value}/${idDos.value}`);
+            //     // REDIRECCIONA AL TABLE PRINCIPAL
+            //     router.push(`/investProductsCreate/${id.value}/${idDos.value}`);
 
+            //     }
+            // })
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
                 }
-            })
+                });
+                Toast.fire({
+                icon: "success",
+                title: "Modelo creado!",
+                background: '#3A3B3C',
+                color: '#fff'
+                });
+                router.push(`/investProductsCreate/${id.value}/${idDos.value}`);
 
             }
     }else{
@@ -120,7 +143,7 @@ try{
 //         }));
 
 //     } catch(error){
-
+ 
 //         console.log(error)
 //     }
 // }
@@ -228,7 +251,6 @@ await getMarca();
                                 :items="tipoartget"
                                 placeholder="Selecciona el tamaño capacidad"
                                 variant="outlined"
-                                style="width: 50%;"
                                 :return-object="true"
                             ></v-combobox>
 
@@ -242,7 +264,6 @@ await getMarca();
                                 placeholder="Selecciona el tamaño capacidad"
                                 :items="tamCap"
                                 variant="outlined"
-                                style="width: 50%;"
                                 :return-object="false"
                             ></v-combobox>
 
@@ -256,7 +277,6 @@ await getMarca();
                                 placeholder="Selecciona la marca"
                                 :items="marca"
                                 variant="outlined"
-                                style="width: 50%;"
                                 :return-object="false"
                             ></v-combobox>
 
@@ -272,9 +292,7 @@ await getMarca();
                                     required: 'Debes colocar la latitud.'
                                 }"
                             />
-                            
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
+                        
                         </FormKit>
                     </div>
                     
@@ -296,6 +314,26 @@ await getMarca();
         border-radius: 5px;
         color: #999;
     }
+
+    .v-combobox{
+    width: 50%;
+    }
+    @media (max-width: 1000px) {
+  .v-combobox{
+    width: 61%;
+  }
+}
+    @media (max-width: 900px) {
+  .v-combobox{
+    width: 75%;
+  }
+}
+    @media (max-width: 700px) {
+  .v-combobox{
+    width: 100%;
+  }
+}
+ 
 </style>
 
 

@@ -24,7 +24,6 @@ id.value = route.params.key
 const headers = [
   {title: 'Id', align: 'start', sortable: false, key: 'id',},
   {title: 'Tienda', align: 'start', sortable: false, key: 'nombre',},
-  {title: 'Ciudad', key: 'id_ciudad'},
   {title: 'Latitud y longitud', key: 'latitud'},
   {title: 'Sucursal', key: 'longitud'},
   {title: 'Direccion', key: 'direccion'},

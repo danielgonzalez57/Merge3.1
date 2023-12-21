@@ -82,6 +82,7 @@ export const useAuthStore = defineStore('auth', {
           const token = sessionStorage.token;
           localStorage.removeItem('token');
           localStorage.removeItem('usuario');
+          localStorage.removeItem('rol');
           router.push('/');
       }
   },

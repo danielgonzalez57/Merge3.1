@@ -232,7 +232,7 @@ await getMarca();
                                 :items="tipoartget"
                                 placeholder="Selecciona el tamaño capacidad"
                                 variant="outlined"
-                                style="width: 50%;"
+                            
                                 :return-object="true"
                             ></v-combobox>
 
@@ -246,7 +246,7 @@ await getMarca();
                                 placeholder="Selecciona el tamaño capacidad"
                                 :items="tamCap"
                                 variant="outlined"
-                                style="width: 50%;"
+                            
                                 :return-object="false"
                             ></v-combobox>
 
@@ -260,7 +260,7 @@ await getMarca();
                                 placeholder="Selecciona la marca"
                                 :items="marca"
                                 variant="outlined"
-                                style="width: 50%;"
+                              
                                 :return-object="false"
                             ></v-combobox>
 
@@ -300,6 +300,22 @@ await getMarca();
         border-radius: 5px;
         color: #999;
     }
+
+    @media (max-width: 1000px) {
+  .v-combobox{
+    width: 61%;
+  }
+}
+    @media (max-width: 900px) {
+  .v-combobox{
+    width: 75%;
+  }
+}
+    @media (max-width: 700px) {
+  .v-combobox{
+    width: 100%;
+  }
+}
 </style>
 
 
