@@ -11,7 +11,7 @@ import Swal from 'sweetalert2'
 const route = useRoute()
 const router = useRouter()
 const valor = ref(false);
-const info = ref([]);
+const info = ref();
 const loadingInfo = ref(false);
 const search = ref('')
 const medicionEdit = ref([]);
@@ -24,23 +24,33 @@ const nro_visitantes = ref('')
 const nro_facturas = ref('')
 const investigador = ref('')
 
-// URL
-const id = ref('')
-id.value = route.params.key 
-
-const idDos = ref('')
-idDos.value = route.params.keyDos 
-
 const usuario = ref('')
 usuario.value = localStorage.usuario;
+
+async function medicionFilterTrue(){
+    
+    try{
+        const response = await axios.post(`http://149.50.131.95:3001/api/v1/medicionFilterTrue`, {valorDos: usuario.value});
+
+        idMedicion.value =  response.data[0].id
+        idInvest.value =  response.data[0].id_invest
+        hora.value =  response.data[0].hora
+        nro_visitantes.value =  response.data[0].nro_visitantes
+        nro_facturas.value =  response.data[0].nro_facturas
+
+    } catch(error){
+        console.log(error)
+    }
+}
+
+
 
 // FUNCTION PARA LLENAR TABLE
 async function getInvestProd(){
     loadingInfo.value = true
+    console.log(idMedicion.value)
     try{
-      //const response = await axios.post(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos`, {valor: usuario.value, valorDos: idDos.value});
-      // const response = await axios.get(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos/${idDos.value}`, {valor: usuari+o.value, valorDos: id.value});
-      const response = await axios.get(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos/${idDos.value}`);
+      const response = await axios.get(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos/${idMedicion.value}`);
       info.value =  response.data[0]
     
     } catch(error){
@@ -49,15 +59,6 @@ async function getInvestProd(){
 
     }
     loadingInfo.value = false
-}
-
-async function getFilterMedicion(){
-    try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionFilter/${idDos.value}`)
-        medicionEdit.value =  response.data
-    } catch(error){
-        console.log(error)
-    }
 }
 
 async function eliminarInvestigacionPro(id) {
@@ -70,14 +71,9 @@ async function eliminarInvestigacionPro(id) {
 
 onMounted( async () => {
 
-await getFilterMedicion();
+await medicionFilterTrue();
 await getInvestProd();
 
-
-    idInvest.value = medicionEdit.value.id_invest
-    hora.value = medicionEdit.value.hora
-    nro_visitantes.value = medicionEdit.value.nro_visitantes
-    nro_facturas.value = medicionEdit.value.nro_facturas
 });
 
 // NOMBRE DE COLUMNAS DE LA TABLAS
@@ -153,7 +149,7 @@ function eliminardata(id){
                   <i class="ri-dashboard-2-line"></i>
                   <span class="text">Medicion</span>
               </div>
-              <router-link :to="{path:`/investigacion/${id}`}"> 
+              <router-link :to="{path:`/investigacion/`+idInvest}"> 
                   <v-btn prepend-icon="mdi-arrow-left" color="green-accent-4">
                       Volver
                   </v-btn>
@@ -170,7 +166,7 @@ function eliminardata(id){
                   
                   <v-text-field
                     readonly
-                    v-model="idDos"
+                    v-model="idMedicion"
                     variant="outlined"
                     :counter="10"
                     placeholder="placeholder"
@@ -222,6 +218,8 @@ function eliminardata(id){
                   <v-text-field
                     readonly
                     v-model="nro_facturas"
+
+                    
                     :counter="10"
                     hide-details
                     variant="outlined"
@@ -242,28 +240,29 @@ function eliminardata(id){
                     <div class="tools">
                         <ul> 
                             <li v-if="rol == 'inves'">
-                                <router-link :to="{path:'/investProductsCreate/'+id+'/'+idDos}"> 
+                                <router-link :to="{path:'/investProductsCreate/'+idInvest+'/'+idMedicion}"> 
                                     <button class="topi">
                                         Crear
                                     </button>
                                 </router-link>
                             </li>
+
                             <li v-if="rol == 'admin'">
-                                <router-link :to="{path:'/investProductsCreate/'+id+'/'+idDos}"> 
+                                <router-link :to="{path:'/investProductsCreate/'+idInvest+'/'+idMedicion}"> 
                                     <button class="topi">
                                         Crear
                                     </button>
                                 </router-link>
                             </li>
                             <li  v-if="rol == 'admaster'">
-                                <router-link :to="{path:'/investProductsCreate/'+id+'/'+idDos}"> 
+                                <router-link :to="{path:'/investProductsCreate/'+idInvest+'/'+idMedicion}"> 
                                     <button class="topi">
                                         Crear
                                     </button>
                                 </router-link>
                             </li>
                             <li  v-if="rol == 'rrss'">
-                                <router-link :to="{path:'/investigacionProdRrss/'+id+'/'+idDos}"> 
+                                <router-link :to="{path:'/investigacionProdRrss/'+idInvest+'/'+idMedicion}"> 
                                     <button class="topi">
                                         Crear
                                     </button>
@@ -275,8 +274,7 @@ function eliminardata(id){
                     </div>
                     <!-- DATATABLE -->
                     <v-divider></v-divider>
-                    <v-data-table 
-                            
+                        <v-data-table 
                             v-model:search="search"
                             :loading="loadingInfo"
                             :headers="headers"
@@ -332,6 +330,7 @@ function eliminardata(id){
                     </v-data-table>
                   <br>
             </div>
+            
             
                     
           </div>

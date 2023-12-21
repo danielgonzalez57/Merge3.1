@@ -13,7 +13,8 @@ const articuloget = ref()
 const tipoartget = ref()
 const tamanoget = ref()
 const modeloget = ref()
-const marcaget = ref()
+const marcaget = ref() 
+const Sm = ref() 
 
 const route = useRoute()
 const param = ref()
@@ -50,7 +51,7 @@ const user_crea = ref(localStorage.usuario)
 
 
 async function searchModel() {
-    await axios.post('http://149.50.131.95:3001/api/v1/searchModelInvestProduct', {model: data.value.searchModelInput})
+    await axios.post('http://149.50.131.95:3001/api/v1/searchModelInvestProduct', {model: data.value.searchModelInput.title})
         .then(function (response) {
 
             if(response.data.length != 0){
@@ -83,6 +84,21 @@ async function searchModel() {
             console.log(error);
         });
 }
+
+async function seachModelo(){
+
+    try{
+        const response = await axios.get('http://149.50.131.95:3001/api/v1/modeloAll');
+        Sm.value =  response.data.map(modelo => ({
+            title: modelo.nombre
+        }));
+
+    } catch(error){
+        console.log(error)
+    }
+}
+
+
 const data = ref({
 
     id_medicion: "",
@@ -204,6 +220,7 @@ async function getModelo(){
         console.log(error)
     }
 }
+
 async function getMarca(){
     const valorSeleccionado = id_modelo.value?.id_marca
     console.log(valorSeleccionado)
@@ -241,7 +258,9 @@ async function crearInvestPro(dataJson){
 }
 
 onMounted( async () => {
+    
 
+await seachModelo();
 await getMediciones();
 await getArticulo();
 await getTipoArt();
@@ -339,14 +358,26 @@ function crearDataInvest(){
             <br>
             <div class="activity">
                 <section class="container_form1">
-
-                        <label for="">Buscador de articulo por modelo</label>
-                        <div class="input-container">
-                            <input placeholder="Coloca el modelo" type="text" v-model="data.searchModelInput">
-                            <button class="invite-btn" type="button" @click="searchModel">
+                        <label class="label_filter" for="">Buscador de articulo por modelo</label>
+                        <div>
+                       
+                              <v-col cols="12 sm:4">
+                                <v-combobox
+                                    clearable
+                                    v-model="data.searchModelInput"
+                                    placeholder="Busca el modelo"
+                                    :items="Sm"
+                                    variant="outlined"
+                            ></v-combobox>
+                                    <v-btn color="primary" text @click="searchModel">
+                                    Buscar
+                                    </v-btn>
+                                </v-col>
+                             <!-- <button class="invite-btn" type="button" @click="searchModel">
                                 Buscar
-                            </button>
+                            </button>  -->
                         </div>
+
                         <br>
                             <FormKit
                                 type="form"

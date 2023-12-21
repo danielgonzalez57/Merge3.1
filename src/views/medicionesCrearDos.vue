@@ -105,7 +105,7 @@ function addDataC(){
             color: '#fff'
             }).then((result) => {
             if (result.isConfirmed) {
-                    router.push(`/investigacion/${info.value[0].value}`);
+                    router.push(`/medicionTrue`);
                 }
             });
     

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import Swal from 'sweetalert2'
+import moment from "moment"
 
 // VARIABLES
 const route = useRoute()
@@ -17,6 +18,7 @@ const search = ref('')
 const investigacionEdit = ref([]);
 const rol = localStorage.rol;
 
+const dataFecha = ref('')
 const idInvest = ref('')
 const fecha = ref('')
 const id_tienda = ref('')
@@ -34,6 +36,7 @@ usuario.value = localStorage.usuario;
 async function getMedicion(){
     loadingInfo.value = true
     try{
+      // const response = await axios.post(`http://149.50.131.95:3001/api/v1/dataMedicionFilterDos`, {valor: usuario.value, valorDos: id.value});
       const response = await axios.get(`http://149.50.131.95:3001/api/v1/dataMedicionFilterDos/${id.value}`);
       info.value =  response.data
     
@@ -71,7 +74,8 @@ await getFilterInvestigacion();
 await getMedicion();
 
     idInvest.value = investigacionEdit.value.id
-    fecha.value = investigacionEdit.value.fecha
+    dataFecha.value = moment(investigacionEdit.value.fecha).add(1, "days").format("DD/MM/YYYY")
+    fecha.value = dataFecha.value
     id_tienda.value = investigacionEdit.value.id_tienda
     motivo.value = investigacionEdit.value.motivo
     user_crea.value = investigacionEdit.value.user_crea
@@ -260,7 +264,7 @@ function eliminardata(id){
                             <li  v-if="rol == 'rrss'">
                                 <router-link :to="{path:'medicionesCreateRrss/'+id}"> 
                                     <button class="topi">
-                                        Crear RRSS
+                                        Crear
                                     </button>
                                 </router-link>
                             </li>

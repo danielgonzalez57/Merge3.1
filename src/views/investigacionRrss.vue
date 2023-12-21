@@ -124,7 +124,7 @@ function crearData(){
         <img src="../assets/profile3.png" alt="imagen de perfil">
         </div>
 
-        <div class="dash-content">
+        <div class="dash-content"> 
 
             <div class="overview"> 
                 <!-- NAVBAR -->
@@ -134,7 +134,7 @@ function crearData(){
                 </div>
 
             
-                <router-link :to="{path:'/medicion/'+id+'/'+idDos}"> 
+                <router-link to="/invesAccion">
                     <v-btn prepend-icon="mdi-arrow-left" color="green-accent-4">
                         Volver
                     </v-btn>

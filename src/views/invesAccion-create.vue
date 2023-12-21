@@ -117,7 +117,7 @@ function crearData(){
                 <!-- NAVBAR -->
                 <div class="title">
                     <i class="ri-pie-chart-box-line icono-dash"></i>
-                    <span class="text">Investigacion</span>
+                    <span class="text">Investigación</span>
                 </div>
 
                 <router-link to="/invesAccion">

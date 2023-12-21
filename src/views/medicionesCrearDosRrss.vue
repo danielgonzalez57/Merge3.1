@@ -10,6 +10,7 @@ const valor = ref();
 const route = useRoute()
 const router = useRouter()
 const info = ref();
+
 const json = ref({
     id_invest:'', 
     hora:'',
@@ -28,8 +29,8 @@ const id_invest = ref(info)
 const hora = ref('')
 const user_crea = ref(usuario)
 const user_mod = ref('')
-const nro_visitantes = ref('')
-const nro_facturas = ref('')
+const nro_visitantes = ref(0)
+const nro_facturas = ref(0)
 
 
 
@@ -105,7 +106,7 @@ function addDataC(){
             color: '#fff'
             }).then((result) => {
             if (result.isConfirmed) {
-                    router.push(`/investigacion/${info.value[0].value}`);
+                    router.push(`/medicionTrue`);
                 }
             });
     
@@ -138,7 +139,7 @@ function addDataC(){
                 <!-- NAVBAR -->
                 <div class="title">
                     <i class="ri-pie-chart-box-line icono-dash"></i>
-                    <span class="text">Crear Mediciones Rrrss</span>
+                    <span class="text">Crear Mediciones</span>
                 </div>
 
                 <router-link :to="{path:'invesAccion'}" > 
@@ -186,7 +187,7 @@ function addDataC(){
                                 }"
                             />
 
-                            <FormKit
+                            <!-- <FormKit
                                 type="number"
                                 label="Numero de visitantes"
                                 name="nro_visitantes"
@@ -197,8 +198,8 @@ function addDataC(){
                                     required: 'Debes colocar el numero de visitantes.',
                                     between: 'No se pueden colocar numeros negativos.'
                                 }"
-                            />
-                            <FormKit
+                            /> -->
+                            <!-- <FormKit
                                 type="number"
                                 label="Numero de facturas"
                                 name="nro_facturas"
@@ -209,7 +210,7 @@ function addDataC(){
                                     required: 'Debes colocar el numero de facturas.',
                                     between: 'No se pueden colocar numeros negativos.'
                                 }"
-                            />
+                            /> -->
 
                             <FormKit
                                 type="text"

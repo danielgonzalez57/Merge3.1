@@ -49,6 +49,7 @@ import InvesProductsDelete from '../views/InvesProductsDelete.vue'
 import InvestProductsEdit from '../views/investProductsEdit.vue'
 import prueba from '../views/prueba.vue'
 import pruebaDos from '../views/pruebaDos.vue'
+import pruebaDosTrue from '../views/pruebaDosTrue.vue'
 import investigacionProdRrss from '../views/investigacionProdRrss.vue'
 import investigacionRrss from '../views/investigacionRrss.vue'
 import modeloClientes from '../views/modeloClientes.vue'
@@ -316,6 +317,11 @@ const router = createRouter({
       path: '/investigacion/:key',
       name: 'prueba', 
       component: prueba
+    },
+    {
+      path: '/medicionTrue',
+      name: 'pruebaDosTrue', 
+      component: pruebaDosTrue
     },
     {
       path: '/medicion/:key/:keyDos',

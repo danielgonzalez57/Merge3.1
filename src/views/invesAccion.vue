@@ -130,7 +130,7 @@ function eliminardata(id){
                 <div class="title">
 
                     <i class="ri-dashboard-2-line"></i>
-                    <span class="text">Investigacion</span>
+                    <span class="text">Investigación</span>
 
                 </div>
             </div>

@@ -57,6 +57,7 @@ async function searchModel() {
                 id_tam_cap.value =  response.data[0].TamañoCap
                 id_modelo.value =  response.data[0].id_Modelo
                 id_marca.value =  response.data[0].Marca
+                
             } else {
                 Swal.fire({
                     title: "El modelo no existe!",
@@ -65,15 +66,12 @@ async function searchModel() {
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Crear"
+                    confirmButtonText: "Crear",
+                    background: '#3A3B3C',
+                    color: '#fff'
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        // Swal.fire({
-                        // title: "Modelo Creador!",
-                        // text: ":).",
-                        // icon: "success"
-                        // });
-                         router.push('/modeloClientes');
+                         router.push(`/modeloClientes/${id.value}/${idDos.value}`);
 
                     }
                 });

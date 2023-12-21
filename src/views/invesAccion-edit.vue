@@ -3,6 +3,7 @@ import Nav from '../components/Nav.vue'
 import Swal from 'sweetalert2'
 
 import { ref, onMounted} from 'vue';
+import moment from "moment"
 import {  useRoute, useRouter } from 'vue-router'
 const usuario = localStorage.usuario;
 
@@ -11,6 +12,7 @@ const router = useRouter()
 const valor = ref(false)
 const investigacionEdit = ref([]);
 const info = ref([]);
+const dataFecha = ref();
 
 
 const fecha = ref('')
@@ -65,14 +67,21 @@ onMounted( async () => {
     
     await getFilterInvestigacion();
     await getTienda();
-    
-    // fecha.value = investigacionEdit.value.fecha
+
+    dataFecha.value = moment(investigacionEdit.value.fecha).add(1, "days").format("DD/MM/YYYY") ; 
+    fecha.value = dataFecha.value
     id_tienda.value = investigacionEdit.value.id_tienda
     motivo.value = investigacionEdit.value.motivo
     investigador.value = investigacionEdit.value.investigador
     user_crea.value = investigacionEdit.value.user_crea
     user_mod.value = usuario
+
+    
 });
+
+console.log(fecha.value)
+
+
 
 
 function UpdateData(){
@@ -163,15 +172,17 @@ function UpdateData(){
                         >
 
                             <FormKit
-                                type="date"
+                                type="text"
                                 label="Fecha de creacion"
                                 validation="required"
+                                readonly
+                                v-model="fecha"
                                 :validation-messages="{  
                                     required: 'debe colocar una fecha.'
                                     }"
                             />
+
                             <label class="label_filter" for="">Tienda</label>
-                       
                             <v-combobox
                                 clearable
                                 required
