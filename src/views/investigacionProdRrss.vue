@@ -17,6 +17,7 @@ const modeloget = ref()
 const marcaget = ref()
 const route = useRoute()
 const param = ref()
+const Sm = ref() 
 
 const id = ref('')
 id.value = route.params.key 
@@ -48,7 +49,7 @@ const user_crea = ref(localStorage.usuario)
 
 // BUSCADOR
 async function searchModel() {
-    await axios.post('http://149.50.131.95:3001/api/v1/searchModelInvestProduct', {model: data.value.searchModelInput})
+    await axios.post('http://149.50.131.95:3001/api/v1/searchModelInvestProduct', {model: data.value.searchModelInput.title})
         .then(function (response) {
 
             if(response.data.length != 0){
@@ -246,10 +247,24 @@ async function crearInvestPro(dataJson){
         
 }
 
+async function seachModelo(){
+
+try{
+    const response = await axios.get('http://149.50.131.95:3001/api/v1/modeloAll');
+    Sm.value =  response.data.map(modelo => ({
+        title: modelo.nombre
+    }));
+
+} catch(error){
+    console.log(error)
+}
+}
+
 onMounted( async () => {
 
 await getMediciones();
 await getArticulo();
+await seachModelo();
 
 await getTipoArt();
 await getTamano();
@@ -344,12 +359,24 @@ function crearDataInvest(){
             <div class="activity">
                 <section class="container_form1">
 
-                        <label for="">Buscador de articulo por modelo</label>
-                        <div class="input-container">
-                            <input required="" placeholder="Coloca el modelo" type="text" v-model="data.searchModelInput">
-                            <button class="invite-btn" type="button" @click="searchModel">
+                        <label class="label_filter" for="">Buscador de articulo por modelo</label>
+                        <div>
+                       
+                              <v-col cols="12 sm:4">
+                                <v-combobox
+                                    clearable
+                                    v-model="data.searchModelInput"
+                                    placeholder="Busca el modelo"
+                                    :items="Sm"
+                                    variant="outlined"
+                            ></v-combobox>
+                                    <v-btn color="primary" text @click="searchModel">
+                                    Buscar
+                                    </v-btn>
+                                </v-col>
+                             <!-- <button class="invite-btn" type="button" @click="searchModel">
                                 Buscar
-                            </button>
+                            </button>  -->
                         </div>
                         <br>
                             <FormKit
