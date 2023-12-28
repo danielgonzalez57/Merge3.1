@@ -17,6 +17,7 @@ const modeloget = ref()
 const marcaget = ref()
 const route = useRoute()
 const param = ref()
+const codSapget = ref() 
 const Sm = ref() 
 
 const id = ref('')
@@ -42,7 +43,7 @@ const id_tam_cap = ref()
 const id_modelo = ref()
 const id_marca = ref()
 const descrip = ref('')
-const cod_sim_daka = ref('')
+const cod_sim_daka = ref()
 const sub_total = ref(multiplicationResult)
 const user_crea = ref(localStorage.usuario)
 
@@ -101,6 +102,20 @@ const data = ref({
     user_mod: localStorage.usuario
 
 });
+
+// DATA
+async function getCodSap(){
+    try{
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/codSapAll`);
+        codSapget.value = response.data[0].map(cod => ({
+            title: cod.nombre,
+            value: cod.id
+        }));
+
+    } catch(error){
+        console.log(error)
+    }
+}
 
 // DATA
 async function getMediciones(){
@@ -270,6 +285,7 @@ await getTipoArt();
 await getTamano();
 await getModelo();
 await getMarca();
+await getCodSap();
 
 
 });
@@ -361,22 +377,18 @@ function crearDataInvest(){
 
                         <label class="label_filter" for="">Buscador de articulo por modelo</label>
                         <div>
-                       
-                              <v-col cols="12 sm:4">
+                            <v-col cols="12 sm:4">
                                 <v-combobox
                                     clearable
                                     v-model="data.searchModelInput"
                                     placeholder="Busca el modelo"
                                     :items="Sm"
                                     variant="outlined"
-                            ></v-combobox>
-                                    <v-btn color="primary" text @click="searchModel">
+                                ></v-combobox>
+                                <v-btn color="primary" text @click="searchModel">
                                     Buscar
-                                    </v-btn>
+                                </v-btn>
                                 </v-col>
-                             <!-- <button class="invite-btn" type="button" @click="searchModel">
-                                Buscar
-                            </button>  -->
                         </div>
                         <br>
                             <FormKit
@@ -402,8 +414,7 @@ function crearDataInvest(){
 
                                 <label class="label_filter" for="">Articulo</label>
                                 <v-combobox
-                                    readonly
-                                    
+                                    readonly                                    
                                     required
                                     chips
                                     v-model="id_art"
@@ -419,7 +430,6 @@ function crearDataInvest(){
                                 <label class="label_filter" for="">Tipo articulo</label>
                                 <v-combobox
                                     readonly  
-                                    
                                     required
                                     chips
                                     v-model="id_tipo"
@@ -430,13 +440,11 @@ function crearDataInvest(){
                                     variant="outlined"
                                     style="width: 50%;"
                                     :return-object="true"
-
                                 ></v-combobox>
 
                                 <label class="label_filter" for="">Tamaño Capacidad</label>
                                 <v-combobox
                                     readonly 
-                                    
                                     required
                                     chips
                                     v-model="id_tam_cap"
@@ -451,7 +459,6 @@ function crearDataInvest(){
                                 <label class="label_filter" for="">Modelo</label>
                                 <v-combobox
                                     readonly 
-                                    
                                     required
                                     chips
                                     v-model="id_modelo"
@@ -461,13 +468,11 @@ function crearDataInvest(){
                                     :items="modeloget"
                                     variant="outlined"
                                     style="width: 50%;"
-
                                 ></v-combobox>
 
                                 <label class="label_filter" for="">Marca</label>
-                                <v-combobox
+                                <v-autocomplete
                                     readonly 
-                                    
                                     required
                                     chips
                                     v-model="id_marca"
@@ -477,13 +482,24 @@ function crearDataInvest(){
                                     variant="outlined"
                                     style="width: 50%;"
                                     :return-object="false"
-                                ></v-combobox>
+                                ></v-autocomplete>
 
                                 <FormKit v-model="descrip" type="text" label="Descripción" value="descrip"
                                      placeholder="Descripción" maxlength="99" minlength="10"
                                     validation="required" :validation-messages="{
                                         required: 'Escriba una descripción',
                                     }" help="" />
+
+                                <label class="label_filter" for="">Codigo Similar Propio</label>
+                                <v-combobox
+                                    chips
+                                    v-model="cod_sim_daka"
+                                    name="cod_sim_daka"
+                                    placeholder="Selecciona un codigo similar"
+                                    :items="codSapget"
+                                    variant="outlined"
+                                    :return-object="false"
+                                ></v-combobox>
 
                                 <FormKit v-model="cant" type="number" label="Cantidad" value="cant" disabled
                                     placeholder="Cantidad" validation="required" :validation-messages="{
@@ -506,7 +522,6 @@ function crearDataInvest(){
                                     :validation-messages="{
                                         required: '',
                                     }" help="" />
-                                <!-- <pre wrap>{{ value }}</pre> -->
                             </FormKit>
 
                 </section>
@@ -524,8 +539,6 @@ function crearDataInvest(){
     border-color: red;
     box-shadow: 0 0 0 lid  red;
 }
-
-
 
 .input-modelo{
     padding: 7px;
@@ -623,8 +636,24 @@ function crearDataInvest(){
   opacity: 0.5;
 }
 
-
-
+.v-autocomplete, .v-combobox{
+    width: 50%;
+    }
+    @media (max-width: 1000px) {
+  .v-autocomplete, .v-combobox{
+    width: 61%;
+  }
+}
+    @media (max-width: 900px) {
+  .v-autocomplete, .v-combobox{
+    width: 75%;
+  }
+}
+    @media (max-width: 700px) {
+  .v-autocomplete, .v-combobox{
+    width: 100%;
+  }
+}
 </style>
 
 

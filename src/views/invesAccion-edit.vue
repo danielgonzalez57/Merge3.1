@@ -185,7 +185,6 @@ function UpdateData(){
                             <label class="label_filter" for="">Tienda</label>
                             <v-combobox
                                 clearable
-                                required
                                 chips
                                 v-model="id_tienda"
                                 placeholder="Selecciona tu tienda"
@@ -244,23 +243,27 @@ function UpdateData(){
 </template>
 
 <style>
-    .v-combobox{
+.v-autocomplete, .v-combobox{
     width: 50%;
-    }
-    @media (max-width: 1000px) {
-  .v-combobox{
+}
+
+@media (max-width: 1000px) {
+  .v-autocomplete, .v-combobox{
     width: 61%;
   }
 }
-    @media (max-width: 900px) {
-  .v-combobox{
+
+@media (max-width: 900px) {
+  .v-autocomplete, .v-combobox{
     width: 75%;
-  }
+    }
 }
-    @media (max-width: 700px) {
-  .v-combobox{
+@media (max-width: 700px) {
+  .v-autocomplete, .v-combobox{
     width: 100%;
   }
-}</style>
+}
+
+</style>
 
 

@@ -277,8 +277,6 @@ await getMarca();
                                 }"
                             />
                             
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     
@@ -301,18 +299,21 @@ await getMarca();
         color: #999;
     }
 
+    .v-autocomplete, .v-combobox{
+    width: 50%;
+    }
     @media (max-width: 1000px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 61%;
   }
 }
     @media (max-width: 900px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 75%;
   }
 }
     @media (max-width: 700px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 100%;
   }
 }

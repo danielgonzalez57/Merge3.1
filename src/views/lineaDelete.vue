@@ -21,8 +21,6 @@ const id = ref('')
 id.value = route.params.key 
 console.log(id.value)
 
-
-
 async function getFilterLineaDelete(){
     
     try{

@@ -24,16 +24,12 @@ const json = ref({
 const id = ref('')
 id.value = route.params.key 
 
-
 const id_invest = ref(info)
 const hora = ref('')
 const user_crea = ref(usuario)
 const user_mod = ref('')
 const nro_visitantes = ref(0)
 const nro_facturas = ref(0)
-
-
-
 
 async function getInvestigacion(){
     
@@ -51,8 +47,6 @@ async function getInvestigacion(){
     
 }
 
-
-
 async function medicionCreate(dataJson){
     
     try{
@@ -68,10 +62,6 @@ async function medicionCreate(dataJson){
 onMounted( async () => {
     await getInvestigacion();
 });
-
-
-
-
 
 function addDataC(){
 

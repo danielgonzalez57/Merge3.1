@@ -14,7 +14,7 @@ id.value = route.params.key
 
 const info = ref();
 const fecha = ref('')
-const id_tienda = ref([])
+const id_tienda = ref()
 const motivo = ref('')
 const investigador = ref('')
 const user_crea = ref(usuario)
@@ -24,11 +24,11 @@ const user_mod = ref('')
 async function getTienda(){
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
-        console.log(response)
         info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
             value: maestro.id,
         }));
+
     } catch(error){
         console.log(error)
     }
@@ -91,6 +91,14 @@ function crearData(){
 
 }
 
+// function isSelectEmpty(select) {
+//   return select === null || select === undefined;
+// }
+
+// function onInput(event) {
+//     id_tienda.value = event.target.value;
+// }
+
 </script>
 
 <template>
@@ -151,17 +159,16 @@ function crearData(){
                             
                             <label class="label_filter" for="">Tienda</label>
                             <v-combobox
+                                v-model="id_tienda"
                                 required
                                 clearable
                                 chips
-                                name="id_tienda"
-                                v-model="id_tienda"
                                 placeholder="Selecciona tu tienda"
                                 :items="info"
                                 variant="outlined"
-                                
                                 :return-object="false"
                             ></v-combobox>
+                            <!-- <p v-if="isSelectEmpty(id_tienda)">El select está vacío</p> -->
                             
                             <FormKit
                                 type="select"
@@ -177,18 +184,6 @@ function crearData(){
                                 }"
                             />
                             
-                            <!-- <FormKit
-                                type="text"
-                                label="Investigador"
-                                name="investigador"
-                                placeholder="Nombre del investigador"
-                                validation="required"
-                                v-model="investigador"
-                                :validation-messages="{
-                                    required: 'Debes colocar el nombre del investigador.'
-                                }"
-                            /> -->
-                            
                             <FormKit
                                 type="text"
                                 label="Creado por"
@@ -201,8 +196,6 @@ function crearData(){
                                     required: 'Debes colocar el nombre del user.'
                                 }"
                             />
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     
@@ -225,21 +218,21 @@ function crearData(){
         border-radius: 5px;
         color: #999;
     }
-    .v-combobox{
+    .v-autocomplete, .v-combobox{
     width: 50%;
     }
     @media (max-width: 1000px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 61%;
   }
 }
     @media (max-width: 900px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 75%;
   }
 }
     @media (max-width: 700px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 100%;
   }
 }

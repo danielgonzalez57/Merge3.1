@@ -11,7 +11,6 @@ const valor = ref(false)
 const marcaEdit = ref([]);
 const usuario = localStorage.usuario
 
-
 const nombre = ref('')
 const origen = ref('')
 const user_crea = ref('')
@@ -109,11 +108,6 @@ function UpdateData(){
 
 }
 
-
-
-
-
-
 </script>
 
 <template>
@@ -206,9 +200,6 @@ function UpdateData(){
                                     required: 'Debes colocar un usuario.'
                                 }"
                             />
-                           
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
 

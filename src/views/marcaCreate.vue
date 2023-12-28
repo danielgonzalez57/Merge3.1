@@ -67,7 +67,6 @@ function createData(){
     });
 }
 
-
 </script>
 
 <template>
@@ -128,7 +127,7 @@ function createData(){
                             />
                             <FormKit
                                 type="select"
-                               label="Origen del Articulo"
+                                label="Origen del Articulo"
                                 name="origen"
                                 class="formKitt"
                                 v-model="origen"
@@ -139,7 +138,6 @@ function createData(){
                                     required: 'Debes escoger el origen de la marca.',
                                 }"
                             />
-
 
                             <FormKit
                                 disabled 

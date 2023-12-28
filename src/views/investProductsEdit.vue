@@ -11,6 +11,7 @@ const articuloget = ref()
 const tipoartget = ref()
 const tamanoget = ref()
 const modeloget = ref()
+const codSapget = ref() 
 const marcaget = ref()
 
 const cant = ref()
@@ -21,7 +22,6 @@ const router = useRouter()
 const valor = ref(false)
 const investigacionProEdit = ref([]);
 
-
 const id_medicion = ref('')
 const id_art = ref('')
 const id_tipo = ref('')
@@ -29,6 +29,7 @@ const id_tam_cap = ref('')
 const id_modelo = ref('')
 const id_marca = ref('')
 const descrip = ref('')
+const cod_sim_daka = ref()
 const sub_total = ref(multiplicationResult)
 const user_crea = ref(localStorage.usuario)
 const user_mod = ref('')
@@ -69,6 +70,21 @@ async function postInvestigacionProductpro(jsonInvesPro, id){
         
     }
 }
+
+// DATA
+async function getCodSap(){
+    try{
+        const response = await axios.get(`http://149.50.131.95:3001/api/v1/codSapAll`);
+        codSapget.value = response.data[0].map(cod => ({
+            title: cod.nombre,
+            value: cod.id
+        }));
+
+    } catch(error){
+        console.log(error)
+    }
+}
+
 // SELCCIONAR DATOS -------------------------------------------------------------------------- //
 async function getMediciones(){
     try{
@@ -168,6 +184,7 @@ onMounted( async () => {
     await getTamano();
     await getModelo();
     await getMarca();
+    await getCodSap();
     
     id_medicion.value = investigacionProEdit.value.id_medicion
     id_art.value = investigacionProEdit.value.id_art
@@ -178,6 +195,7 @@ onMounted( async () => {
     descrip.value = investigacionProEdit.value.descrip
     cant.value = investigacionProEdit.value.cant
     precio.value = investigacionProEdit.value.precio
+    cod_sim_daka.value = investigacionProEdit.value.cod_sim_daka
     sub_total.value = investigacionProEdit.value.sub_total
     user_crea.value = investigacionProEdit.value.user_crea
     user_mod.value = usuario
@@ -198,6 +216,7 @@ function UpdateData(){
         precio:precio.value ,
         sub_total:sub_total.value ,
         user_crea:user_crea.value ,
+        cod_sim_daka:cod_sim_daka.value ,
         user_mod:user_mod.value, 
         
     }
@@ -229,13 +248,10 @@ function UpdateData(){
             });
     
         }
-    });
-    
-    
-    
-    
-    
+    });  
 }
+
+
 </script>
 <template>
     <Nav :class="{ close: valor }" />
@@ -272,42 +288,41 @@ function UpdateData(){
             <div class="activity">
                 <section class="container_form1">
                     <div class="container_form">
-                        <FormKit type="form"  
+                        <FormKit 
+                            type="form"  
                             @submit="UpdateData" 
                             submit-label="Registrar" 
-                            method="post" action="/">
+                            method="post">
 
                            <!--NUEVO SELECT  MEDICION-->
                            <label class="label_filter" for="">Id medicion</label>
                            <v-combobox
-                            readonly
                                 required
+                                readonly
                                 chips
                                 v-model="id_medicion"
                                 name="id_medicion"
                                 placeholder="Selecciona el id medicion"
                                 :items="medicionget"
                                 variant="outlined"
-                                :return-object="false"
+                                :return-object="true"
                             ></v-combobox>
 
                             <label class="label_filter" for="">Articulo</label>
                                 <v-combobox
-                                    clearable
-                                    required
+                                    required="true"
                                     chips
                                     v-model="id_art"
                                     name="id_art"
                                     placeholder="Selecciona el articulo"
                                     :items="articuloget"
                                     variant="outlined"
-                                    :return-object="false"
+                                    :return-object="true"
                                 ></v-combobox>
 
                                 <label class="label_filter" for="">Tipo articulo</label>
                                 <v-combobox
                                     clearable
-                                    required
                                     chips
                                     v-model="id_tipo"
                                     name="id_tipo"
@@ -320,7 +335,6 @@ function UpdateData(){
                                 <label class="label_filter" for="">Tamaño Capacidad</label>
                                 <v-combobox
                                     clearable
-                                    required
                                     chips
                                     v-model="id_tam_cap"
                                     name="id_tam_cap"
@@ -333,7 +347,6 @@ function UpdateData(){
                                 <label class="label_filter" for="">Modelo</label>
                                 <v-combobox
                                     clearable
-                                    required
                                     chips
                                     v-model="id_modelo"
                                     name="id_modelo"
@@ -346,7 +359,6 @@ function UpdateData(){
                                 <label class="label_filter" for="">Marca</label>
                                 <v-combobox
                                     clearable
-                                    required
                                     chips
                                     v-model="id_marca"
                                     name="id_marca"
@@ -362,6 +374,18 @@ function UpdateData(){
                                 validation="required" :validation-messages="{
                                     required: 'Escriba una descripción',
                                 }" help="" />
+
+                            <label class="label_filter" for="">Codigo Similar Propio</label>
+                            <v-combobox
+                                clearable
+                                chips
+                                v-model="cod_sim_daka"
+                                name="cod_sim_daka"
+                                placeholder="Selecciona un codigo similar"
+                                :items="codSapget"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-combobox>
 
                             <FormKit v-model="cant" type="number" label="Cantidad" value="cant" 
                                  validation="required" :validation-messages="{

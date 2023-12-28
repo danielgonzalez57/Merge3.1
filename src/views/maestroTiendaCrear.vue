@@ -258,42 +258,4 @@ function addDataC(){
     }
 </style>
 
-<!-- <template>
-    <FormKit
-      type="select"
-      label="Ciudad"
-      name="id_tienda"
-      class="formKitt"
-      v-model="jsonMaestroT.id_ciudad"
-      placeholder="Escoge una tienda"
-      :options="ciudades"
-      validation="required"
-      :validation-messages="{
-        required: 'Debes escoger una ciudad.',
-      }"
-    />
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        ciudades: [],
-        jsonMaestroT: {
-          id_ciudad: null,
-        },
-      };
-    },
-    async created() {
-      const response = await axios.get('URL_DE_TU_API');
-      this.ciudades = response.data.map(ciudad => ({
-        label: ciudad.nombre,
-        value: ciudad.id,
-      }));
-    },
-  };
-  </script>
 
- -->

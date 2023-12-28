@@ -9,6 +9,7 @@ const route = useRoute()
 const router = useRouter()
 const valor = ref(false)
 const usuario = localStorage.usuario;
+const rol = localStorage.rol;
 const tamCap = ref([])
 const marca = ref([])
 const tipoartget = ref([])
@@ -47,26 +48,6 @@ async function modeloCreated(dataJson){
         const response = await axios.post(`http://149.50.131.95:3001/api/v1/modeloCreated`, dataJson)
         
         if(response.data.status === 'ok'){
-
-            // Swal.fire({
-            //     icon: 'question',
-            //     title: 'Alerta!',
-            //     text: '¿Deseas guardar los datos?',
-            //     background: '#3A3B3C',  
-            //     color: '#fff',
-            //     confirmButtonText: 'Guardar',
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#3085d6",
-            //     cancelButtonColor: "#d33",
-            //     cancelButtonText: "Cancelar"
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-
-            //     // REDIRECCIONA AL TABLE PRINCIPAL
-            //     router.push(`/investProductsCreate/${id.value}/${idDos.value}`);
-
-            //     }
-            // })
             const Toast = Swal.mixin({
                 toast: true,
                 position: "top-end",
@@ -85,8 +66,12 @@ async function modeloCreated(dataJson){
                 background: '#3A3B3C',
                 color: '#fff'
                 });
-                router.push(`/investProductsCreate/${id.value}/${idDos.value}`);
 
+                if(rol == 'rrss'){
+                    router.push(`/investigacionProdRrss/${id.value}/${idDos.value}`);
+                }else{
+                    router.push(`/investProductsCreate/${id.value}/${idDos.value}`);
+                }
             }
     }else{
         alert('error')
@@ -161,10 +146,6 @@ async function getMarca(){
         console.log(error)
     }
 }
-
-
-
-
 
 function crearDataModel(){
     const dataJson = {
@@ -280,7 +261,6 @@ await getMarca();
                                 :return-object="false"
                             ></v-combobox>
 
-
                             <FormKit
                                 type="text"
                                 label="Creado por"
@@ -315,21 +295,21 @@ await getMarca();
         color: #999;
     }
 
-    .v-combobox{
+    .v-autocomplete, .v-combobox{
     width: 50%;
     }
     @media (max-width: 1000px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 61%;
   }
 }
     @media (max-width: 900px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 75%;
   }
 }
     @media (max-width: 700px) {
-  .v-combobox{
+  .v-autocomplete, .v-combobox{
     width: 100%;
   }
 }

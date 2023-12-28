@@ -220,7 +220,6 @@ function UpdateData(){
                             <label class="label_filter" for="">Marca</label>
                             <v-combobox
                                 clearable
-                                required
                                 chips
                                 v-model="id_marca"
                                 name="id_marca"
@@ -254,9 +253,6 @@ function UpdateData(){
                                     required: 'Debes colocar la latitud.'
                                 }"
                             />
-                            
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     

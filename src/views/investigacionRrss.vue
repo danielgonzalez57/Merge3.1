@@ -15,7 +15,7 @@ id.value = route.params.key
 
 const info = ref();
 const fecha = ref('')
-const id_tienda = ref()
+const id_tienda = ref('')
 const motivo = ref('RRSS')
 const investigador = ref('')
 const user_crea = ref(usuario)
@@ -37,7 +37,7 @@ async function getTienda(){
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
         info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
-            value: maestro.id
+            code: maestro.id
         }));
     } catch(error){
         console.log(error)
@@ -162,18 +162,17 @@ function crearData(){
                                     required: 'debe colocar una fecha.'
                                     }"
                             />
+
                             <label class="label_filter" for="">Tienda</label>
                             <v-combobox
-                                required
-                                clearable
-                                chips
-                                name="id_tienda"
-                                v-model="id_tienda"
-                                placeholder="Selecciona tu tienda"
-                                :items="info"
-                                variant="outlined"
-                                style="width: 50%;"
-                                :return-object="false"
+                            clearable
+                            chips
+                            v-model="id_tienda"
+                            :items="info"
+                            placeholder="Selecciona tu tienda"
+                            variant="outlined"
+                            required
+                            :rules="[v => !!(v && v.length) || 'Item is required']"
                             ></v-combobox>
                             
                             <FormKit
@@ -202,8 +201,6 @@ function crearData(){
                                     required: 'Debes colocar el nombre del user.'
                                 }"
                             />
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     

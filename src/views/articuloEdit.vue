@@ -202,7 +202,7 @@ function UpdateData(){
                             />
 
                             <FormKit
-                            disabled
+                                disabled
                                 type="text"
                                 label="Creado Por"
                                 name="CreadoPor"

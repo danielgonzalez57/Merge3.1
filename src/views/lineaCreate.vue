@@ -72,11 +72,7 @@ function createData(){
 
         }
     });
-
-    
-
 }
-
 
 </script>
 
@@ -155,9 +151,6 @@ function createData(){
                                 placeholder="Creado Por"
                                 v-model="user_crea"
                             />
-                           
-
-                            <!-- <pre wrap>{{ value }}</pre> -->
                         </FormKit>
                     </div>
                     

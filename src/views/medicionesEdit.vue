@@ -157,7 +157,6 @@ function addData(){
 
             <div class="activity">
                 <section class="container_form1">
-                   <!-- <form class="form" @:submit.prevent="$event => mediciones.medicionEditar(id, jsonE)">  -->
                     <div class="container">
                         <FormKit
                             type="form"
@@ -168,11 +167,10 @@ function addData(){
                             <label class="label_filter" for="">Id investigacion</label>
                             <v-combobox
                                 clearable
-                                required
                                 chips
                                 v-model="id_invest"
                                 name="id_invest"
-                                placeholder="Selecciona tu tienda"
+                                placeholder="Selecciona el id"
                                 :items="info"
                                 variant="outlined"
                                 :return-object="false"
@@ -244,7 +242,7 @@ function addData(){
                                 }"
                             />
                         </FormKit>
-                </div>
+                    </div>
 
                 </section>
             </div>
