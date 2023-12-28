@@ -37,7 +37,7 @@ async function getTienda(){
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
         info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
-            code: maestro.id
+            value: maestro.id
         }));
     } catch(error){
         console.log(error)
@@ -146,6 +146,61 @@ function crearData(){
             <div class="activity">
                 <section class="container_form1">
 
+                        <!-- <div class="formulario-cont">
+                            <form @submit.prevent="crearData">
+                                <label class="label_filter" for="fecha">Fecha Creacion</label>
+                                <v-text-field
+                                    type="date"
+                                    v-model="fecha"
+                                    id="fecha"
+                                    :rules="[v => !!v || 'La fecha es requerida']"
+                                    placeholder="Fecha creacion"
+                                    required
+                                    variant="outlined"
+                                ></v-text-field>
+
+                                <label class="label_filter" for="id_tienda">Tienda</label>
+                                <v-combobox
+                                    id="id_tienda"
+                                    required
+                                    v-model="id_tienda"
+                                    :items="info"
+                                    :rules="[v => !!v || 'Debes escoger una tienda']"
+                                    placeholder="Escoge una tienda"
+                                    variant="outlined"
+                                    :return-object="false"
+                                ></v-combobox>
+
+                                <label class="label_filter" for="motivo">Motivo</label>
+                                <v-text-field
+                                    readonly
+                                    id="motivo"
+                                    v-model="motivo"
+                                    required
+                                    placeholder="Escoge una tienda"
+                                    variant="outlined"
+                                ></v-text-field>
+
+                                <label class="label_filter" for="user_crea">Creado por</label>
+                                <v-text-field
+                                    readonly
+                                    v-model="user_crea"
+                                    id="user_crea"
+                                    placeholder="Escoge una tienda"
+                                    variant="outlined"
+                                ></v-text-field>
+
+                                <v-btn color="success"
+                                    block
+                                    type="submit"
+                                    
+                                    >
+                                    Registrar
+                                </v-btn>
+                        </form>
+
+                        </div> -->
+                        
                     <div class="container">
                         <FormKit
                             type="form"
@@ -172,7 +227,7 @@ function crearData(){
                             placeholder="Selecciona tu tienda"
                             variant="outlined"
                             required
-                            
+                            :return-object="false"
                             ></v-combobox>
                             
                             <FormKit
@@ -222,6 +277,11 @@ function crearData(){
         padding: 14px;
         border-radius: 5px;
         color: #999;
+    }
+
+    .formulario-cont{
+        width: 90%;
+        margin: 0 auto;
     }
 
     
