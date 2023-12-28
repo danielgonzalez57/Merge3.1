@@ -15,7 +15,7 @@ id.value = route.params.key
 
 const info = ref();
 const fecha = ref('')
-const id_tienda = ref('')
+const id_tienda = ref()
 const motivo = ref('RRSS')
 const investigador = ref('')
 const user_crea = ref(usuario)
@@ -172,7 +172,7 @@ function crearData(){
                             placeholder="Selecciona tu tienda"
                             variant="outlined"
                             required
-                            :rules="[v => !!(v && v.length) || 'Item is required']"
+                            
                             ></v-combobox>
                             
                             <FormKit
