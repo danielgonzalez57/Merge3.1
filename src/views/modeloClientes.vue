@@ -203,7 +203,82 @@ await getMarca();
             <div class="activity">
                 <section class="container_form1">
 
-                    <div class="container">
+                        <div class="formulario-cont">
+                        <form @submit.prevent="crearDataModel">
+                            <label class="label_filter" for="modelo">Modelo</label>
+                            <v-text-field
+                                type="text"
+                                v-model="nombre"
+                                id="modelo"
+                                :rules="[v => !!v || 'El nombre del modelo es requerida']"
+                                placeholder="Nombre del modelo"
+                                required
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="id_tienda">Tipo de Articulo</label>
+                            <v-combobox
+                                class="input-auto"
+                                clearable
+                                required
+                                chips
+                                name="id_art"
+                                v-model="id_art"
+                                @update:modelValue="getTamCap"
+                                :items="tipoartget"
+                                placeholder="Selecciona el tipo articulo"
+                                variant="outlined"
+                                :return-object="true"
+                            ></v-combobox>
+
+                            <label class="label_filter" for="id_tienda">Tamaño Capacidad</label>
+                            <v-autocomplete
+                                class="input-auto"
+                                clearable
+                                chips
+                                id="id_tienda"
+                                v-model="id_tam_cap"
+                                :items="tamCap"
+                                :rules="[v => !!v || 'El tamaño es requerido']"
+                                placeholder="Escoge un tamaño"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-autocomplete>
+
+                            <label class="label_filter" for="id_tienda">Marca</label>
+                            <v-autocomplete
+                                class="input-auto"
+                                clearable
+                                chips
+                                id="id_tienda"
+                                v-model="id_marca"
+                                :items="marca"
+                                :rules="[v => !!v || 'La marca es requerida']"
+                                placeholder="Escoge una marca"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-autocomplete>
+
+                            <label class="label_filter" for="user_crea">Creado Por</label>
+                            <v-text-field
+                                readonly
+                                v-model="user_crea"
+                                id="user_crea"
+                                placeholder="Escoge un Creador"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <v-btn color="green-accent-4"
+                                class="mt-4"
+                                width="300"
+                                type="submit"
+                                :disabled="!id_marca || !nombre  || !id_tam_cap">
+                                Registrar
+                            </v-btn>
+                        </form>
+                    </div>
+
+                    <!-- <div class="container">
                         <FormKit
                             type="form"
                             @submit="crearDataModel"
@@ -274,7 +349,7 @@ await getMarca();
                             />
                         
                         </FormKit>
-                    </div>
+                    </div> -->
                     
                 </section>
             </div>
@@ -284,7 +359,7 @@ await getMarca();
     </section>
 </template>
 
-<style scoped>
+<style>
     .container-combobox{
         width: 40%;
         min-width: 100%;
@@ -295,7 +370,7 @@ await getMarca();
         color: #999;
     }
 
-    .v-autocomplete, .v-combobox{
+    /* .v-autocomplete, .v-combobox{
     width: 50%;
     }
     @media (max-width: 1000px) {
@@ -312,7 +387,11 @@ await getMarca();
   .v-autocomplete, .v-combobox{
     width: 100%;
   }
-}
+} */
+
+.input-auto{
+        width: 100%;
+    }
  
 </style>
 

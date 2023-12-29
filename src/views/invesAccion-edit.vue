@@ -163,7 +163,64 @@ function UpdateData(){
             <div class="activity">
             <section class="container_form1">
 
-                <div class="container">
+                <div class="formulario-cont">
+                    <form @submit.prevent="UpdateData">
+                        <label class="label_filter" for="fecha">Fecha Creacion</label>
+                        <v-text-field
+                            type="text"
+                            readonly
+                            v-model="fecha"
+                            id="fecha"
+                            :rules="[v => !!v || 'La fecha es requerida']"
+                            placeholder="Fecha creacion"
+                            required
+                            variant="outlined"
+                        ></v-text-field>
+
+                        <label class="label_filter" for="id_tienda">Tienda</label>
+                        <v-autocomplete
+                            class="input-auto"
+                            clearable
+                            chips
+                            id="id_tienda"
+                            v-model="id_tienda"
+                            :items="info"
+                            :rules="[v => !!v || 'La tienda es requerida']"
+                            placeholder="Escoge una tienda"
+                            variant="outlined"
+                            :return-object="false"
+                        ></v-autocomplete>
+
+                        <label class="label_filter" for="motivo">Motivo</label>
+                        <v-text-field
+                            readonly
+                            id="motivo"
+                            v-model="motivo"
+                            required
+                            placeholder="Escoge un Motivo"
+                            variant="outlined"
+                        ></v-text-field>
+
+                        <label class="label_filter" for="user_crea">Creado Por</label>
+                        <v-text-field
+                            readonly
+                            v-model="user_crea"
+                            id="user_crea"
+                            placeholder="Escoge un Creador"
+                            variant="outlined"
+                        ></v-text-field>
+
+                        <v-btn color="green-accent-4"
+                            class="mt-4"
+                            width="300"
+                            type="submit"
+                            :disabled="!id_tienda ">
+                            Actualizar
+                        </v-btn>
+                    </form>
+                </div>
+
+                <!-- <div class="container">
                             
                         <FormKit
                             type="form"
@@ -232,7 +289,7 @@ function UpdateData(){
                                 }"
                             />
                         </FormKit>
-                    </div>
+                </div> -->
 
             </section>
             </div>
@@ -242,28 +299,10 @@ function UpdateData(){
     </section>
 </template>
 
-<style>
-.v-autocomplete, .v-combobox{
-    width: 50%;
-}
-
-@media (max-width: 1000px) {
-  .v-autocomplete, .v-combobox{
-    width: 61%;
-  }
-}
-
-@media (max-width: 900px) {
-  .v-autocomplete, .v-combobox{
-    width: 75%;
+<style scoped>
+.input-auto{
+        width: 100%;
     }
-}
-@media (max-width: 700px) {
-  .v-autocomplete, .v-combobox{
-    width: 100%;
-  }
-}
-
 </style>
 
 

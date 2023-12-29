@@ -15,7 +15,7 @@ id.value = route.params.key
 const info = ref();
 const fecha = ref('')
 const id_tienda = ref()
-const motivo = ref('')
+const motivo = ref()
 const investigador = ref('')
 const user_crea = ref(usuario)
 const user_mod = ref('')
@@ -26,7 +26,7 @@ async function getTienda(){
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
         info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
-            value: maestro.id,
+            value: maestro.id
         }));
 
     } catch(error){
@@ -140,7 +140,66 @@ function crearData(){
             <div class="activity">
                 <section class="container_form1">
 
-                    <div class="container">
+                    <div class="formulario-cont">
+                            <form @submit.prevent="crearData">
+                                <label class="label_filter" for="fecha">Fecha Creacion</label>
+                                <v-text-field
+                                    type="date"
+                                    v-model="fecha"
+                                    id="fecha"
+                                    :rules="[v => !!v || 'La fecha es requerida']"
+                                    placeholder="Fecha creacion"
+                                    required
+                                    variant="outlined"
+                                ></v-text-field>
+
+                                <label class="label_filter" for="id_tienda">Tienda</label>
+                                <v-autocomplete
+                                class="input-auto"
+                                    clearable
+                                    chips
+                                    id="id_tienda"
+                                    v-model="id_tienda"
+                                    :items="info"
+                                    :rules="[v => !!v || 'La tienda es requerida']"
+                                    placeholder="Escoge una tienda"
+                                    variant="outlined"
+                                    :return-object="false"
+                                ></v-autocomplete>
+
+                                <label class="label_filter" for="motivo">Motivo</label>
+                                <v-select
+                                    id="motivo"
+                                    v-model="motivo"
+                                    required
+                                    clearable
+                                    chips
+                                    placeholder="Escoge un Motivo"
+                                    :items="['RUTINA', 'INAUGURACION', 'RRSS']"
+                                    :rules="[v => !!v || 'El Motivo es requerido']"
+                                    variant="outlined"
+                                ></v-select>
+
+                                <label class="label_filter" for="user_crea">Creado Por</label>
+                                <v-text-field
+                                    readonly
+                                    v-model="user_crea"
+                                    id="user_crea"
+                                    placeholder="Escoge un Creador"
+                                    variant="outlined"
+                                ></v-text-field>
+
+                                <v-btn color="green-accent-4"
+                                    class="mt-4"
+                                    width="300"
+                                    type="submit"
+                                    :disabled="!id_tienda ">
+                                    Registrar
+                                </v-btn>
+                            </form>
+                        </div>
+
+                    <!-- <div class="container">
                         <FormKit
                             type="form"
                             @submit="crearData"
@@ -168,7 +227,6 @@ function crearData(){
                                 variant="outlined"
                                 :return-object="false"
                             ></v-combobox>
-                            <!-- <p v-if="isSelectEmpty(id_tienda)">El select está vacío</p> -->
                             
                             <FormKit
                                 type="select"
@@ -197,7 +255,7 @@ function crearData(){
                                 }"
                             />
                         </FormKit>
-                    </div>
+                    </div> -->
                     
                 </section>
             </div>
@@ -218,24 +276,11 @@ function crearData(){
         border-radius: 5px;
         color: #999;
     }
-    .v-autocomplete, .v-combobox{
-    width: 50%;
+
+    .input-auto{
+        width: 100%;
     }
-    @media (max-width: 1000px) {
-  .v-autocomplete, .v-combobox{
-    width: 61%;
-  }
-}
-    @media (max-width: 900px) {
-  .v-autocomplete, .v-combobox{
-    width: 75%;
-  }
-}
-    @media (max-width: 700px) {
-  .v-autocomplete, .v-combobox{
-    width: 100%;
-  }
-}
+
  
 </style>
 

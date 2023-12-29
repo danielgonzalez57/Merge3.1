@@ -1035,6 +1035,11 @@ height: 100vh;
   
 }
 
+.formulario-cont{
+  width: 90%;
+  margin: 0 auto;
+}
+
 .title {
   text-align: center;
   font-size: 3rem;

@@ -16,10 +16,12 @@ id.value = route.params.key
 const info = ref();
 const fecha = ref('')
 const id_tienda = ref()
+const id_tienda2 = ref()
 const motivo = ref('RRSS')
 const investigador = ref('')
 const user_crea = ref(usuario)
 const user_mod = ref('')
+
 
 
 const jsonI = ref({
@@ -68,7 +70,6 @@ function crearData(){
         investigador:investigador.value,
         user_crea:user_crea.value ,
         user_mod:user_mod.value
-
     }
 
     Swal.fire({
@@ -133,7 +134,6 @@ function crearData(){
                     <span class="text">Investigacion</span>
                 </div>
 
-            
                 <router-link to="/invesAccion">
                     <v-btn prepend-icon="mdi-arrow-left" color="green-accent-4">
                         Volver
@@ -146,7 +146,7 @@ function crearData(){
             <div class="activity">
                 <section class="container_form1">
 
-                        <!-- <div class="formulario-cont">
+                        <div class="formulario-cont">
                             <form @submit.prevent="crearData">
                                 <label class="label_filter" for="fecha">Fecha Creacion</label>
                                 <v-text-field
@@ -160,16 +160,18 @@ function crearData(){
                                 ></v-text-field>
 
                                 <label class="label_filter" for="id_tienda">Tienda</label>
-                                <v-combobox
+                                <v-autocomplete
+                                    class="input-auto"
+                                    clearable
+                                    chips
                                     id="id_tienda"
-                                    required
                                     v-model="id_tienda"
                                     :items="info"
-                                    :rules="[v => !!v || 'Debes escoger una tienda']"
+                                    :rules="[v => !!v || 'La tienda es requerida']"
                                     placeholder="Escoge una tienda"
                                     variant="outlined"
                                     :return-object="false"
-                                ></v-combobox>
+                                ></v-autocomplete>
 
                                 <label class="label_filter" for="motivo">Motivo</label>
                                 <v-text-field
@@ -177,31 +179,30 @@ function crearData(){
                                     id="motivo"
                                     v-model="motivo"
                                     required
-                                    placeholder="Escoge una tienda"
+                                    placeholder="Escoge un Motivo"
                                     variant="outlined"
                                 ></v-text-field>
 
-                                <label class="label_filter" for="user_crea">Creado por</label>
+                                <label class="label_filter" for="user_crea">Creado Por</label>
                                 <v-text-field
                                     readonly
                                     v-model="user_crea"
                                     id="user_crea"
-                                    placeholder="Escoge una tienda"
+                                    placeholder="Escoge un Creador"
                                     variant="outlined"
                                 ></v-text-field>
 
-                                <v-btn color="success"
-                                    block
+                                <v-btn color="green-accent-4"
+                                    class="mt-4"
+                                    width="300"
                                     type="submit"
-                                    
-                                    >
+                                    :disabled="!id_tienda ">
                                     Registrar
                                 </v-btn>
-                        </form>
-
-                        </div> -->
+                            </form>
+                        </div>
                         
-                    <div class="container">
+                    <!-- <div class="container">
                         <FormKit
                             type="form"
                             @submit="crearData"
@@ -257,7 +258,7 @@ function crearData(){
                                 }"
                             />
                         </FormKit>
-                    </div>
+                    </div> -->
                     
                 </section>
             </div>
@@ -279,12 +280,9 @@ function crearData(){
         color: #999;
     }
 
-    .formulario-cont{
-        width: 90%;
-        margin: 0 auto;
+    .input-auto{
+        width: 100%;
     }
-
-    
 </style>
 
 
