@@ -14,7 +14,7 @@ const ciudades = ref([]);
 
 
 const nombre = ref('')
-const id_ciudad = ref('')
+const id_ciudad = ref()
 const latitud = ref('')
 const longitud = ref('')
 const direccion = ref('')
@@ -31,7 +31,6 @@ async function getFilterMaestroTienda(){
     
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaFilter/${id.value}`)
-        console.log(response.data)
 
         maestroTiendaEdit.value =  response.data
 
@@ -57,7 +56,7 @@ async function getCiudades(){
     try{
         const response = await axios.get(`http://149.50.131.95:3001/api/v1/getCiudades`);
         ciudades.value = response.data[0].map(ciudad => ({
-            label: ciudad.nombre,
+            title: ciudad.nombre,
             value: ciudad.Id
         }));
 
@@ -173,7 +172,92 @@ function UpdateDataMaestroT(){
             <div class="activity">
                 <section class="container_form1">
 
-                    <div class="container">
+                    <div class="formulario-cont">
+                        <form @submit.prevent="UpdateDataMaestroT">
+                            <label class="label_filter" for="tienda">Nombre de la Tienda</label>
+                            <v-text-field
+                                type="text"
+                                v-model="nombre"
+                                id="tienda"
+                                :rules="[v => !!v || 'El nombre de la tienda es requerido']"
+                                placeholder="Nombre de la tienda"
+                                required
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="ciudad">Ciudad</label>
+                            <v-autocomplete
+                                class="input-auto"
+                                clearable
+                                chips
+                                id="ciudad"
+                                v-model="id_ciudad"
+                                :items="ciudades"
+                                :rules="[v => !!v || 'La ciudad es requerida']"
+                                placeholder="Escoge una ciudad"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-autocomplete> 
+                            
+                            <label class="label_filter" for="sucursal">Sucursal</label>
+                            <v-text-field
+                                v-model="longitud"
+                                id="sucursal"
+                                placeholder="Sucursal"
+                                :rules="[v => !!v || 'La sucursal de la tienda es requerida']"
+                                variant="outlined"
+                            ></v-text-field>
+                            
+                            <label class="label_filter" for="latitud">Latitud y Longitud</label>
+                            <v-text-field
+                                v-model="latitud"
+                                id="latitud"
+                                placeholder="Latitud y Longitud"
+                                :rules="[v => !!v || 'La latitud y longitud de la tienda es requerida']"
+                                variant="outlined"
+                            ></v-text-field>
+                            
+                            <label class="label_filter" for="tipo_tienda">Tipo de Tienda</label>
+                            <v-select
+                                id="tipo_tienda"
+                                v-model="tipo_tienda"
+                                required
+                                clearable
+                                chips
+                                placeholder="Escoge el tipo de tienda"
+                                :items="['C', 'P']"
+                                :rules="[v => !!v || 'El tipo de tienda es requerido']"
+                                variant="outlined"
+                            ></v-select>
+
+                            <label class="label_filter" for="direccion">Dirección de la Tienda</label>
+                            <v-text-field
+                                v-model="direccion"
+                                id="direccion"
+                                placeholder="Dirección de la Tienda"
+                                :rules="[v => !!v || 'La dirección de la tienda es requerida']"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="user_crea">Creado Por</label>
+                            <v-text-field
+                                readonly
+                                v-model="user_crea"
+                                id="user_crea"
+                                placeholder="Escoge un Creador"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <v-btn color="green-accent-4"
+                                class="mt-4"
+                                width="300"
+                                type="submit"
+                                :disabled="!nombre || !id_ciudad  || !longitud  || !latitud || !tipo_tienda || !direccion">
+                                Registrar
+                            </v-btn>
+                        </form>
+                    </div>
+                    <!-- <div class="container">
                         <FormKit
                             type="form"
                             @submit="UpdateDataMaestroT"
@@ -271,7 +355,7 @@ function UpdateDataMaestroT(){
                                 v-model="user_mod"
                             />
                         </FormKit>
-                    </div>
+                    </div> -->
                     
                 </section>
             </div>

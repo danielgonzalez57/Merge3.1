@@ -276,7 +276,7 @@ await getMarca();
                                 Registrar
                             </v-btn>
                         </form>
-                    </div>
+                        </div>
 
                     <!-- <div class="container">
                         <FormKit

@@ -270,16 +270,6 @@ function crearData(){
 
 <style scoped>
 
-    .container-combobox{
-        width: 40%;
-        min-width: 100%;
-    }
-    .comboInput{
-        padding: 14px;
-        border-radius: 5px;
-        color: #999;
-    }
-
     .input-auto{
         width: 100%;
     }

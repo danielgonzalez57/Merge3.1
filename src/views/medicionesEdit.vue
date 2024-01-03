@@ -157,7 +157,77 @@ function addData(){
 
             <div class="activity">
                 <section class="container_form1">
-                    <div class="container">
+
+                    <div class="formulario-cont">
+                        <form @submit.prevent="addData">
+                            <label class="label_filter" for="modelo">Id investigacion</label>
+                            <v-combobox
+                                class="input-auto"
+                                id="modelo"
+                                readonly  
+                                required8
+                                chips
+                                v-model="id_invest"
+                                name="id_invest"
+                                placeholder="Selecciona el id investigacion"
+                                :items="info"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-combobox>
+
+                            <label class="label_filter" for="corte">Corte Horario</label>
+                            <v-select
+                                id="corte"
+                                v-model="hora"
+                                required
+                                clearable
+                                chips
+                                placeholder="Escoge un corte"
+                                :items="['MAÑANA', 'TARDE', 'TODO EL DIA']"
+                                :rules="[v => !!v || 'El Corte de horario es requerido']"
+                                variant="outlined"
+                            ></v-select>
+
+                            <label class="label_filter" for="nro_visitantes">Numero de Visitantes</label>
+                            <v-text-field
+                                type="number"
+                                id="nro_visitantes"
+                                v-model="nro_visitantes"
+                                placeholder="Numero de visitantes"
+                                :rules="[v => !!v && v >= 0 || 'El Numero de visitante es requerido']"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="nro_facturas">Numero de Factura</label>
+                            <v-text-field
+                                type="number"
+                                id="nro_facturas"
+                                v-model="nro_facturas"
+                                placeholder="Numero de visitantes"
+                                :rules="[v => !!v && v >= 0 || 'El Numero de factura es requerido']"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="user_crea">Creado Por</label>
+                            <v-text-field
+                                readonly
+                                v-model="user_crea"
+                                id="user_crea"
+                                placeholder="Escoge un Creador"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <v-btn color="green-accent-4"
+                                class="mt-4"
+                                width="300"
+                                type="submit"
+                                :disabled="!hora || !nro_visitantes  || !nro_facturas">
+                                Registrar
+                            </v-btn>
+                        </form>
+                    </div>
+
+                    <!-- <div class="container">
                         <FormKit
                             type="form"
                             @submit="addData"
@@ -242,7 +312,7 @@ function addData(){
                                 }"
                             />
                         </FormKit>
-                    </div>
+                    </div> -->
 
                 </section>
             </div>

@@ -185,7 +185,67 @@ function UpdateData(){
             <div class="activity">
                 <section class="container_form1">
 
-                    <div class="container">
+                    <div class="formulario-cont">
+                        <form @submit.prevent="UpdateData">
+                            <label class="label_filter" for="modelo">Modelo</label>
+                            <v-text-field
+                                type="text"
+                                v-model="nombre"
+                                id="modelo"
+                                :rules="[v => !!v || 'El nombre del modelo es requerida']"
+                                placeholder="Nombre del modelo"
+                                required
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="id_tienda">Tamaño Capacidad</label>
+                            <v-autocomplete
+                                class="input-auto"
+                                clearable
+                                chips
+                                id="id_tienda"
+                                v-model="id_tam_cap"
+                                :items="tamCap"
+                                :rules="[v => !!v || 'El tamaño es requerido']"
+                                placeholder="Escoge un tamaño"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-autocomplete>
+
+                            <label class="label_filter" for="id_tienda">Marca</label>
+                            <v-autocomplete
+                                class="input-auto"
+                                clearable
+                                chips
+                                id="id_tienda"
+                                v-model="id_marca"
+                                :items="marca"
+                                :rules="[v => !!v || 'La marca es requerida']"
+                                placeholder="Escoge una marca"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-autocomplete>
+
+                            <label class="label_filter" for="user_crea">Creado Por</label>
+                            <v-text-field
+                                readonly
+                                v-model="user_crea"
+                                id="user_crea"
+                                placeholder="Escoge un Creador"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <v-btn color="green-accent-4"
+                                class="mt-4"
+                                width="300"
+                                type="submit"
+                                :disabled="!id_marca || !nombre  || !id_tam_cap">
+                                Registrar
+                            </v-btn>
+                        </form>
+                    </div>
+
+                    <!-- <div class="container">
                         <FormKit
                             type="form"
                             @submit="UpdateData"
@@ -255,7 +315,7 @@ function UpdateData(){
                             />
                         </FormKit>
                     </div>
-                    
+                     -->
                 </section>
             </div>
         </div>

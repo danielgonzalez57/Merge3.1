@@ -379,26 +379,198 @@ function crearDataInvest(){
                         <div>
                             <v-col cols="12 sm:4">
                                 <v-combobox
+                                    class="input-auto"
                                     clearable
                                     v-model="data.searchModelInput"
                                     placeholder="Busca el modelo"
                                     :items="Sm"
                                     variant="outlined"
                                 ></v-combobox>
-                                <v-btn color="primary" text @click="searchModel">
+                                <v-btn color="green-accent-4" text @click="searchModel">
                                     Buscar
                                 </v-btn>
                                 </v-col>
                         </div>
                         <br>
-                            <FormKit
+
+                        <div class="formulario-cont">
+                            <form @submit.prevent="crearDataInvest">
+
+                                <label class="label_filter" for="id_medicion">Id Medicion</label>
+                                <v-combobox
+                                    class="input-auto"
+                                    id="id_medicion"
+                                    readonly  
+                                    required
+                                    chips
+                                    v-model="id_medicion"
+                                    name="id_medicion"
+                                    placeholder="Selecciona el id investigacion"
+                                    :items="info"
+                                    variant="outlined"
+                                    :return-object="false"
+                                ></v-combobox>
+
+                                <label class="label_filter" for="art">Articulo</label>
+                                <v-combobox
+                                    class="input-auto"
+                                    id="art"
+                                    readonly
+                                    required
+                                    chips
+                                    v-model="id_art"
+                                    name="id_art"
+                                    @update:modelValue="getTipoArt"
+                                    placeholder="Selecciona el articulo"
+                                    :items="articuloget"
+                                    variant="outlined"
+                                    :return-object="true"
+                                ></v-combobox>
+
+                                <label class="label_filter" for="tipo">Tipo Articulo</label>
+                                <v-combobox
+                                    class="input-auto"
+                                    id="tipo"
+                                    readonly  
+                                    required
+                                    chips
+                                    v-model="id_tipo"
+                                    @update:modelValue="getTamano"
+                                    name="id_tipo"
+                                    placeholder="Selecciona el tipo articulo"
+                                    :items="tipoartget"
+                                    variant="outlined"
+                                    :return-object="true"
+                                ></v-combobox>
+
+                                <label class="label_filter" for="tc">Tamaño Capacidad</label>
+                                <v-combobox
+                                    class="input-auto"
+                                    id="tc"
+                                    readonly 
+                                    required
+                                    chips
+                                    v-model="id_tam_cap"
+                                    name="id_tam_cap"
+                                    @update:modelValue="getModelo"
+                                    placeholder="Selecciona el tamaño capacidad"
+                                    :items="tamanoget"
+                                    variant="outlined"
+                                ></v-combobox>
+
+                                <label class="label_filter" for="modelo">Modelo</label>
+                                <v-combobox
+                                    class="input-auto"
+                                    id="modelo"
+                                    readonly 
+                                    required
+                                    chips
+                                    v-model="id_modelo"
+                                    @update:modelValue="getMarca"
+                                    name="id_modelo"
+                                    placeholder="Selecciona el modelo"
+                                    :items="modeloget"
+                                    variant="outlined"
+                                ></v-combobox>
+
+                                <label class="label_filter" for="marca">Marca</label>
+                                <v-combobox
+                                    class="input-auto"
+                                    id="marca"
+                                    readonly 
+                                    required
+                                    chips
+                                    v-model="id_marca"
+                                    name="id_marca"
+                                    placeholder="Selecciona una marca"
+                                    :items="marcaget"
+                                    variant="outlined"
+                                    :return-object="false"
+                                ></v-combobox>
+
+                                <label class="label_filter" for="descrip">Descripción</label>
+                                <v-text-field
+                                    type="text"
+                                    id="descrip"
+                                    v-model="descrip"
+                                    placeholder="Numero de visitantes"
+                                    :rules="[v => !!v || 'La descripcion es requerida']"
+                                    variant="outlined"
+                                    :counter="10"
+                                ></v-text-field>
+
+                                <label class="label_filter" for="sap">Codigo Similar Propio</label>
+                                <v-autocomplete
+                                    class="input-auto"
+                                    id="sap"
+                                    chips
+                                    v-model="cod_sim_daka"
+                                    name="cod_sim_daka"
+                                    placeholder="Selecciona un codigo similar"
+                                    :items="codSapget"
+                                    variant="outlined"
+                                    :return-object="false"
+                                ></v-autocomplete>
+
+                                <label class="label_filter" for="cant">Cantidad</label>
+                                <v-text-field
+                                    type="number"
+                                    readonly
+                                    id="cant"
+                                    v-model="cant"
+                                    placeholder="Numero de visitantes"
+                                    :rules="[v => !!v && v >= 0 || 'La cantidad es requerida']"
+                                    variant="outlined"
+                                ></v-text-field>
+                                
+                                <label class="label_filter" for="precio">Precio</label>
+                                <v-text-field
+                                    type="number"
+                                    id="precio"
+                                    v-model="precio"
+                                    placeholder="Precio"
+                                    :rules="[v => !!v && v >= 0 || 'El precio es requerido']"
+                                    variant="outlined"
+                                ></v-text-field>
+
+                                <label class="label_filter" for="sub_total">Subtotal</label>
+                                <v-text-field
+                                    readonly
+                                    type="number"
+                                    id="sub_total"
+                                    v-model="sub_total"
+                                    placeholder="Cantidad"
+                                    :rules="[v => !!v && v >= 0 || 'El sub total es requerido']"
+                                    variant="outlined"
+                                ></v-text-field>
+
+
+                                <label class="label_filter" for="user_crea">Creado Por</label>
+                                <v-text-field
+                                    readonly
+                                    v-model="user_crea"
+                                    id="user_crea"
+                                    placeholder="Escoge un Creador"
+                                    variant="outlined"
+                                ></v-text-field>
+
+                                <v-btn color="green-accent-4"
+                                    class="mt-4"
+                                    width="300"
+                                    type="submit"
+                                    :disabled="!id_medicion || !id_art  || !id_tipo || !id_tam_cap  || !id_modelo || !id_marca || !descrip || !cant || !precio">
+                                    Registrar
+                                </v-btn>
+                            </form>
+                        </div>
+                        
+                            <!-- <FormKit
                                 type="form"
                                 :return-object="false"
                                 @submit="crearDataInvest"
                                 :value="data"
                                 submit-label="Registrar" method="post" action="/">
 
-                                <!--NUEVO SELECT  MEDICION-->
                                 <label class="label_filter" for="">Id medicion</label>
                                 <v-combobox
                                     readonly
@@ -522,7 +694,7 @@ function crearDataInvest(){
                                     :validation-messages="{
                                         required: '',
                                     }" help="" />
-                            </FormKit>
+                            </FormKit> -->
 
                 </section>
             </div>

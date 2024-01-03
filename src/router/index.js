@@ -6,7 +6,6 @@ import userCreate from '../views/userCreate.vue'
 import InvesAccion from '../views/invesAccion.vue'
 import InvesAccionCreate from '../views/invesAccion-create.vue'
 import InvesAccionEdit from '../views/invesAccion-edit.vue'
-import InvesAccionDelete from '../views/invesAccion-delete.vue'
 import Mediciones from '../views/mediciones.vue'
 import MedicionesCreate from '../views/medicionesCrear.vue'
 import MedicionesCreateDos from '../views/medicionesCrearDos.vue'
@@ -16,36 +15,27 @@ import MedicionesEdit from '../views/medicionesEdit.vue'
 import MaestroTienda from '../views/maestroTienda.vue'
 import MaestroTiendaCreated from '../views/maestroTiendaCrear.vue'
 import MaestroTiendaEdit from '../views/maestroTiendaEdit.vue'
-import MaestroTiendaDelete from '../views/maestroTiendaDelete.vue'
 import TipoArticulo from '../views/tipoArticulo.vue'
 import TipoArticuloCreated from '../views/tipoArticuloCrear.vue'
 import TipoArticuloUpdate from '../views/tipoArticuloEdit.vue'
-import TipoArticuloDelete from '../views/tipoArticuloDelete.vue'
 import TamCap from '../views/tamCap.vue'
 import TamCapCreated from '../views/tamCapCreated.vue'
 import TamCapEdit from '../views/tamCapEdit.vue'
-import TamCapDelete from '../views/tamCapDelete.vue'
 import Modelo from '../views/modelo.vue'
 import ModeloCreated from '../views/modeloCreated.vue'
 import ModeloEdit from '../views/modeloEdit.vue'
-import ModeloDelete from '../views/modeloDelete.vue'
 import Articulo from '../views/articulo.vue'
 import ArticuloCreate from '../views/articulo.Create.vue'
 import ArticuloEdit from '../views/articuloEdit.vue'
-import ArticuloDelete from '../views/articuloDelete.vue'
 import Marcas from '../views/marcas.vue'
 import MarcasCreate from '../views/marcaCreate.vue'
 import MarcaEdit from '../views/marcaEdit.vue'
-import MarcaDelete from '../views/marcaEliminar.vue'
 import Linea from '../views/lineas.vue'
 import LineaCreate from '../views/lineaCreate.vue'
-import LineaDelete from '../views/lineaDelete.vue'
 import LineaEdit from '../views/lineaEdit.vue'
 import userEdit from '../views/userEdit.vue'
-import userDelete from '../views/userDelete.vue'
 import InvesProducts from '../views/invesProducts.vue'
 import InvestProductsCreate from '../views/InvestProductsCreate2.vue'
-import InvesProductsDelete from '../views/InvesProductsDelete.vue'
 import InvestProductsEdit from '../views/investProductsEdit.vue'
 import prueba from '../views/prueba.vue'
 import pruebaDos from '../views/pruebaDos.vue'
@@ -84,11 +74,6 @@ const router = createRouter({
       component: userEdit
     },
     {
-      path: '/userDelete/:key',
-      name: 'userDelete',
-      component: userDelete
-    },
-    {
       path: '/invesAccion',
       name: 'InvesAccion',
       component: InvesAccion
@@ -102,11 +87,6 @@ const router = createRouter({
       path: '/invesAccion-edit/:key',
       name: 'InvesAccionEdit',
       component: InvesAccionEdit
-    },
-    {
-      path: '/invesAccion-delete/:key',
-      name: 'InvesAccionDelete',
-      component: InvesAccionDelete
     },
     {
       path: '/mediciones',
@@ -154,11 +134,6 @@ const router = createRouter({
       component: MaestroTiendaEdit
     },
     {
-      path: '/maestroTiendaDelete/:key',
-      name: 'MaestroTiendaDelete',
-      component: MaestroTiendaDelete
-    },
-    {
       path: '/tipoArticulo',
       name: 'TipoArticulo',
       component: TipoArticulo
@@ -172,11 +147,6 @@ const router = createRouter({
       path: '/tipoArticuloUpdate/:key',
       name: 'TipoArticuloUpdate',
       component: TipoArticuloUpdate
-    },
-    {
-      path: '/tipoArticuloDelete/:key',
-      name: 'TipoArticuloDelete',
-      component: TipoArticuloDelete
     },
     {
       path: '/tamCap',
@@ -194,11 +164,6 @@ const router = createRouter({
       component: TamCapEdit
     },
     {
-      path: '/tamCapDelete/:key',
-      name: 'TamCapDelete',
-      component: TamCapDelete
-    },
-    {
       path: '/modelo',
       name: 'Modelo',
       component: Modelo
@@ -214,84 +179,50 @@ const router = createRouter({
       component: ModeloEdit
     },
     {
-      path: '/modeloDelete/:key',
-      name: 'ModeloDelete',
-      component: ModeloDelete
-    },
-    // CHRISTIAN
-    {
       path: '/articulo',
       name: 'Articulo',
       component: Articulo
     },
-
     {
       path: '/articuloCreate',
       name: 'ArticuloCreate',
       component: ArticuloCreate
     },
-    
     {
       path: '/articuloEdit/:key',
       name: 'ArticuloEdit',
       component: ArticuloEdit
     },
-
-    {
-      path: '/articuloDelete/:key',
-      name: 'ArticuloDelete',
-      component: ArticuloDelete
-    },
-
     {
       path: '/marcas',
       name: 'Marcas',
       component: Marcas
     },
-
     {
       path: '/marcasCreate',
       name: 'MarcasCreate',
       component: MarcasCreate
     },
-
     {
       path: '/marcaEdit/:key',
       name: 'MarcaEdit',
       component: MarcaEdit
     },
-   
-    {
-      path: '/marcaDelete/:key',
-      name: 'MarcaDelete',
-      component: MarcaDelete
-    },
-    
     {
       path: '/lineas',
       name: 'Linea',
       component: Linea
     },
-    
     {
       path: '/lineaCreate',
       name: 'LineaCreate',
       component: LineaCreate
-    },
-
-    {
-      path: '/lineaDelete/:key',
-      name: 'LineaDelete',
-      component: LineaDelete
     },
     {
       path: '/lineaEdit/:key',
       name: 'LineaEdit',
       component: LineaEdit
     },
-
-    // DILAN
-
     {
       path: '/investProductsCreate/:key/:keyDos',
       name: 'InvestProductsCreate',
@@ -301,12 +232,6 @@ const router = createRouter({
       path: '/investProducts',
       name: 'InvesProducts', 
       component: InvesProducts
-    },
-
-    {
-      path: '/invesProductsDelete/:key',
-      name: 'invesProductsDelete', 
-      component: InvesProductsDelete
     },
     {
       path: '/invesProductsEdit/:key/:keyDos/:keyTres',
