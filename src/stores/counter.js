@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
   },
   actions:{
       async login(json){
-          await axios.post(`http://149.50.131.95:3001/api/v1/auth`, json).then( 
+          await axios.post(`https://149.50.131.95:3001/api/v1/auth`, json).then( 
             (res) => {
               
               if(res.data.status === 'ok' ){
