@@ -1,4 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
+import fs from 'fs'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -16,7 +17,11 @@ export default defineConfig({
     }
   },
   server:{
-    host: true
+    host: true,
+    https: {
+      key: fs.readFileSync('ssl/teelspay.com.key'),
+      cert: fs.readFileSync('ssl/teelspay.com.crt')
+    }
   }
  
 })
