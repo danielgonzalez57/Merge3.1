@@ -21,7 +21,7 @@ const user_crea = ref(usuario)
 async function marcasCreated(jsonM){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/marcasCreated`, jsonM)
+        await axios.post(`https://teelspay.com:3001/api/v1/marcasCreated`, jsonM)
         
     } catch(error){
         console.log(error)

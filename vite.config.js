@@ -23,5 +23,4 @@ export default defineConfig({
       cert: fs.readFileSync('ssl/teelspay.com.crt')
     }
   }
- 
 })

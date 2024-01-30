@@ -42,10 +42,10 @@ async function getInvestigacion(){
         try{
 
             if(rol === 'admin'){
-                const response = await axios.get(`http://149.50.131.95:3001/api/v1/investigacionAll`);
+                const response = await axios.get(`https://teelspay.com:3001/api/v1/investigacionAll`);
                 info.value =  response.data
             }else{
-                const response = await axios.post(`http://149.50.131.95:3001/api/v1/dataUSerFilter`, {valor: usuario.value});
+                const response = await axios.post(`https://teelspay.com:3001/api/v1/dataUSerFilter`, {valor: usuario.value});
                 info.value =  response.data
             }
 
@@ -59,7 +59,7 @@ async function getInvestigacion(){
 async function eliminarInvestigacion(id){
           
           try{
-              await axios.delete(`http://149.50.131.95:3001/api/v1/investigacionDelete/${id}`);
+              await axios.delete(`https://teelspay.com:3001/api/v1/investigacionDelete/${id}`);
       
           } catch(error){
               console.log(error)

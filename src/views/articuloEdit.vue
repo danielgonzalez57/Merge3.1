@@ -34,7 +34,7 @@ user_crea:`${usuario}`//,
 async function getFilterArticulo(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloFilter/${id.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/articuloFilter/${id.value}`)
         console.log(response)
 
         articuloEdit.value =  response.data
@@ -48,7 +48,7 @@ async function getFilterArticulo(){
 async function postArticulo(jsonA, id){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/articuloUpdate/${id.value}`, jsonA)
+        await axios.put(`https://teelspay.com:3001/api/v1/articuloUpdate/${id.value}`, jsonA)
         
     } catch(error){
         console.log(error)
@@ -59,7 +59,7 @@ async function postArticulo(jsonA, id){
 // FUNCTION PARA LLENAR SELECT
 async function getLineas(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/getLineas`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/getLineas`);
         lineasEdit.value = response.data[0].map(linea => ({
             label: linea.nombre,
             value: linea.Id

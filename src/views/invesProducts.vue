@@ -42,10 +42,10 @@ async function getinvestProd(){
     loadingInfo.value = true
         try{
             if(rol === 'admin'){
-                const response = await axios.get(`http://149.50.131.95:3001/api/v1/investProducts`);
+                const response = await axios.get(`https://teelspay.com:3001/api/v1/investProducts`);
                 info.value =  response.data[0]
             }else{
-                const response = await axios.post(`http://149.50.131.95:3001/api/v1/dataInvProdFilter`, {valor: usuario.value});
+                const response = await axios.post(`https://teelspay.com:3001/api/v1/dataInvProdFilter`, {valor: usuario.value});
                 info.value =  response.data[0]
             }
             
@@ -57,7 +57,7 @@ async function getinvestProd(){
 
 async function eliminarInvestigacionPro(id) {
     try {
-        await axios.delete(`http://149.50.131.95:3001/api/v1/investProducts/delete/${id}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/investProducts/delete/${id}`);
     } catch (error) {
         console.log(error)
     }

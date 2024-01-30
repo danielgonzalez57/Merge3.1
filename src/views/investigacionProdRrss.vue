@@ -27,13 +27,20 @@ const idDos = ref('')
 idDos.value = route.params.keyDos
 
 // INPUT QUE SE MULTIPLICAN
+const precioAnterior = ref()
 const cant = ref(1)
-const precio = ref()
+const precio = ref(precioAnterior)
 const multiplicationResult = ref(0);
 
 watch([cant, precio], () => {
     multiplicationResult.value = cant.value * precio.value;
 });
+
+// watch(precio, () => {
+//   if (precio.value === '') {
+//     precioAnterior.value = 0
+//   }
+// })
 
 // INPUTS
 const id_medicion = ref(idDos)
@@ -48,17 +55,35 @@ const sub_total = ref(multiplicationResult)
 const user_crea = ref(localStorage.usuario)
 
 
+async function ultimoPrecio() {
+    await axios.post('https://teelspay.com:3001/api/v1/ultimoPrecio', 
+    {modelo: id_modelo.value, idInvest: id.value, idMedicion: idDos.value}) 
+        .then(function (response) {
+            if(response.data.length != 0){
+                precioAnterior.value =  response.data[0].precio
+            }else{
+                precioAnterior.value = 0
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
 // BUSCADOR
 async function searchModel() {
-    await axios.post('http://149.50.131.95:3001/api/v1/searchModelInvestProduct', {model: data.value.searchModelInput.title})
+    await axios.post('https://teelspay.com:3001/api/v1/searchModelInvestProduct', {model: data.value.searchModelInput.title})
         .then(function (response) {
 
             if(response.data.length != 0){
+
                 id_art.value =  response.data[0].Articulo
                 id_tipo.value =  response.data[0].TipoArt
                 id_tam_cap.value =  response.data[0].TamañoCap
                 id_modelo.value =  response.data[0].id_Modelo
                 id_marca.value =  response.data[0].Marca
+                cod_sim_daka.value =  response.data[0].Codigo_sap
+                descrip.value =  response.data[0].Descripcion
                 
             } else {
                 Swal.fire({
@@ -84,6 +109,11 @@ async function searchModel() {
         .catch(function (error) {
             console.log(error);
         });
+
+         // ultimoPrecio
+        if(id_modelo.value){
+            await ultimoPrecio()
+        }
 }
 
 const data = ref({
@@ -106,7 +136,7 @@ const data = ref({
 // DATA
 async function getCodSap(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/codSapAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/codSapAll`);
         codSapget.value = response.data[0].map(cod => ({
             title: cod.nombre,
             value: cod.id
@@ -120,7 +150,7 @@ async function getCodSap(){
 // DATA
 async function getMediciones(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/medicionAll`);
         medicionget.value = response.data.map(medi => ({
             title: medi.id,
             value: medi.id,
@@ -135,7 +165,7 @@ async function getArticulo(){
 
 
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/articuloAll`);
 
         articuloget.value = response.data.map(art => ({
             title: art.nombre,
@@ -155,10 +185,10 @@ async function getTipoArt(){
    let RUTA = ''
 
     if(param.value === 'new'){
-        RUTA = `http://149.50.131.95:3001/api/v1/tipoArticuloFilterDos/${valorSeleccionado}`
+        RUTA = `https://teelspay.com:3001/api/v1/tipoArticuloFilterDos/${valorSeleccionado}`
     }
     else{
-        RUTA = 'http://149.50.131.95:3001/api/v1/tipoArticuloAll'
+        RUTA = 'https://teelspay.com:3001/api/v1/tipoArticuloAll'
     }
 
    try{
@@ -180,10 +210,10 @@ async function getTamano(){
     let RUTA = ''
 
     if(param.value === 'new'){
-        RUTA = `http://149.50.131.95:3001/api/v1/tamCapFilterSelect/${valorSeleccionado}`
+        RUTA = `https://teelspay.com:3001/api/v1/tamCapFilterSelect/${valorSeleccionado}`
     }
     else{
-        RUTA = 'http://149.50.131.95:3001/api/v1/tamCapAll'
+        RUTA = 'https://teelspay.com:3001/api/v1/tamCapAll'
     }
     try{
         const response = await axios.get(RUTA);
@@ -205,10 +235,10 @@ async function getModelo(){
     let RUTA = ''
 
     if(param.value === 'new'){
-        RUTA = `http://149.50.131.95:3001/api/v1/modeloAll`
+        RUTA = `https://teelspay.com:3001/api/v1/modeloAll`
     }
     else{
-        RUTA = 'http://149.50.131.95:3001/api/v1/modeloAll'
+        RUTA = 'https://teelspay.com:3001/api/v1/modeloAll'
     }
 
     try{
@@ -230,15 +260,15 @@ async function getMarca(){
     let RUTA = ''
 
     if(param.value === 'new'){
-        RUTA = `http://149.50.131.95:3001/api/v1/marcasAll`
+        RUTA = `https://teelspay.com:3001/api/v1/marcasAll`
     }
     else{
-        RUTA = 'http://149.50.131.95:3001/api/v1/marcasAll'
+        RUTA = 'https://teelspay.com:3001/api/v1/marcasAll'
     }
 
 
     try{
-        const response = await axios.get('http://149.50.131.95:3001/api/v1/marcasAll');
+        const response = await axios.get('https://teelspay.com:3001/api/v1/marcasAll');
         marcaget.value =  response.data.map(marca => ({
             title: marca.nombre,
             value: marca.id,
@@ -253,7 +283,7 @@ async function getMarca(){
 async function crearInvestPro(dataJson){
 
     try{
-        await axios.post('http://149.50.131.95:3001/api/v1/invesProductCreated', dataJson)
+        await axios.post('https://teelspay.com:3001/api/v1/invesProductCreated', dataJson)
         
     } catch(error){
         console.log(error)
@@ -265,7 +295,7 @@ async function crearInvestPro(dataJson){
 async function seachModelo(){
 
 try{
-    const response = await axios.get('http://149.50.131.95:3001/api/v1/modeloAll');
+    const response = await axios.get('https://teelspay.com:3001/api/v1/modeloAll');
     Sm.value =  response.data.map(modelo => ({
         title: modelo.nombre
     }));
@@ -277,16 +307,16 @@ try{
 
 onMounted( async () => {
 
-await getMediciones();
-await getArticulo();
-await seachModelo();
+    await getMediciones();
+    await getArticulo();
+    await seachModelo();
+    await getTipoArt();
+    await getTamano();
+    await getModelo();
+    await getMarca();
+    await getCodSap();
 
-await getTipoArt();
-await getTamano();
-await getModelo();
-await getMarca();
-await getCodSap();
-
+   // ultimoPrecio
 
 });
 
@@ -305,9 +335,8 @@ function crearDataInvest(){
         cod_sim_daka:cod_sim_daka.value ,
         user_crea:user_crea.value
     }
-    // FUNCTION PARA CREAR
-    
 
+    // FUNCTION PARA CREAR
     Swal.fire({
         title: "Alerta",
         text: "¿Desea guardar estos datos?",
@@ -529,9 +558,11 @@ function crearDataInvest(){
                                     id="precio"
                                     v-model="precio"
                                     placeholder="Precio"
-                                    :rules="[v => !!v && v >= 0 || 'El precio es requerido']"
+                                    :rules="[v => !!v && v >= 0]"
                                     variant="outlined"
                                 ></v-text-field>
+                                <p v-if="precioAnterior && precioAnterior > 0" class="precioAnt">Precio: ${{ precioAnterior }}</p>
+
 
                                 <label class="label_filter" for="sub_total">Subtotal</label>
                                 <v-text-field
@@ -564,138 +595,6 @@ function crearDataInvest(){
                             </form>
                         </div>
                         
-                            <!-- <FormKit
-                                type="form"
-                                :return-object="false"
-                                @submit="crearDataInvest"
-                                :value="data"
-                                submit-label="Registrar" method="post" action="/">
-
-                                <label class="label_filter" for="">Id medicion</label>
-                                <v-combobox
-                                    readonly
-                                    chips
-                                    v-model="id_medicion"
-                                    name="id_medicion"
-                                    placeholder="Selecciona el id medicion"
-                                    :items="medicionget"
-                                    variant="outlined"
-                                    style="width: 50%;"
-                                    :return-object="false"
-                                ></v-combobox>
-
-                                <label class="label_filter" for="">Articulo</label>
-                                <v-combobox
-                                    readonly                                    
-                                    required
-                                    chips
-                                    v-model="id_art"
-                                    name="id_art"
-                                    @update:modelValue="getTipoArt"
-                                    placeholder="Selecciona el articulo"
-                                    :items="articuloget"
-                                    variant="outlined"
-                                    style="width: 50%;"
-                                    :return-object="true"
-                                ></v-combobox>
-
-                                <label class="label_filter" for="">Tipo articulo</label>
-                                <v-combobox
-                                    readonly  
-                                    required
-                                    chips
-                                    v-model="id_tipo"
-                                    @update:modelValue="getTamano"
-                                    name="id_tipo"
-                                    placeholder="Selecciona el tipo articulo"
-                                    :items="tipoartget"
-                                    variant="outlined"
-                                    style="width: 50%;"
-                                    :return-object="true"
-                                ></v-combobox>
-
-                                <label class="label_filter" for="">Tamaño Capacidad</label>
-                                <v-combobox
-                                    readonly 
-                                    required
-                                    chips
-                                    v-model="id_tam_cap"
-                                    name="id_tam_cap"
-                                    @update:modelValue="getModelo"
-                                    placeholder="Selecciona el tamaño capacidad"
-                                    :items="tamanoget"
-                                    variant="outlined"
-                                    style="width: 50%;"
-                                ></v-combobox>
-
-                                <label class="label_filter" for="">Modelo</label>
-                                <v-combobox
-                                    readonly 
-                                    required
-                                    chips
-                                    v-model="id_modelo"
-                                    @update:modelValue="getMarca"
-                                    name="id_modelo"
-                                    placeholder="Selecciona el modelo"
-                                    :items="modeloget"
-                                    variant="outlined"
-                                    style="width: 50%;"
-                                ></v-combobox>
-
-                                <label class="label_filter" for="">Marca</label>
-                                <v-autocomplete
-                                    readonly 
-                                    required
-                                    chips
-                                    v-model="id_marca"
-                                    name="id_marca"
-                                    placeholder="Selecciona una marca"
-                                    :items="marcaget"
-                                    variant="outlined"
-                                    style="width: 50%;"
-                                    :return-object="false"
-                                ></v-autocomplete>
-
-                                <FormKit v-model="descrip" type="text" label="Descripción" value="descrip"
-                                     placeholder="Descripción" maxlength="99" minlength="10"
-                                    validation="required" :validation-messages="{
-                                        required: 'Escriba una descripción',
-                                    }" help="" />
-
-                                <label class="label_filter" for="">Codigo Similar Propio</label>
-                                <v-combobox
-                                    chips
-                                    v-model="cod_sim_daka"
-                                    name="cod_sim_daka"
-                                    placeholder="Selecciona un codigo similar"
-                                    :items="codSapget"
-                                    variant="outlined"
-                                    :return-object="false"
-                                ></v-combobox>
-
-                                <FormKit v-model="cant" type="number" label="Cantidad" value="cant" disabled
-                                    placeholder="Cantidad" validation="required" :validation-messages="{
-                                        required: 'Ingrese la cantidad',
-                                    }" help="" />
-
-                                <FormKit v-model="precio" type="number" step="0.01" label="Precio" value="precio"
-                                     placeholder="Precio" validation="required" :validation-messages="{
-                                        required: 'Ingrese el precio',
-                                    }" help="" />
-
-                                <FormKit v-model="sub_total" type="number" step="0.01 " label="SubTotal" value="sub_total"
-                                     :value="multiplicationResult"  placeholder="SubTotal" validation="required" disabled
-                                    :validation-messages="{
-                                        required: '',
-                                    }" help="" />
-
-                                <FormKit v-model="user_crea" type="text" label="Usuario de creación" value="user_crea"
-                                placeholder="" validation="required" disabled
-                                    :validation-messages="{
-                                        required: '',
-                                    }" help="" />
-                            </FormKit> -->
-
                 </section>
             </div>
         </div>

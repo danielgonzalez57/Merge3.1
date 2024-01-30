@@ -12,18 +12,19 @@ const usuario = localStorage.usuario;
 const tamCap = ref([])
 const marca = ref([])
 const tipoartget = ref([])
+const codSapget = ref() 
 
 // URL
 const id = ref('')
 id.value = route.params.key 
 
-
 const id_art = ref()
 const id_tam_cap = ref()
 const id_marca = ref()
-const pan_dulce = ref()
 const nombre = ref()
 const user_crea = ref(usuario)
+const cod_sap = ref()
+const descrip = ref('')
 
 const jsonMod = ref({
 id_tam_cap:'',
@@ -35,57 +36,57 @@ user_crea: `${usuario}`,
 });
 
 async function modeloCreated(dataJson){
-    
-    try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/modeloCreated`, dataJson)
-        
-    } catch(error){
-        console.log(error)
 
+    const res = await axios.post(`https://teelspay.com:3001/api/v1/modeloFilterBuscador`, {model: dataJson.nombre})
+    if(res.data.status === 'ok'){
+        Swal.fire("Ese modelo ya existe!");
+        
+    }else if(res.data.status === 'Error'){
+        await axios.post(`https://teelspay.com:3001/api/v1/modeloCreated`, dataJson)
     }
+    
 }
 
 async function getTipoArt(){
 
-try{
-     const response = await axios.get('http://149.50.131.95:3001/api/v1/tipoArticuloAll');
-     tipoartget.value =  response.data.map(tipoArt => ({
-         title: tipoArt.nombre,
-         value: tipoArt.id,
-         tipoArticulo: tipoArt.id,
+    try{
+        const response = await axios.get('https://teelspay.com:3001/api/v1/tipoArticuloAll');
+        tipoartget.value =  response.data.map(tipoArt => ({
+            title: tipoArt.nombre,
+            value: tipoArt.id,
+            tipoArticulo: tipoArt.id,
+        }));
 
-     }));
-
- } catch(error){
-     console.log(error)
- }
+    } catch(error){
+        console.log(error)
+    }
 }
 
 async function getTamCap(){
 
-const valorSeleccionado = id_art.value?.value
+    const valorSeleccionado = id_art.value?.value
 
 
-let RUTA = `http://149.50.131.95:3001/api/v1/tamCapFilterSelect/${valorSeleccionado}`
+    let RUTA = `https://teelspay.com.com:3001/api/v1/tamCapFilterSelect/${valorSeleccionado}`
 
-try{
-    const response = await axios.get(RUTA);
+    try{
+        const response = await axios.get(RUTA);
 
-    tamCap.value =  response.data.map(tamCap => ({
-        title: tamCap.nombre,
-        value: tamCap.id,
-    }));
+        tamCap.value =  response.data.map(tamCap => ({  
+            title: tamCap.nombre,
+            value: tamCap.id,
+        }));
 
 
-} catch(error){
-    console.log(error)
-}
+    } catch(error){
+        console.log(error)
+    }
 }
 
 // FUNCTION PARA LLENAR SELECT
 // async function getTamCap(){
 //     try{
-//         const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAll`);
+//         const response = await axios.get(`https://teelspay.com:3001/api/v1/tamCapAll`);
 //         tamCap.value = response.data.map(linea => ({
 //             title: linea.nombre,
 //             value: linea.id
@@ -96,10 +97,11 @@ try{
 //         console.log(error)
 //     }
 // }
+
 // FUNCTION PARA LLENAR SELECT
 async function getMarca(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/marcasAll`);
+        const response = await axios.get(`https://teelspay.com.com:3001/api/v1/marcasAll`);
         marca.value = response.data.map(marca => ({
             title: marca.nombre,
             value: marca.id
@@ -111,14 +113,30 @@ async function getMarca(){
     }
 }
 
+async function getCodSap(){
+    try{
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/codSapAll`);
+        codSapget.value = response.data[0].map(cod => ({ 
+            value: cod.id,
+            title: cod.nombre
+        }));
+
+    } catch(error){
+        console.log(error)
+    }
+}
+
 
 function crearDataModel(){
 
     const dataJson = {
-        id_tam_cap:id_tam_cap.value ,
-        id_marca :id_marca .value ,
-        nombre:nombre.value ,
-        user_crea:user_crea.value
+        id_tam_cap:id_tam_cap.value,
+        id_marca:id_marca .value,
+        nombre:nombre.value,
+        user_crea:user_crea.value,
+        cod_sap:cod_sap.value,
+        descrip:descrip.value,
+
     }
 
     // FUNCTION PARA CREAR
@@ -158,6 +176,7 @@ onMounted( async () => {
 await getTipoArt();
 await getTamCap();
 await getMarca();
+await getCodSap();
 
 });
 
@@ -259,6 +278,27 @@ await getMarca();
                                 :return-object="false"
                             ></v-autocomplete>
 
+                            <label class="label_filter" for="descrip">Descripción</label>
+                            <v-text-field
+                                v-model="descrip"
+                                id="descrip"
+                                placeholder="Coloca una descripcion al modelo"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="sap">Codigo Similar Propio</label>
+                            <v-autocomplete
+                                class="input-auto"
+                                id="sap"
+                                chips
+                                v-model="cod_sap"
+                                name="cod_sap"
+                                placeholder="Selecciona un codigo similar"
+                                :items="codSapget"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-autocomplete>
+
                             <label class="label_filter" for="user_crea">Creado Por</label>
                             <v-text-field
                                 readonly
@@ -276,86 +316,7 @@ await getMarca();
                                 Registrar
                             </v-btn>
                         </form>
-                    </div>
-
-
-                    <!-- <div class="container">
-                        <FormKit
-                            type="form"
-                            @submit="crearDataModel"
-                            submit-label="Registrar Maestro"
-                        >
-
-                            <FormKit
-                                type="text"
-                                label="Modelo"
-                                placeholder="Modelo"
-                                validation="required"
-                                v-model="nombre"
-                                :validation-messages="{  
-                                    required: 'Debe colocar el modelo.'
-                                }"
-                            />
-
-                            <label class="label_filter" for="">Tipo de articulo</label>
-                            <v-combobox
-                                clearable
-                                required
-                                chips
-                                name="id_art"
-                                v-model="id_art"
-                                @update:modelValue="getTamCap"
-                                :items="tipoartget"
-                                placeholder="Selecciona el tamaño capacidad"
-                                variant="outlined"
-                            
-                                :return-object="true"
-                            ></v-combobox>
-
-                            <label class="label_filter" for="">Tamaño Capacidad</label>
-                            <v-combobox
-                                clearable
-                                required
-                                chips
-                                v-model="id_tam_cap"
-                                name="id_invest"
-                                placeholder="Selecciona el tamaño capacidad"
-                                :items="tamCap"
-                                variant="outlined"
-                            
-                                :return-object="false"
-                            ></v-combobox>
-
-                            <label class="label_filter" for="">Marca</label>
-                            <v-combobox
-                                clearable
-                                required
-                                chips
-                                v-model="id_marca"
-                                name="id_marca"
-                                placeholder="Selecciona la marca"
-                                :items="marca"
-                                variant="outlined"
-                              
-                                :return-object="false"
-                            ></v-combobox>
-
-
-                            <FormKit
-                                type="text"
-                                label="Creado por"
-                                name="user_crea"
-                                v-model="user_crea"
-                                validation="required"
-                                disabled
-                                :validation-messages="{
-                                    required: 'Debes colocar la latitud.'
-                                }"
-                            />
-                            
-                        </FormKit>
-                    </div> -->
-                    
+                    </div> 
                 </section>
             </div>
         </div>

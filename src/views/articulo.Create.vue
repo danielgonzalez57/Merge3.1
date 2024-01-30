@@ -23,7 +23,7 @@ const user_crea = ref(usuario)
 async function articuloCreated(jsonArt){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/articuloCreated`, jsonArt)
+        await axios.post(`https://teelspay.com:3001/api/v1/articuloCreated`, jsonArt)
         
 
     } catch(error){
@@ -35,7 +35,7 @@ async function articuloCreated(jsonArt){
 // FUNCTION PARA LLENAR SELECT
 async function getLineas(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/getLineas`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/getLineas`);
         lineas.value = response.data[0].map(linea => ({
             label: linea.nombre,
             value: linea.Id

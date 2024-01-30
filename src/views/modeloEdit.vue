@@ -12,13 +12,16 @@ const usuario = localStorage.usuario;
 const modeloEdit = ref([]);
 const marca = ref([])
 const tamCap = ref([])
+const codSapget = ref() 
 
 
-const id_tam_cap = ref('')
+const id_tam_cap = ref()
 const nombre = ref('')
 const id_marca = ref()
 const user_mod = ref('')
 const user_crea = ref('')
+const cod_sap = ref()
+const descrip = ref('')
 
 // URL
 const id = ref('')
@@ -37,7 +40,7 @@ user_crea: ''
 async function getFiltermodelo(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/modeloFilter/${id.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/modeloFilter/${id.value}`)
 
         modeloEdit.value =  response.data
 
@@ -51,7 +54,7 @@ async function getFiltermodelo(){
 async function Updatemodelo(jsonM, id){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/modeloUpdate/${id.value}`, jsonM)
+        await axios.put(`https://teelspay.com:3001/api/v1/modeloUpdate/${id.value}`, jsonM)
         
     } catch(error){
         console.log(error)
@@ -59,10 +62,23 @@ async function Updatemodelo(jsonM, id){
     }
 }
 
+async function getCodSap(){
+    try{
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/codSapAll`);
+        codSapget.value = response.data[0].map(cod => ({ 
+            value: cod.id,
+            title: cod.nombre
+        }));
+
+    } catch(error){
+        console.log(error)
+    }
+}
+
 // FUNCTION PARA LLENAR SELECT
 async function getTamCap(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/tamCapAll`);
         tamCap.value = response.data.map(tamCap => ({
         title: tamCap.nombre,
         value: tamCap.id,
@@ -76,7 +92,7 @@ async function getTamCap(){
 
 async function getMarca(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/marcasAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/marcasAll`);
         marca.value = response.data.map(marca => ({
             title: marca.nombre,
             value: marca.id
@@ -93,12 +109,15 @@ onMounted( async () => {
     await getFiltermodelo();
     await getTamCap();
     await getMarca();
+    await getCodSap();
 
     id_tam_cap.value = modeloEdit.value.id_tam_cap
     nombre.value = modeloEdit.value.nombre
     id_marca.value = modeloEdit.value.id_marca
     user_crea.value = modeloEdit.value.user_crea
     user_mod.value = usuario
+    cod_sap.value = modeloEdit.value.cod_sap
+    descrip.value = modeloEdit.value.descrip
 
 });
 
@@ -109,7 +128,9 @@ function UpdateData(){
         nombre:nombre.value,
         id_marca:id_marca.value,
         user_mod:user_mod.value,
-        user_crea:user_crea.value
+        user_crea:user_crea.value,
+        cod_sap:cod_sap.value,
+        descrip:descrip.value
     }
 
     Swal.fire({
@@ -222,6 +243,27 @@ function UpdateData(){
                                 :items="marca"
                                 :rules="[v => !!v || 'La marca es requerida']"
                                 placeholder="Escoge una marca"
+                                variant="outlined"
+                                :return-object="false"
+                            ></v-autocomplete>
+
+                            <label class="label_filter" for="descrip">Descripción</label>
+                            <v-text-field
+                                v-model="descrip"
+                                id="descrip"
+                                placeholder="Coloca una descripcion al modelo"
+                                variant="outlined"
+                            ></v-text-field>
+
+                            <label class="label_filter" for="sap">Codigo Similar Propio</label>
+                            <v-autocomplete
+                                class="input-auto"
+                                id="sap"
+                                chips
+                                v-model="cod_sap"
+                                name="cod_sap"
+                                placeholder="Selecciona un codigo similar"
+                                :items="codSapget"
                                 variant="outlined"
                                 :return-object="false"
                             ></v-autocomplete>

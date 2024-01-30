@@ -36,7 +36,7 @@ user_crea:`${usuario}`
 
 async function getTienda(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/maestroTiendaAllConcat`);
         info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
             value: maestro.id
@@ -49,7 +49,7 @@ async function getTienda(){
 async function investigacionCreated(jsonInves){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/investigacionCreated`, jsonInves)
+        await axios.post(`https://teelspay.com:3001/api/v1/investigacionCreated`, jsonInves)
     } catch(error){
         console.log(error)
 

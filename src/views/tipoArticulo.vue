@@ -32,7 +32,7 @@ const headers = [
 async function getTipoArticulo(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tipoArticuloAllJoins`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/tipoArticuloAllJoins`);
         info.value =  response.data[0]
 
     } catch(error){
@@ -45,7 +45,7 @@ async function getTipoArticulo(){
 async function eliminarTipoArt(id){
           
           try{
-              await axios.delete(`http://149.50.131.95:3001/api/v1/tipoArticuloDelete/${id}`);
+              await axios.delete(`https://teelspay.com:3001/api/v1/tipoArticuloDelete/${id}`);
       
           } catch(error){
               console.log(error)

@@ -32,7 +32,7 @@ const headers = [
 async function getTamCap(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAllJoins`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/tamCapAllJoins`);
         info.value =  response.data[0]
 
     } catch(error){
@@ -44,7 +44,7 @@ async function getTamCap(){
 async function eliminarTamCap(id){
           
     try{
-        await axios.delete(`http://149.50.131.95:3001/api/v1/temCapDelete/${id}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/temCapDelete/${id}`);
 
     } catch(error){
         console.log(error)

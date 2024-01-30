@@ -33,7 +33,7 @@ const headers = [
 async function getmodelo(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/modeloAllJoins`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/modeloAllJoins`);
         info.value =  response.data[0]
 
     } catch(error){
@@ -45,7 +45,7 @@ async function getmodelo(){
 async function eliminarmodelo(id){
           
     try{
-        await axios.delete(`http://149.50.131.95:3001/api/v1/modeloDelete/${id}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/modeloDelete/${id}`);
 
     } catch(error){
         console.log(error)

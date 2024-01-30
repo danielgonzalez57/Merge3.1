@@ -52,7 +52,7 @@ watch([cant, precio], () => {
 async function getFilterInvestigacionPro(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/investProducts/${idTres.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/investProducts/${idTres.value}`)
         investigacionProEdit.value =  response.data
     } catch(error){
         console.log(error)
@@ -63,7 +63,7 @@ async function getFilterInvestigacionPro(){
 async function postInvestigacionProductpro(jsonInvesPro, id){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/investProductUpdate/${idTres.value}`, jsonInvesPro)
+        await axios.put(`https://teelspay.com:3001/api/v1/investProductUpdate/${idTres.value}`, jsonInvesPro)
 
     } catch(error){
         console.log(error)
@@ -74,7 +74,7 @@ async function postInvestigacionProductpro(jsonInvesPro, id){
 // DATA
 async function getCodSap(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/codSapAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/codSapAll`);
         codSapget.value = response.data[0].map(cod => ({
             title: cod.nombre,
             value: cod.id
@@ -88,7 +88,7 @@ async function getCodSap(){
 // SELCCIONAR DATOS -------------------------------------------------------------------------- //
 async function getMediciones(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/medicionAll`);
         
         medicionget.value =  response.data.map(medi => ({
             title: medi.id,
@@ -103,7 +103,7 @@ async function getMediciones(){
 
 async function getArticulo(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/articuloAll`);
         
         articuloget.value =  response.data.map(art => ({
             title: art.nombre,
@@ -117,7 +117,7 @@ async function getArticulo(){
 
 async function getTipoArt(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tipoArticuloAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/tipoArticuloAll`);
         
         tipoartget.value =  response.data.map(tipoArt => ({
             title: tipoArt.nombre,
@@ -132,7 +132,7 @@ async function getTipoArt(){
 
 async function getTamano(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tamCapAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/tamCapAll`);
         
         tamanoget.value =  response.data.map(tamCap => ({
             title: tamCap.nombre,
@@ -147,7 +147,7 @@ async function getTamano(){
 
 async function getModelo(){ 
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/modeloAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/modeloAll`);
         
         modeloget.value =  response.data.map(modelo => ({
             title: modelo.nombre,
@@ -162,7 +162,7 @@ async function getModelo(){
 
 async function getMarca(){ 
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/marcasAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/marcasAll`);
         
         marcaget.value =  response.data.map(marca => ({
             title: marca.nombre,

@@ -32,7 +32,7 @@ const headers = [
 async function getArticulo(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloAllJoin`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/articuloAllJoin`);
         info.value =  response.data[0]
 
     } catch(error){
@@ -44,7 +44,7 @@ async function getArticulo(){
 async function eliminarArticulo(id){
           
           try{
-              await axios.delete(`http://149.50.131.95:3001/api/v1/articuloDelete/${id}`);
+              await axios.delete(`https://teelspay.com:3001/api/v1/articuloDelete/${id}`);
       
           } catch(error){
               console.log(error)
@@ -155,7 +155,6 @@ function eliminardata(id){
                         <v-card-title class="d-flex align-center pe-2">
 
                             <v-icon icon="mdi-video-input-component"></v-icon> &nbsp;
-                        
                             <v-spacer></v-spacer>
 
                             <!-- BUSCADOR -->

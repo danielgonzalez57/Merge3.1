@@ -33,7 +33,7 @@ const headers = [
 async function getMarca(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/marcasAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/marcasAll`);
         info.value =  response.data
 
     } catch(error){
@@ -46,7 +46,7 @@ async function getMarca(){
 async function eliminarMarca(id){
           
     try{
-        await axios.delete(`http://149.50.131.95:3001/api/v1/marcaDelete/${id}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/marcaDelete/${id}`);
 
     } catch(error){
         console.log(error)

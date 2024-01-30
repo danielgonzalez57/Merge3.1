@@ -33,7 +33,7 @@ const nro_facturas = ref('')
 async function getInvestigacion(){
     
     try{
-        const response = await axios.post(`http://149.50.131.95:3001/api/v1/investigacionFilterTrue`, {valorDos: usuario});
+        const response = await axios.post(`https://teelspay.com:3001/api/v1/investigacionFilterTrue`, {valorDos: usuario});
         info.value = response.data.map(invest => ({
             title: invest.id,
             value: invest.id
@@ -49,7 +49,7 @@ async function getInvestigacion(){
 async function medicionCreate(dataJson){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/medicionDiaria`, dataJson)
+        await axios.post(`https://teelspay.com:3001/api/v1/medicionDiaria`, dataJson)
         
     } catch(error){
         console.log(error)

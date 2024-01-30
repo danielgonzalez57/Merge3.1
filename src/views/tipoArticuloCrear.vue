@@ -31,7 +31,7 @@ const user_crea = ref(usuario)
 async function tipoArticuloCreated(jsonTA){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/tipoArticuloCreated`, jsonTA)
+        await axios.post(`https://teelspay.com:3001/api/v1/tipoArticuloCreated`, jsonTA)
         
     } catch(error){
         console.log(error)
@@ -42,7 +42,7 @@ async function tipoArticuloCreated(jsonTA){
 // FUNCTION PARA LLENAR SELECT
 async function getArticulo(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/articuloAll`);
         articulos.value = response.data.map(linea => ({
             label: linea.nombre,
             value: linea.id

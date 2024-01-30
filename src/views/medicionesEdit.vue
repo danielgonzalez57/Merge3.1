@@ -29,7 +29,7 @@ idDos.value = route.params.keyDos
 async function getFilterMedicion(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionFilter/${idDos.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/medicionFilter/${idDos.value}`)
         medicionEdit.value =  response.data
     } catch(error){
         console.log(error)
@@ -38,7 +38,7 @@ async function getFilterMedicion(){
 
 async function getInvestigacion(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/investigacionAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/investigacionAll`);
         info.value = response.data.map(invest => ({
             title: invest.id,
             value: invest.id,
@@ -51,7 +51,7 @@ async function getInvestigacion(){
 async function medicionEditar(jsonMedicion){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/medicionUpdate/${idDos.value}`, jsonMedicion);
+        await axios.put(`https://teelspay.com:3001/api/v1/medicionUpdate/${idDos.value}`, jsonMedicion);
     
     } catch(error){
         console.log(error)

@@ -29,7 +29,7 @@ const tipo_tienda = ref()
 // FUNCTION PARA LLENAR TABLE
 async function getCiudades(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/getCiudades`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/getCiudades`);
         ciudades.value = response.data[0].map(ciudad => ({
             title: ciudad.nombre,
             value: ciudad.Id
@@ -44,7 +44,7 @@ async function getCiudades(){
 async function maestroTiendaCreated(jsonTiendas){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/maestroTiendaCreated`, jsonTiendas)
+        await axios.post(`https://teelspay.com:3001/api/v1/maestroTiendaCreated`, jsonTiendas)
     } catch(error){
         console.log(error)
 

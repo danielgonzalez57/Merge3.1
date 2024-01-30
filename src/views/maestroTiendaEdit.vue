@@ -30,7 +30,7 @@ id.value = route.params.key
 async function getFilterMaestroTienda(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaFilter/${id.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/maestroTiendaFilter/${id.value}`)
 
         maestroTiendaEdit.value =  response.data
 
@@ -43,7 +43,7 @@ async function getFilterMaestroTienda(){
 async function updateMaestroTienda(jsonMaestroTienda, id){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/maestroTiendaUpdate/${id.value}`, jsonMaestroTienda)
+        await axios.put(`https://teelspay.com:3001/api/v1/maestroTiendaUpdate/${id.value}`, jsonMaestroTienda)
         
     } catch(error){
         console.log(error)
@@ -54,7 +54,7 @@ async function updateMaestroTienda(jsonMaestroTienda, id){
 // FUNCTION PARA LLENAR TABLE
 async function getCiudades(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/getCiudades`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/getCiudades`);
         ciudades.value = response.data[0].map(ciudad => ({
             title: ciudad.nombre,
             value: ciudad.Id

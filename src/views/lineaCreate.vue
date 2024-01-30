@@ -22,7 +22,7 @@ id.value = route.params.key
 async function lineasCreated(jsonM){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/lineasCreated`, jsonM)
+        await axios.post(`https://teelspay.com:3001/api/v1/lineasCreated`, jsonM)
         
     } catch(error){
         console.log(error)

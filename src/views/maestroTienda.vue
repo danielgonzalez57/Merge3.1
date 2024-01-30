@@ -35,7 +35,7 @@ const headers = [
 async function getMaestroTienda(){
     loadingInfo.value = true
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/maestroTiendaAll`);
         info.value =  response.data
     } catch(error){
         console.log(error)
@@ -46,7 +46,7 @@ async function getMaestroTienda(){
 async function eliminarMaestroTienda(id){
           
           try{
-              await axios.delete(`http://149.50.131.95:3001/api/v1/maestroTiendaDelete/${id}`);
+              await axios.delete(`https://teelspay.com:3001/api/v1/maestroTiendaDelete/${id}`);
       
           } catch(error){
       

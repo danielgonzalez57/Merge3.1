@@ -26,7 +26,7 @@ console.log(id.value)
 async function getFilterArtsDelete(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/articuloFilter/${id.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/articuloFilter/${id.value}`)
         
         articuloDelete.value =  response.data
         
@@ -40,7 +40,7 @@ async function getFilterArtsDelete(){
 async function eliminarArticulo(){
           
     try{
-        await axios.delete(`http://149.50.131.95:3001/api/v1/articuloDelete/${id.value}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/articuloDelete/${id.value}`);
 
     } catch(error){
         console.log(error)

@@ -41,10 +41,10 @@ async function getMedicion(){
     try{
         
         if(rol === 'admin'){
-            const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionAll`);
+            const response = await axios.get(`https://teelspay.com:3001/api/v1/medicionAll`);
             info.value =  response.data
         }else{
-            const response = await axios.post(`http://149.50.131.95:3001/api/v1/dataMedicionFilter`, {valor: usuario.value});
+            const response = await axios.post(`https://teelspay.com:3001/api/v1/dataMedicionFilter`, {valor: usuario.value});
             info.value =  response.data
         }
     } catch(error){
@@ -57,7 +57,7 @@ async function getMedicion(){
 
 async function eliminarMedicion(id){    
     try{
-        await axios.delete(`http://149.50.131.95:3001/api/v1/mediciondelete/${id}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/mediciondelete/${id}`);
     } catch(error){
         console.log(error)
     }

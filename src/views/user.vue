@@ -35,7 +35,7 @@ const headers = [
 async function getUser() {
     loadingInfo.value = true
     try {
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/getUser`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/getUser`);
         info.value = response.data
         
     } catch (error) {
@@ -46,7 +46,7 @@ async function getUser() {
 
 async function eliminarUser(id) {
     try {
-        await axios.delete(`http://149.50.131.95:3001/api/v1/delete/user/${id}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/delete/user/${id}`);
     } catch (error) {
         console.log(error)
     }

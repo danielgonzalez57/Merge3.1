@@ -30,7 +30,7 @@ user_crea: `${usuario}`,
 async function tamCapCreated(jsonTC){
     
     try{
-        await axios.post(`http://149.50.131.95:3001/api/v1/tamCapCreated`, jsonTC)
+        await axios.post(`https://teelspay.com:3001/api/v1/tamCapCreated`, jsonTC)
         
     } catch(error){
         console.log(error)
@@ -41,7 +41,7 @@ async function tamCapCreated(jsonTC){
 // FUNCTION PARA LLENAR SELECT
 async function getTipo(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/tipoArticuloAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/tipoArticuloAll`);
         tamCap.value = response.data.map(linea => ({
             label: linea.nombre,
             value: linea.id

@@ -27,7 +27,7 @@ const rol = ref('')
 async function getUser() {
     try {
         // CONSULTAR LA TABLA DE USUARIOS
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/getUser/${id.value}`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/getUser/${id.value}`);
         id.value = response.data[0].id;
         nombre.value = response.data[0].nombre;
         email.value = response.data[0].email;
@@ -46,7 +46,7 @@ onMounted(async () => {
 async function UpdateTUser(jsonTA, id){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/update/user/${id.value}`, jsonTA)
+        await axios.put(`https://teelspay.com:3001/api/v1/update/user/${id.value}`, jsonTA)
         
     } catch(error){
         console.log(error)

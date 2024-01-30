@@ -38,9 +38,9 @@ usuario.value = localStorage.usuario;
 async function getInvestProd(){
     loadingInfo.value = true
     try{
-      //const response = await axios.post(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos`, {valor: usuario.value, valorDos: idDos.value});
-      // const response = await axios.get(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos/${idDos.value}`, {valor: usuari+o.value, valorDos: id.value});
-      const response = await axios.get(`http://149.50.131.95:3001/api/v1/dataInvProdFilterDos/${idDos.value}`);
+      //const response = await axios.post(`https://teelspay.com:3001/api/v1/dataInvProdFilterDos`, {valor: usuario.value, valorDos: idDos.value});
+      // const response = await axios.get(`https://teelspay.com:3001/api/v1/dataInvProdFilterDos/${idDos.value}`, {valor: usuari+o.value, valorDos: id.value});
+      const response = await axios.get(`https://teelspay.com:3001/api/v1/dataInvProdFilterDos/${idDos.value}`);
       info.value =  response.data[0]
     
     } catch(error){
@@ -53,7 +53,7 @@ async function getInvestProd(){
 
 async function getFilterMedicion(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/medicionFilter/${idDos.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/medicionFilter/${idDos.value}`)
         medicionEdit.value =  response.data
     } catch(error){
         console.log(error)
@@ -62,7 +62,7 @@ async function getFilterMedicion(){
 
 async function eliminarInvestigacionPro(id) {
     try {
-        await axios.delete(`http://149.50.131.95:3001/api/v1/investProducts/delete/${id}`);
+        await axios.delete(`https://teelspay.com:3001/api/v1/investProducts/delete/${id}`);
     } catch (error) {
         console.log(error)
     }

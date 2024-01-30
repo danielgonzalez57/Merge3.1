@@ -29,7 +29,7 @@ id.value = route.params.key
 
 async function getTienda(){
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/maestroTiendaAllConcat`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/maestroTiendaAllConcat`);
         
          info.value = response.data[0].map(maestro => ({
             title: maestro.nombre,
@@ -44,7 +44,7 @@ async function getTienda(){
 async function getFilterInvestigacion(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/InvestigacionFilter/${id.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/InvestigacionFilter/${id.value}`)
         investigacionEdit.value =  response.data
     } catch(error){
         console.log(error)
@@ -55,7 +55,7 @@ async function getFilterInvestigacion(){
 async function postInvestigacion(jsonInves, id){
 
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/investigacionUpdate/${id.value}`, jsonInves)
+        await axios.put(`https://teelspay.com:3001/api/v1/investigacionUpdate/${id.value}`, jsonInves)
         
     } catch(error){
         console.log(error)

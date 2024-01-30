@@ -23,7 +23,7 @@ id.value = route.params.key
 async function getFilterLinea(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/lineasFilter/${id.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/lineasFilter/${id.value}`)
         lineaEdit.value =  response.data
 
     } catch(error){
@@ -35,7 +35,7 @@ async function getFilterLinea(){
 async function postLinea(jsonM, id){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/lineasUpdate/${id.value}`, jsonM)
+        await axios.put(`https://teelspay.com:3001/api/v1/lineasUpdate/${id.value}`, jsonM)
         
     } catch(error){
         console.log(error)

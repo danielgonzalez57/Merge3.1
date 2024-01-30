@@ -33,7 +33,7 @@ user_crea:`${usuario}`//,
 async function getFilterMarca(){
     
     try{
-        const response = await axios.get(`http://149.50.131.95:3001/api/v1/marcasFilter/${id.value}`)
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/marcasFilter/${id.value}`)
         console.log(response)
 
         marcaEdit.value =  response.data
@@ -47,7 +47,7 @@ async function getFilterMarca(){
 async function postMarca(jsonL, id){
     
     try{
-        await axios.put(`http://149.50.131.95:3001/api/v1/marcaUpdate/${id.value}`, jsonL)
+        await axios.put(`https://teelspay.com:3001/api/v1/marcaUpdate/${id.value}`, jsonL)
         
     } catch(error){
         console.log(error)

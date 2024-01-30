@@ -25,7 +25,7 @@ const data = ref({
 const CrearUsuario = async (jsonTA) => {
 
     try{
-        await axios.post('http://149.50.131.95:3001/api/v1/create/user', jsonTA)
+        await axios.post('https://teelspay.com:3001/api/v1/create/user', jsonTA)
         
     } catch(error){
         console.log(error)
