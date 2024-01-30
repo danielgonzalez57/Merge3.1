@@ -29,7 +29,7 @@ idDos.value = route.params.keyDos
 // INPUT QUE SE MULTIPLICAN
 const precioAnterior = ref()
 const cant = ref(1)
-const precio = ref(precioAnterior)
+const precio = ref()
 const multiplicationResult = ref(0);
 
 watch([cant, precio], () => {
