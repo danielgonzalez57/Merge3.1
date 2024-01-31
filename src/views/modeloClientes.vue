@@ -84,7 +84,7 @@ async function modeloCreated(dataJson){
 async function getTipoArt(){
 
 try{
-     const response = await axios.get('https://teelspay.com.com:3001/api/v1/tipoArticuloAll');
+     const response = await axios.get('https://teelspay.com:3001/api/v1/tipoArticuloAll');
      tipoartget.value =  response.data.map(tipoArt => ({
          title: tipoArt.nombre,
          value: tipoArt.id,
@@ -101,7 +101,7 @@ async function getTamCap(){
 
 const valorSeleccionado = id_art.value?.value
 
-let RUTA = `https://teelspay.com.com:3001/api/v1/tamCapFilterSelect/${valorSeleccionado}`
+let RUTA = `https://teelspay.com:3001/api/v1/tamCapFilterSelect/${valorSeleccionado}`
 
 try{
     const response = await axios.get(RUTA);
@@ -149,7 +149,7 @@ async function getCodSap(){
 // FUNCTION PARA LLENAR SELECT
 async function getMarca(){
     try{
-        const response = await axios.get(`https://teelspay.com.com:3001/api/v1/marcasAll`);
+        const response = await axios.get(`https://teelspay.com:3001/api/v1/marcasAll`);
         marca.value = response.data.map(marca => ({
             title: marca.nombre,
             value: marca.id
